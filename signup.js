@@ -13,7 +13,7 @@ const API_BASE =
   "https://dohxtukzxopwkvxeppdl.supabase.co/functions/v1";
 
 const SEND_SIGNUP_OTP =
-  `${API_BASE}/send-signup-otp`;
+  `${API_BASE}/send-signup-otp-web`;
 
 /* =====================================
    ELEMENTS
