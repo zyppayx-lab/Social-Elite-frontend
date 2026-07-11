@@ -14,7 +14,7 @@ const API_BASE =
 "https://dohxtukzxopwkvxeppdl.supabase.co/functions/v1";
 
 const VERIFY_RESET_PASSWORD =
-`${API_BASE}/verify-reset-password`;
+`${API_BASE}/verify-reset-password-otp`;
 
 /* =====================================
 ELEMENTS
