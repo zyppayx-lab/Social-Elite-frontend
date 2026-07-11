@@ -26,7 +26,7 @@ const emailInput =
   document.getElementById("email");
 
 const referralInput =
-  document.getElementById("referral");
+  document.getElementById("referralCode");
 
 const loadingOverlay =
   document.getElementById("loadingOverlay");
