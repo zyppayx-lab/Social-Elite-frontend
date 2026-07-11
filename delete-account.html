@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Delete Account | SocialElite</title>
+
+<link rel="stylesheet" href="delete-account.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="delete-card">
+
+<div class="logo-area">
+
+<img
+src="assets/logo.png"
+alt="SocialElite"
+class="logo">
+
+<h1>Delete Account</h1>
+
+<p>
+
+Deleting your account is permanent. All wallet history,
+orders, purchases and account access will be removed according
+to our platform policy.
+
+</p>
+
+</div>
+
+<div class="warning-box">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<span>
+
+You will be required to verify your email and enter your
+password before your account is permanently deleted.
+
+</span>
+
+</div>
+
+<form id="deleteAccountForm">
+
+<div class="input-group">
+
+<label>Email Address</label>
+
+<input
+type="email"
+id="email"
+placeholder="Enter your account email"
+required>
+
+</div>
+
+<button
+type="submit"
+id="sendOtpBtn"
+class="delete-btn">
+
+Continue
+
+</button>
+
+</form>
+
+<div class="divider">
+
+<span>Changed your mind?</span>
+
+</div>
+
+<a
+href="dashboard.html"
+class="cancel-link">
+
+Return to Dashboard
+
+</a>
+
+</div>
+
+</div>
+
+<!-- Loading -->
+
+<div
+id="loadingOverlay"
+class="loading-overlay">
+
+<div class="loader"></div>
+
+<p id="loadingText">
+
+Sending verification code...
+
+</p>
+
+</div>
+
+<!-- Toast -->
+
+<div
+id="toast"
+class="toast">
+
+</div>
+
+<script src="delete-account.js"></script>
+
+</body>
+  </html>
