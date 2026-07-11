@@ -14,7 +14,7 @@ const API_BASE =
 "https://dohxtukzxopwkvxeppdl.supabase.co/functions/v1";
 
 const SEND_DELETE_ACCOUNT_OTP =
-`${API_BASE}/send-delete-account-otp`;
+`${API_BASE}/delete-account-otp`;
 
 /* =====================================
 ELEMENTS
