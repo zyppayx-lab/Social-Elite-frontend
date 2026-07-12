@@ -11,14 +11,16 @@ SUPABASE
 ===================================== */
 
 import { createClient }
+
 from
+
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const SUPABASE_URL =
 "https://dohxtukzxopwkvxeppdl.supabase.co";
 
 const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvaHh0dWt6eG9wd2t2eGVwcGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxOTA5NzksImV4cCI6MjA5ODc2Njk3OX0.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
+"sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
 
 const supabase =
 createClient(
@@ -111,7 +113,7 @@ EMAIL VALIDATION
 
 function validEmail(email){
 
-return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+return /^[^\s@]+@[^\s@]+.[^\s@]+$/
 
 .test(email);
 
@@ -165,113 +167,113 @@ PART 2
 
 async function login() {
 
-    if (isSubmitting) return;
+if (isSubmitting) return;  
 
-    const email = emailInput.value.trim().toLowerCase();
-    const password = passwordInput.value;
+const email = emailInput.value.trim().toLowerCase();  
+const password = passwordInput.value;  
 
-    if (!email) {
-        showToast("Email is required.","error");
-        emailInput.focus();
-        return;
-    }
+if (!email) {  
+    showToast("Email is required.","error");  
+    emailInput.focus();  
+    return;  
+}  
 
-    if (!validEmail(email)) {
-        showToast("Enter a valid email address.","error");
-        emailInput.focus();
-        return;
-    }
+if (!validEmail(email)) {  
+    showToast("Enter a valid email address.","error");  
+    emailInput.focus();  
+    return;  
+}  
 
-    if (!password) {
-        showToast("Password is required.","error");
-        passwordInput.focus();
-        return;
-    }
+if (!password) {  
+    showToast("Password is required.","error");  
+    passwordInput.focus();  
+    return;  
+}  
 
-    isSubmitting = true;
+isSubmitting = true;  
 
-    loginBtn.disabled = true;
+loginBtn.disabled = true;  
 
-    showLoading("Signing you in...");
+showLoading("Signing you in...");  
 
-    try {
+try {  
 
-        const {
+    const {  
 
-            data,
+        data,  
 
-            error
+        error  
 
-        } = await supabase.auth.signInWithPassword({
+    } = await supabase.auth.signInWithPassword({  
 
-            email,
+        email,  
 
-            password
+        password  
 
-        });
+    });  
 
-        if (error) throw error;
+    if (error) throw error;  
 
-        /*
-        Save Remember Me preference
-        */
+    /*  
+    Save Remember Me preference  
+    */  
 
-        localStorage.setItem(
-            "remember_me",
-            rememberMe.checked ? "true" : "false"
-        );
+    localStorage.setItem(  
+        "remember_me",  
+        rememberMe.checked ? "true" : "false"  
+    );  
 
-        /*
-        Session/JWT is automatically stored
-        by Supabase.
-        */
+    /*  
+    Session/JWT is automatically stored  
+    by Supabase.  
+    */  
 
-        const session = data.session;
+    const session = data.session;  
 
-        if (!session) {
+    if (!session) {  
 
-            throw new Error(
-                "Login failed."
-            );
+        throw new Error(  
+            "Login failed."  
+        );  
 
-        }
+    }  
 
-        showToast(
-            "Login successful."
-        );
+    showToast(  
+        "Login successful."  
+    );  
 
-        setTimeout(() => {
+    setTimeout(() => {  
 
-            window.location.href =
-                "dashboard.html";
+        window.location.href =  
+            "dashboard.html";  
 
-        },1000);
+    },1000);  
 
-    }
+}  
 
-    catch(error){
+catch(error){  
 
-        showToast(
+    showToast(  
 
-            error.message ||
+        error.message ||  
 
-            "Login failed.",
+        "Login failed.",  
 
-            "error"
+        "error"  
 
-        );
+    );  
 
-    }
+}  
 
-    finally{
+finally{  
 
-        hideLoading();
+    hideLoading();  
 
-        loginBtn.disabled = false;
+    loginBtn.disabled = false;  
 
-        isSubmitting = false;
+    isSubmitting = false;  
 
-    }
+}
 
 }
 /* =====================================
@@ -286,25 +288,25 @@ AUTO LOGIN CHECK
 
 async function checkSession() {
 
-    try {
+try {  
 
-        const {
+    const {  
 
-            data: { session }
+        data: { session }  
 
-        } = await supabase.auth.getSession();
+    } = await supabase.auth.getSession();  
 
-        if (session) {
+    if (session) {  
 
-            window.location.replace("dashboard.html");
+        window.location.replace("dashboard.html");  
 
-        }
+    }  
 
-    } catch (error) {
+} catch (error) {  
 
-        console.error(error);
+    console.error(error);  
 
-    }
+}
 
 }
 
@@ -314,15 +316,15 @@ FORM SUBMIT
 
 loginForm.addEventListener(
 
-    "submit",
+"submit",  
 
-    function (event) {
+function (event) {  
 
-        event.preventDefault();
+    event.preventDefault();  
 
-        login();
+    login();  
 
-    }
+}
 
 );
 
@@ -334,45 +336,45 @@ const savedEmail = localStorage.getItem("remember_email");
 
 if (savedEmail) {
 
-    emailInput.value = savedEmail;
+emailInput.value = savedEmail;  
 
-    rememberMe.checked = true;
+rememberMe.checked = true;
 
 }
 
 rememberMe.addEventListener("change", () => {
 
-    if (rememberMe.checked) {
+if (rememberMe.checked) {  
 
-        localStorage.setItem(
+    localStorage.setItem(  
 
-            "remember_email",
+        "remember_email",  
 
-            emailInput.value.trim()
+        emailInput.value.trim()  
 
-        );
+    );  
 
-    } else {
+} else {  
 
-        localStorage.removeItem("remember_email");
+    localStorage.removeItem("remember_email");  
 
-    }
+}
 
 });
 
 emailInput.addEventListener("input", () => {
 
-    if (rememberMe.checked) {
+if (rememberMe.checked) {  
 
-        localStorage.setItem(
+    localStorage.setItem(  
 
-            "remember_email",
+        "remember_email",  
 
-            emailInput.value.trim()
+        emailInput.value.trim()  
 
-        );
+    );  
 
-    }
+}
 
 });
 
