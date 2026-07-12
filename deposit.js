@@ -279,11 +279,13 @@ result.message ||
 
 }
 
-if(
+if (
 
-!result.authorization_url
+!result.data ||
 
-){
+!result.data.authorization_url
+
+) {
 
 throw new Error(
 
@@ -299,13 +301,13 @@ showToast(
 
 );
 
-setTimeout(()=>{
+setTimeout(() => {
 
 window.location.href =
 
-result.authorization_url;
+result.data.authorization_url;
 
-},800);
+}, 800);
 
 }catch(error){
 
