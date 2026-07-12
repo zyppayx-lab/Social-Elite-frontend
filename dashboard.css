@@ -1,6 +1,5 @@
 /* =====================================
-SOCIALELITE
-DASHBOARD
+SOCIALELITE DASHBOARD
 PART 1
 ===================================== */
 
@@ -13,9 +12,9 @@ font-family:"Inter",sans-serif;
 
 body{
 
-background:#f5f7fb;
+background:#0f172a;
 
-color:#111827;
+color:#ffffff;
 
 padding-bottom:90px;
 
@@ -23,17 +22,19 @@ padding-bottom:90px;
 
 .dashboard{
 
-width:100%;
+max-width:520px;
 
-max-width:500px;
-
-margin:0 auto;
+margin:auto;
 
 min-height:100vh;
 
+padding:22px 18px 100px;
+
 }
 
-.top-header{
+/* HEADER */
+
+.header{
 
 display:flex;
 
@@ -41,67 +42,121 @@ justify-content:space-between;
 
 align-items:center;
 
-padding:22px 20px;
+margin-bottom:25px;
 
 }
 
-.logo img{
-
-height:42px;
-
-}
-
-.notification-btn{
-
-width:46px;
-
-height:46px;
-
-border:none;
-
-border-radius:50%;
-
-background:#ffffff;
-
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-
-cursor:pointer;
-
-font-size:18px;
-
-color:#111827;
+.logo-area{
 
 display:flex;
 
-justify-content:center;
-
 align-items:center;
+
+gap:12px;
 
 }
 
-.balance-card{
+.logo{
 
-margin:10px 20px;
+width:48px;
 
-padding:30px 24px;
+height:48px;
 
-background:#111827;
+border-radius:12px;
 
-border-radius:22px;
+}
 
-text-align:center;
+.logo-area h2{
+
+font-size:22px;
+
+font-weight:800;
+
+}
+
+.logo-area p{
+
+font-size:13px;
+
+color:#94a3b8;
+
+margin-top:2px;
+
+}
+
+/* NOTIFICATION */
+
+.notification-btn{
+
+width:48px;
+
+height:48px;
+
+border:none;
+
+border-radius:14px;
+
+background:linear-gradient(135deg,#3b82f6,#9333ea);
 
 color:#ffffff;
 
-box-shadow:0 18px 40px rgba(0,0,0,.18);
+font-size:18px;
+
+cursor:pointer;
+
+position:relative;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+box-shadow:0 10px 25px rgba(59,130,246,.35);
 
 }
 
-.balance-label{
+.notification-dot{
+
+position:absolute;
+
+top:10px;
+
+right:10px;
+
+width:10px;
+
+height:10px;
+
+border-radius:50%;
+
+background:#ef4444;
+
+border:2px solid #ffffff;
+
+}
+
+/* WALLET CARD */
+
+.wallet-card{
+
+background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+padding:28px;
+
+border-radius:24px;
+
+margin-bottom:28px;
+
+box-shadow:0 20px 45px rgba(37,99,235,.35);
+
+}
+
+.wallet-title{
 
 font-size:15px;
 
-opacity:.85;
+opacity:.9;
 
 margin-bottom:10px;
 
@@ -109,27 +164,25 @@ margin-bottom:10px;
 
 #walletBalance{
 
-font-size:2.4rem;
+font-size:2.3rem;
 
 font-weight:800;
 
-margin-bottom:25px;
+margin-bottom:22px;
 
 word-break:break-word;
 
 }
 
-.balance-actions{
+.wallet-buttons{
 
 display:flex;
 
 gap:12px;
 
-justify-content:center;
-
 }
 
-.balance-actions a{
+.wallet-buttons a{
 
 flex:1;
 
@@ -137,19 +190,27 @@ height:48px;
 
 display:flex;
 
+align-items:center;
+
 justify-content:center;
 
-align-items:center;
+gap:8px;
 
 text-decoration:none;
 
-border-radius:12px;
-
 font-weight:700;
 
-font-size:15px;
+border-radius:14px;
 
 transition:.25s;
+
+}
+
+.deposit-btn{
+
+background:#10b981;
+
+color:#ffffff;
 
 }
 
@@ -157,62 +218,260 @@ transition:.25s;
 
 background:#ffffff;
 
-color:#111827;
-
-}
-
-.deposit-btn{
-
-background:#16a34a;
-
-color:#ffffff;
-
-}
-
-.history-btn:hover{
-
-background:#f3f4f6;
+color:#0f172a;
 
 }
 
 .deposit-btn:hover{
 
-background:#15803d;
+transform:translateY(-2px);
+
+}
+
+.history-btn:hover{
+
+transform:translateY(-2px);
+
+}
+
+/* QUICK ACCESS */
+
+.quick-access{
+
+margin-bottom:30px;
+
+}
+
+.quick-access h3{
+
+font-size:18px;
+
+margin-bottom:16px;
+
+}
+
+.quick-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:15px;
+
+}
+
+.quick-card{
+
+text-decoration:none;
+
+border-radius:18px;
+
+padding:20px;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+gap:12px;
+
+color:#ffffff;
+
+font-weight:700;
+
+transition:.25s;
+
+}
+
+.quick-card i{
+
+font-size:28px;
+
+}
+
+.quick-card:hover{
+
+transform:translateY(-4px);
+
+}
+
+.referral{
+
+background:linear-gradient(135deg,#f59e0b,#f97316);
+
+}
+
+.profile{
+
+background:linear-gradient(135deg,#3b82f6,#2563eb);
+
+}
+
+.numbers{
+
+background:linear-gradient(135deg,#14b8a6,#10b981);
+
+}
+
+.purchases{
+
+background:linear-gradient(135deg,#9333ea,#7c3aed);
 
 }
 /* =====================================
-SOCIALELITE
-DASHBOARD
-PART 2
+FEATURED SECTIONS
+===================================== */
+
+.section{
+
+margin-bottom:30px;
+
+}
+
+.section-header{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+margin-bottom:18px;
+
+}
+
+.section-header h3{
+
+font-size:18px;
+
+font-weight:700;
+
+color:#ffffff;
+
+}
+
+.view-all{
+
+display:flex;
+
+align-items:center;
+
+gap:6px;
+
+text-decoration:none;
+
+color:#60a5fa;
+
+font-size:14px;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+.view-all:hover{
+
+color:#93c5fd;
+
+}
+
+.products-grid{
+
+display:flex;
+
+flex-direction:column;
+
+gap:16px;
+
+}
+
+.product-card{
+
+background:#1e293b;
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:18px;
+
+padding:18px;
+
+transition:.25s;
+
+}
+
+.product-card:hover{
+
+transform:translateY(-3px);
+
+border-color:#3b82f6;
+
+}
+
+.product-platform{
+
+font-size:16px;
+
+font-weight:700;
+
+margin-bottom:8px;
+
+color:#ffffff;
+
+}
+
+.product-country{
+
+font-size:13px;
+
+color:#94a3b8;
+
+margin-bottom:10px;
+
+}
+
+.product-price{
+
+font-size:20px;
+
+font-weight:800;
+
+color:#10b981;
+
+}
+
+/* =====================================
+BOTTOM NAVIGATION
 ===================================== */
 
 .bottom-nav{
 
 position:fixed;
 
-left:50%;
+left:0;
+
+right:0;
 
 bottom:0;
 
-transform:translateX(-50%);
+max-width:520px;
 
-width:100%;
+margin:auto;
 
-max-width:500px;
+height:74px;
 
-height:72px;
+background:#111827;
 
-background:#ffffff;
+border-top:1px solid rgba(255,255,255,.08);
 
 display:flex;
 
 justify-content:space-around;
 
 align-items:center;
-
-border-top:1px solid #e5e7eb;
-
-box-shadow:0 -5px 20px rgba(0,0,0,.08);
 
 z-index:1000;
 
@@ -226,65 +485,71 @@ flex-direction:column;
 
 align-items:center;
 
-justify-content:center;
-
-gap:5px;
+gap:6px;
 
 text-decoration:none;
-
-color:#6b7280;
 
 font-size:12px;
 
 font-weight:600;
 
+color:#94a3b8;
+
 transition:.25s;
-
-flex:1;
-
-height:100%;
 
 }
 
 .nav-item i{
 
-font-size:20px;
+font-size:22px;
 
 }
 
 .nav-item.active{
 
-color:#2563eb;
+color:#3b82f6;
 
 }
 
-.nav-item:hover{
+.nav-item:nth-child(2) i{
 
-color:#2563eb;
+color:#10b981;
 
 }
+
+.nav-item:nth-child(3) i{
+
+color:#f59e0b;
+
+}
+
+.nav-item:nth-child(4) i{
+
+color:#9333ea;
+
+}
+
+/* =====================================
+LOADING
+===================================== */
 
 .loading-overlay{
 
 position:fixed;
 
-top:0;
+inset:0;
 
-left:0;
-
-width:100%;
-
-height:100%;
-
-background:rgba(15,23,42,.78);
+background:rgba(15,23,42,.85);
 
 display:flex;
 
 flex-direction:column;
 
+align-items:center;
+
 justify-content:center;
 
-align-items:center;
+gap:18px;
 
 visibility:hidden;
 
@@ -292,7 +557,7 @@ opacity:0;
 
 transition:.25s;
 
-z-index:9999;
+z-index:2000;
 
 }
 
@@ -306,29 +571,17 @@ opacity:1;
 
 .loader{
 
-width:50px;
+width:52px;
 
-height:50px;
+height:52px;
 
-border:5px solid rgba(255,255,255,.25);
+border:5px solid rgba(255,255,255,.2);
 
-border-top:5px solid #ffffff;
+border-top:5px solid #3b82f6;
 
 border-radius:50%;
 
-animation:spin .8s linear infinite;
-
-margin-bottom:16px;
-
-}
-
-.loading-overlay p{
-
-color:#ffffff;
-
-font-size:15px;
-
-font-weight:600;
+animation:spin 1s linear infinite;
 
 }
 
@@ -342,37 +595,39 @@ transform:rotate(360deg);
 
 }
 
-@media(max-width:500px){
+/* =====================================
+RESPONSIVE
+===================================== */
 
-.top-header{
+@media(max-width:380px){
 
-padding:18px 16px;
+.dashboard{
 
-}
-
-.balance-card{
-
-margin:10px 16px;
-
-padding:26px 20px;
+padding:18px 14px 100px;
 
 }
 
 #walletBalance{
 
-font-size:2rem;
+font-size:1.9rem;
 
 }
 
-.balance-actions{
+.quick-card{
 
-flex-direction:column;
+padding:16px;
 
 }
 
-.balance-actions a{
+.quick-card i{
 
-width:100%;
+font-size:24px;
+
+}
+
+.product-price{
+
+font-size:18px;
 
 }
 
