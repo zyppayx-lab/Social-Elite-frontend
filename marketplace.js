@@ -30,7 +30,7 @@ EDGE FUNCTIONS
 ===================================== */
 
 const GET_SMS_URL =
-`${SUPABASE_URL}/functions/v1/get-sms`;
+`${SUPABASE_URL}/functions/v1/get-smsgig-services`;
 
 const PURCHASE_SOCIAL_URL =
 `${SUPABASE_URL}/functions/v1/purchase-social-account`;
@@ -210,18 +210,16 @@ async function loadSmsProducts(){
 const response = await fetch(
 GET_SMS_URL,
 {
-method: "POST",
-headers: {
-"Content-Type": "application/json",
-Authorization: `Bearer ${session.access_token}`
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:`Bearer ${session.access_token}`
 },
-body: JSON.stringify({})
+body:JSON.stringify({})
 }
 );
 
-const result =
-
-await response.json();
+const result = await response.json();
 
 if(!result.success){
 
@@ -235,33 +233,71 @@ result.message ||
 
 }
 
-smsProducts =
+const services = result.data || [];
 
-(result.data || []).map(service=>({
+const POPULAR_KEYWORDS = [
 
-id:service.service_code,
+"WhatsApp",
+"Telegram",
+"Instagram",
+"Facebook",
+"TikTok",
+"Discord",
+"ChatGPT",
+"Claude",
+"Amazon",
+"Apple",
+"Gmail",
+"Google",
+"Twitter",
+"X",
+"Snapchat",
+"LinkedIn"
 
-item_type:"number",
+];
 
-name:service.name,
+smsProducts = services
 
-price:service.selling_price,
+.filter(service =>
 
-provider_price:service.provider_price,
+POPULAR_KEYWORDS.some(keyword =>
 
-platform_fee:service.platform_fee,
+service.name.toLowerCase().includes(
 
-stock:service.stock,
+keyword.toLowerCase()
 
-ttl:service.ttl,
+)
 
-multiple_sms:service.multiple_sms,
+)
 
-service_code:service.service_code
+)
+
+.map(service => ({
+
+id: service.service_code,
+
+item_type: "number",
+
+service_code: service.service_code,
+
+name: service.name,
+
+price: service.selling_price,
+
+provider_price: service.provider_price,
+
+platform_fee: service.platform_fee,
+
+stock: service.stock,
+
+ttl: service.ttl,
+
+multiple_sms: service.multiple_sms
 
 }));
 
-}
+  }
+
 /* =====================================
 SOCIALELITE MARKETPLACE
 marketplace.js
