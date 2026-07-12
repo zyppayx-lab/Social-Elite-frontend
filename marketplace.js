@@ -207,24 +207,16 @@ LOAD SMS PRODUCTS
 
 async function loadSmsProducts(){
 
-const response =
-
-await fetch(
-
+const response = await fetch(
 GET_SMS_URL,
-
 {
-
-headers:{
-
-Authorization:
-
-`Bearer ${session.access_token}`
-
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+Authorization: `Bearer ${session.access_token}`
+},
+body: JSON.stringify({})
 }
-
-}
-
 );
 
 const result =
