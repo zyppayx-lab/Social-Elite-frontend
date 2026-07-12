@@ -43,7 +43,7 @@ ELEMENTS
 ===================================== */
 
 const accountsGrid =
-document.getElementById("accountsGrid");
+document.getElementById("accountsContainer");
 
 const searchInput =
 document.getElementById("searchInput");
