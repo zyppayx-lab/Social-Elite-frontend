@@ -5,19 +5,26 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Dashboard | SocialElite</title>
 
-<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet"
+href="dashboard.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
 
@@ -25,47 +32,74 @@
 
 <div class="dashboard">
 
-<header class="top-header">
+<!-- HEADER -->
 
-<div class="logo">
+<header class="header">
 
-<img src="assets/logo.png" alt="SocialElite">
+<div class="logo-area">
+
+<img
+src="assets/logo.png"
+alt="SocialElite"
+class="logo">
+
+<div>
+
+<h2>SocialElite</h2>
+
+<p>Premium Marketplace</p>
 
 </div>
 
-<button class="notification-btn">
+</div>
+
+<button
+class="notification-btn">
 
 <i class="fa-solid fa-bell"></i>
+
+<span class="notification-dot"></span>
 
 </button>
 
 </header>
 
-<section class="balance-card">
+<!-- WALLET -->
 
-<p class="balance-label">
+<section class="wallet-card">
+
+<p class="wallet-title">
 
 Available Balance
 
 </p>
 
-<h1 id="walletBalance">
+<h1
+id="walletBalance">
 
 ₦0.00
 
 </h1>
 
-<div class="balance-actions">
+<div class="wallet-buttons">
 
-<a href="transactions.html" class="history-btn">
+<a
+href="deposit.html"
+class="deposit-btn">
 
-Transaction History
+<i class="fa-solid fa-wallet"></i>
+
+Deposit
 
 </a>
 
-<a href="deposit.html" class="deposit-btn">
+<a
+href="transactions.html"
+class="history-btn">
 
-Deposit
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+History
 
 </a>
 
@@ -73,51 +107,226 @@ Deposit
 
 </section>
 
-<nav class="bottom-nav">
+<!-- QUICK ACCESS -->
 
-<a href="dashboard.html" class="nav-item active">
+<section class="quick-access">
 
-<i class="fa-solid fa-house"></i>
+<h3>
 
-<span>Home</span>
+Quick Access
 
-</a>
+</h3>
 
-<a href="marketplace.html" class="nav-item">
+<div class="quick-grid">
 
-<i class="fa-solid fa-store"></i>
-
-<span>Marketplace</span>
-
-</a>
-
-<a href="referral.html" class="nav-item">
+<a
+href="referral.html"
+class="quick-card referral">
 
 <i class="fa-solid fa-users"></i>
 
-<span>Referral</span>
+<span>
+
+Referral
+
+</span>
 
 </a>
 
-<a href="profile.html" class="nav-item">
+<a
+href="profile.html"
+class="quick-card profile">
 
 <i class="fa-solid fa-user"></i>
 
-<span>Profile</span>
+<span>
+
+Account
+
+</span>
+
+</a>
+
+<a
+href="numbers.html"
+class="quick-card numbers">
+
+<i class="fa-solid fa-sim-card"></i>
+
+<span>
+
+Virtual Numbers
+
+</span>
+
+</a>
+
+<a
+href="purchases.html"
+class="quick-card purchases">
+
+<i class="fa-solid fa-bag-shopping"></i>
+
+<span>
+
+My Purchases
+
+</span>
+
+</a>
+
+</div>
+
+</section>
+<!-- FEATURED SOCIAL ACCOUNTS -->
+
+<section class="section">
+
+<div class="section-header">
+
+<h3>
+
+Featured Social Accounts
+
+</h3>
+
+<a
+href="marketplace.html"
+class="view-all">
+
+View All
+
+<i class="fa-solid fa-arrow-right"></i>
+
+</a>
+
+</div>
+
+<div
+class="products-grid"
+id="featuredAccounts">
+
+<!-- Loaded dynamically from dashboard.js -->
+
+</div>
+
+</section>
+
+<!-- FEATURED VIRTUAL NUMBERS -->
+
+<section class="section">
+
+<div class="section-header">
+
+<h3>
+
+Featured Virtual Numbers
+
+</h3>
+
+<a
+href="numbers.html"
+class="view-all">
+
+View All
+
+<i class="fa-solid fa-arrow-right"></i>
+
+</a>
+
+</div>
+
+<div
+class="products-grid"
+id="featuredNumbers">
+
+<!-- Loaded dynamically from dashboard.js -->
+
+</div>
+
+</section>
+
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+<a
+href="dashboard.html"
+class="nav-item active">
+
+<i class="fa-solid fa-house"></i>
+
+<span>
+
+Home
+
+</span>
+
+</a>
+
+<a
+href="marketplace.html"
+class="nav-item">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>
+
+Purchase Accounts
+
+</span>
+
+</a>
+
+<a
+href="referral.html"
+class="nav-item">
+
+<i class="fa-solid fa-users"></i>
+
+<span>
+
+Referral
+
+</span>
+
+</a>
+
+<a
+href="profile.html"
+class="nav-item">
+
+<i class="fa-solid fa-user"></i>
+
+<span>
+
+Profile
+
+</span>
 
 </a>
 
 </nav>
 
-</div>
+<!-- LOADING -->
 
-<div id="loadingOverlay" class="loading-overlay">
+<div
+id="loadingOverlay"
+class="loading-overlay">
 
 <div class="loader"></div>
 
-<p>Loading...</p>
+<p>
+
+Loading...
+
+</p>
 
 </div>
+
+<!-- SUPABASE / DASHBOARD -->
 
 <script type="module" src="dashboard.js"></script>
 
