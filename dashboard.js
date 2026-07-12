@@ -1,6 +1,7 @@
 /* =====================================
 SOCIALELITE DASHBOARD
 dashboard.js
+PART 1
 ===================================== */
 
 "use strict";
@@ -10,7 +11,9 @@ SUPABASE
 ===================================== */
 
 import { createClient }
+
 from
+
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const SUPABASE_URL =
@@ -32,6 +35,12 @@ ELEMENTS
 const walletBalance =
 document.getElementById("walletBalance");
 
+const featuredAccounts =
+document.getElementById("featuredAccounts");
+
+const featuredNumbers =
+document.getElementById("featuredNumbers");
+
 const loadingOverlay =
 document.getElementById("loadingOverlay");
 
@@ -52,8 +61,10 @@ loadingOverlay.classList.remove("active");
 }
 
 /* =====================================
-AUTH CHECK
+AUTH
 ===================================== */
+
+let currentUser = null;
 
 async function checkAuth(){
 
@@ -75,15 +86,23 @@ return;
 
 }
 
-await loadBalance(session.user.id);
+currentUser = session.user;
+
+await loadWalletBalance();
 
 }
-
 /* =====================================
-LOAD BALANCE
+LOAD WALLET BALANCE
+FEATURED SOCIAL ACCOUNTS
+dashboard.js
+PART 2
 ===================================== */
 
-async function loadBalance(userId){
+/* =====================================
+LIVE WALLET BALANCE
+===================================== */
+
+async function loadWalletBalance(){
 
 const {
 
@@ -97,11 +116,9 @@ error
 
 .select("wallet_balance")
 
-.eq("id",userId)
+.eq("id",currentUser.id)
 
 .single();
-
-hideLoading();
 
 if(error){
 
@@ -111,10 +128,8 @@ return;
 
 }
 
-const balance =
-Number(data.wallet_balance || 0);
-
 walletBalance.textContent =
+
 new Intl.NumberFormat(
 
 "en-NG",
@@ -127,42 +142,210 @@ currency:"NGN"
 
 }
 
-).format(balance);
+).format(
+
+Number(data.wallet_balance || 0)
+
+);
 
 }
+
 /* =====================================
-AUTH STATE LISTENER
+FEATURED SOCIAL ACCOUNTS
 ===================================== */
 
-supabase.auth.onAuthStateChange(
-(event, session) => {
+async function loadFeaturedAccounts(){
 
-if (!session) {
+const {
 
-window.location.replace("login.html");
+data,
+
+error
+
+} = await supabase
+
+.from("products")
+
+.select("*")
+
+.eq("type","social")
+
+.limit(3);
+
+if(error){
+
+featuredAccounts.innerHTML=
+
+"<p>No social accounts available.</p>";
 
 return;
 
 }
 
-if (event === "SIGNED_OUT") {
+featuredAccounts.innerHTML="";
+
+data.forEach(product=>{
+
+featuredAccounts.innerHTML += `
+
+<div class="product-card">
+
+<div class="product-platform">
+
+${product.name}
+
+</div>
+
+<div class="product-country">
+
+${product.description || "Premium Account"}
+
+</div>
+
+<div class="product-price">
+
+₦${Number(product.price).toLocaleString()}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+/* =====================================
+FEATURED VIRTUAL NUMBERS
+INITIALIZE
+dashboard.js
+PART 3
+===================================== */
+
+/* =====================================
+FEATURED VIRTUAL NUMBERS
+===================================== */
+
+async function loadFeaturedNumbers(){
+
+const {
+
+data,
+
+error
+
+} = await supabase
+
+.from("products")
+
+.select("*")
+
+.eq("type","number")
+
+.limit(2);
+
+if(error){
+
+featuredNumbers.innerHTML =
+
+"<p>No virtual numbers available.</p>";
+
+return;
+
+}
+
+featuredNumbers.innerHTML = "";
+
+data.forEach(product=>{
+
+featuredNumbers.innerHTML += `
+
+<div class="product-card">
+
+<div class="product-platform">
+
+${product.name}
+
+</div>
+
+<div class="product-country">
+
+${product.description || "Instant OTP Verification"}
+
+</div>
+
+<div class="product-price">
+
+₦${Number(product.price).toLocaleString()}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* =====================================
+START DASHBOARD
+===================================== */
+
+async function initializeDashboard(){
+
+try{
+
+await checkAuth();
+
+await Promise.all([
+
+loadFeaturedAccounts(),
+
+loadFeaturedNumbers()
+
+]);
+
+}catch(error){
+
+console.error(error);
+
+window.location.replace("login.html");
+
+}finally{
+
+hideLoading();
+
+}
+
+}
+
+/* =====================================
+AUTH LISTENER
+===================================== */
+
+supabase.auth.onAuthStateChange(
+
+(event, session)=>{
+
+if(event==="SIGNED_OUT" || !session){
 
 window.location.replace("login.html");
 
 }
 
 }
+
 );
 
 /* =====================================
-INITIALIZE
+START
 ===================================== */
 
 document.addEventListener(
+
 "DOMContentLoaded",
-() => {
 
-checkAuth();
+initializeDashboard
 
-}
 );
