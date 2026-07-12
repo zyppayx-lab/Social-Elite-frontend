@@ -29,13 +29,6 @@ SUPABASE_ANON_KEY
 );
 
 /* =====================================
-EDGE FUNCTION
-===================================== */
-
-const CREATE_DEPOSIT_URL =
-"https://dohxtukzxopwkvxeppdl.supabase.co/functions/v1/create-paystack-deposit";
-
-/* =====================================
 ELEMENTS
 ===================================== */
 
@@ -58,6 +51,14 @@ const quickButtons =
 document.querySelectorAll(".quick-btn");
 
 /* =====================================
+STATE
+===================================== */
+
+let currentSession = null;
+
+let isSubmitting = false;
+
+/* =====================================
 LOADING
 ===================================== */
 
@@ -65,15 +66,11 @@ function showLoading(){
 
 loadingOverlay.classList.add("active");
 
-depositBtn.disabled = true;
-
 }
 
 function hideLoading(){
 
 loadingOverlay.classList.remove("active");
-
-depositBtn.disabled = false;
 
 }
 
@@ -103,16 +100,41 @@ toast.classList.remove("show");
 
 }
 /* =====================================
-QUICK AMOUNTS
 AUTH
-CREATE DEPOSIT
-START
+QUICK AMOUNTS
+VALIDATION
 deposit.js
 PART 2
 ===================================== */
 
 /* =====================================
-QUICK AMOUNT BUTTONS
+AUTH CHECK
+===================================== */
+
+async function checkAuth(){
+
+const {
+
+data:{session},
+
+error
+
+} = await supabase.auth.getSession();
+
+if(error || !session){
+
+window.location.replace("login.html");
+
+return;
+
+}
+
+currentSession = session;
+
+}
+
+/* =====================================
+QUICK AMOUNTS
 ===================================== */
 
 quickButtons.forEach(button=>{
@@ -136,24 +158,30 @@ button.dataset.amount;
 });
 
 /* =====================================
-DEPOSIT
+VALIDATE AMOUNT
 ===================================== */
 
-async function createDeposit(event){
-
-event.preventDefault();
+function validateAmount(){
 
 const amount =
 
 Number(amountInput.value);
 
-if(
+if(!amount){
 
-!amount ||
+showToast(
 
-amount < 100
+"Enter a deposit amount.",
 
-){
+"error"
+
+);
+
+return false;
+
+}
+
+if(amount < 100){
 
 showToast(
 
@@ -163,31 +191,55 @@ showToast(
 
 );
 
-return;
+return false;
 
 }
+
+if(amount > 5000000){
+
+showToast(
+
+"Maximum deposit is ₦5,000,000.",
+
+"error"
+
+);
+
+return false;
+
+}
+
+return true;
+
+}
+/* =====================================
+CREATE PAYSTACK DEPOSIT
+START
+deposit.js
+PART 3
+===================================== */
+
+async function createDeposit(){
+
+if(isSubmitting) return;
+
+if(!validateAmount()) return;
+
+isSubmitting = true;
+
+depositBtn.disabled = true;
 
 showLoading();
 
 try{
 
-const {
+const accessToken =
 
-data:{session}
-
-} = await supabase.auth.getSession();
-
-if(!session){
-
-window.location.replace("login.html");
-
-return;
-
-}
+currentSession.access_token;
 
 const response = await fetch(
 
-CREATE_DEPOSIT_URL,
+"https://dohxtukzxopwkvxeppdl.supabase.co/functions/v1/create-paystack-deposit",
 
 {
 
@@ -197,15 +249,13 @@ headers:{
 
 "Content-Type":"application/json",
 
-"Authorization":
-
-`Bearer ${session.access_token}`
+"Authorization":`Bearer ${accessToken}`
 
 },
 
 body:JSON.stringify({
 
-amount
+amount:Number(amountInput.value)
 
 })
 
@@ -213,11 +263,7 @@ amount
 
 );
 
-const result =
-
-await response.json();
-
-hideLoading();
+const result = await response.json();
 
 if(!response.ok){
 
@@ -225,7 +271,23 @@ throw new Error(
 
 result.error ||
 
-"Unable to initialize payment."
+result.message ||
+
+"Unable to initialize deposit."
+
+);
+
+}
+
+if(
+
+!result.authorization_url
+
+){
+
+throw new Error(
+
+"Payment link was not returned."
 
 );
 
@@ -257,39 +319,45 @@ error.message,
 
 );
 
+depositBtn.disabled = false;
+
+isSubmitting = false;
+
 }
 
 }
 
 /* =====================================
-FORM
+FORM SUBMIT
 ===================================== */
 
 depositForm.addEventListener(
 
 "submit",
 
-createDeposit
+async(event)=>{
+
+event.preventDefault();
+
+await createDeposit();
+
+}
 
 );
 
 /* =====================================
-AUTH LISTENER
+START
 ===================================== */
 
-supabase.auth.onAuthStateChange(
+document.addEventListener(
 
-(event,session)=>{
+"DOMContentLoaded",
 
-if(event==="SIGNED_OUT" || !session){
+async()=>{
 
-window.location.replace(
+await checkAuth();
 
-"login.html"
-
-);
-
-}
+hideLoading();
 
 }
 
