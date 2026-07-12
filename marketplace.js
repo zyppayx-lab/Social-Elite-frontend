@@ -965,7 +965,7 @@ console.error(error);
 
 showToast(
 
-"Failed to load marketplace.",
+error.message || JSON.stringify(error),
 
 "error"
 
