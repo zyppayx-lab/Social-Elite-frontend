@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Purchase Accounts | SocialElite</title>
+
+<link rel="stylesheet"
+href="marketplace.css">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="marketplace">
+
+<header class="top-header">
+
+<a
+href="dashboard.html"
+class="back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+</a>
+
+<div class="header-logo">
+
+<img
+src="assets/logo.png"
+class="logo"
+alt="SocialElite">
+
+<div>
+
+<h2>
+
+Purchase Accounts
+
+</h2>
+
+<p>
+
+Premium Social Accounts
+
+</p>
+
+</div>
+
+</div>
+
+<button
+class="notification-btn">
+
+<i class="fa-solid fa-bell"></i>
+
+<span class="notification-dot"></span>
+
+</button>
+
+</header>
+
+<section class="search-section">
+
+<div class="search-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search social accounts...">
+
+</div>
+
+</section>
+
+<section class="filter-section">
+
+<select
+id="platformFilter">
+
+<option value="">
+
+All Platforms
+
+</option>
+
+<option value="Instagram">
+
+Instagram
+
+</option>
+
+<option value="Facebook">
+
+Facebook
+
+</option>
+
+<option value="TikTok">
+
+TikTok
+
+</option>
+
+<option value="Gmail">
+
+Gmail
+
+</option>
+
+<option value="Discord">
+
+Discord
+
+</option>
+
+<option value="Reddit">
+
+Reddit
+
+</option>
+
+<option value="Telegram">
+
+Telegram
+
+</option>
+
+</select>
+
+<select
+id="countryFilter">
+
+<option value="">
+
+All Countries
+
+</option>
+
+<option value="USA">
+
+USA
+
+</option>
+
+<option value="UK">
+
+United Kingdom
+
+</option>
+
+<option value="Canada">
+
+Canada
+
+</option>
+
+<option value="Nigeria">
+
+Nigeria
+
+</option>
+
+<option value="India">
+
+India
+
+</option>
+
+</select>
+
+</section>
+
+<section class="featured-title">
+
+<h3>
+
+Available Accounts
+
+</h3>
+
+<p>
+
+Choose a verified account and purchase instantly.
+
+</p>
+
+</section>
+
+<section
+id="accountsContainer"
+class="accounts-grid">
+
+<!-- Loaded dynamically from marketplace.js -->
+
+</section>
+<section class="market-actions">
+
+<button
+id="loadMoreBtn"
+class="load-more-btn">
+
+<i class="fa-solid fa-plus"></i>
+
+Load More Accounts
+
+</button>
+
+</section>
+
+<section
+id="emptyState"
+class="empty-state"
+style="display:none;">
+
+<i class="fa-solid fa-box-open"></i>
+
+<h3>
+
+No Accounts Found
+
+</h3>
+
+<p>
+
+Try changing your search or filter to view more available accounts.
+
+</p>
+
+</section>
+
+</div>
+
+<!-- LOADING -->
+
+<div
+id="loadingOverlay"
+class="loading-overlay">
+
+<div class="loader"></div>
+
+<p>
+
+Loading marketplace...
+
+</p>
+
+</div>
+
+<!-- TOAST -->
+
+<div
+id="toast"
+class="toast">
+
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+<a
+href="dashboard.html"
+class="nav-item">
+
+<i class="fa-solid fa-house"></i>
+
+<span>
+
+Home
+
+</span>
+
+</a>
+
+<a
+href="marketplace.html"
+class="nav-item active">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>
+
+Purchase
+
+</span>
+
+</a>
+
+<a
+href="referral.html"
+class="nav-item">
+
+<i class="fa-solid fa-users"></i>
+
+<span>
+
+Referral
+
+</span>
+
+</a>
+
+<a
+href="profile.html"
+class="nav-item">
+
+<i class="fa-solid fa-user"></i>
+
+<span>
+
+Profile
+
+</span>
+
+</a>
+
+</nav>
+
+<script type="module"
+src="marketplace.js"></script>
+
+</body>
+
+  </html>
