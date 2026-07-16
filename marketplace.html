@@ -2,24 +2,26 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Marketplace | SocialElite</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="marketplace.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 
 <body>
-
-<!-- ==========================
-HEADER
-========================== -->
 
 <header class="header">
 
@@ -33,90 +35,53 @@ HEADER
 
 </a>
 
-<nav class="desktop-nav">
+<nav>
 
 <a href="index.html">Home</a>
 
-<a href="#" class="active">Marketplace</a>
+<a href="#accounts">Accounts</a>
 
-<a href="blog.html">Blog</a>
+<a href="#numbers">Virtual Numbers</a>
 
-<a href="about.html">About</a>
+<a href="orders.html">Orders</a>
 
-<a href="support.html">Support</a>
+<a href="profile.html">Profile</a>
 
 </nav>
-
-<div class="header-actions">
-
-<a href="wallet.html" class="wallet-btn">
-
-<i class="fas fa-wallet"></i>
-
-<span id="walletBalance">₦0.00</span>
-
-</a>
-
-<a href="profile.html" class="profile-btn">
-
-<img
-id="userAvatar"
-src="assets/default-avatar.png"
-alt="Profile">
-
-</a>
-
-<button class="mobile-toggle">
-
-☰
-
-</button>
-
-</div>
 
 </div>
 
 </header>
 
-<!-- ==========================
-HERO
-========================== -->
-
-<section class="marketplace-hero">
+<section class="hero">
 
 <div class="container">
 
 <div class="hero-content">
 
-<span class="hero-badge">
-
-Trusted Marketplace
-
-</span>
-
 <h1>
 
-Buy Premium Social Media Accounts & USA Virtual Numbers
+Premium Social Media Accounts & USA Virtual Numbers
 
 </h1>
 
 <p>
 
-Purchase verified social media accounts with instant delivery or rent USA virtual numbers for SMS verification—all from one secure marketplace.
+Buy verified social media accounts and instantly rent USA virtual numbers for SMS verification.
 
 </p>
 
 <div class="hero-buttons">
 
-<a href="#social-section" class="primary-btn">
+<a href="#accounts" class="primary-btn">
 
 Browse Accounts
 
 </a>
 
-<a href="#numbers-section" class="secondary-btn">
+<a href="#numbers" class="secondary-btn">
 
-USA Numbers
+Browse Numbers
 
 </a>
 
@@ -128,15 +93,7 @@ USA Numbers
 
 </section>
 
-<!-- ==========================
-SOCIAL MEDIA SECTION
-Starts in Part 2
-========================== -->
-<!-- ==========================
-SOCIAL MEDIA ACCOUNTS
-========================== -->
-
-<section id="social-section" class="market-section">
+<section id="accounts" class="market-section">
 
 <div class="container">
 
@@ -144,74 +101,46 @@ SOCIAL MEDIA ACCOUNTS
 
 <span class="section-badge">
 
-Social Media Accounts
+SOCIAL ACCOUNTS
 
 </span>
 
 <h2>
 
-Premium Social Accounts
+Marketplace
 
 </h2>
 
 <p>
 
-Buy verified social media accounts with instant delivery after successful payment.
+Buy premium social media accounts with instant delivery after successful payment.
 
 </p>
 
 </div>
 
-<!-- Filters -->
-
 <div class="market-filters">
-
-<div class="search-box">
 
 <input
 type="text"
 id="socialSearch"
 placeholder="Search account...">
 
-</div>
-
 <select id="platformFilter">
 
-<option value="">All Platforms</option>
-
-<option value="Instagram">Instagram</option>
-
-<option value="Facebook">Facebook</option>
-
-<option value="TikTok">TikTok</option>
-
-<option value="Discord">Discord</option>
-
-<option value="Gmail">Gmail</option>
-
-<option value="Reddit">Reddit</option>
-
-<option value="Telegram">Telegram</option>
-
-<option value="Threads">Threads</option>
-
-<option value="Twitter/X">Twitter/X</option>
+<option value="">Platform</option>
 
 </select>
 
 <select id="countryFilter">
 
-<option value="">All Countries</option>
-
-<!-- Loaded dynamically -->
+<option value="">Country</option>
 
 </select>
 
 <select id="categoryFilter">
 
-<option value="">All Categories</option>
-
-<!-- Loaded dynamically -->
+<option value="">Category</option>
 
 </select>
 
@@ -219,13 +148,13 @@ placeholder="Search account...">
 
 <option value="">Price</option>
 
-<option value="low-high">
+<option value="low">
 
 Lowest Price
 
 </option>
 
-<option value="high-low">
+<option value="high">
 
 Highest Price
 
@@ -235,18 +164,6 @@ Highest Price
 
 </div>
 
-<!-- Products -->
-
-<div
-class="products-grid"
-id="socialProducts">
-
-<!-- Loaded from marketplace_products -->
-
-</div>
-
-<!-- Loading -->
-
 <div
 id="socialLoading"
 class="loading-box">
@@ -255,21 +172,21 @@ class="loading-box">
 
 <p>
 
-Loading products...
+Loading marketplace...
 
 </p>
 
 </div>
 
-<!-- Empty -->
+<div
+id="socialProducts"
+class="products-grid">
+
+</div>
 
 <div
 id="socialEmpty"
 class="empty-state">
-
-<img
-src="assets/empty-box.svg"
-alt="No Products">
 
 <h3>
 
@@ -279,7 +196,7 @@ No Products Available
 
 <p>
 
-There are currently no accounts matching your filters.
+Check back later.
 
 </p>
 
@@ -288,16 +205,7 @@ There are currently no accounts matching your filters.
 </div>
 
 </section>
-
-<!-- ==========================
-USA VIRTUAL NUMBERS
-Starts in Part 3
-========================== -->
-<!-- ==========================
-USA VIRTUAL NUMBERS
-========================== -->
-
-<section id="numbers-section" class="market-section">
+<section id="numbers" class="market-section numbers-section">
 
 <div class="container">
 
@@ -305,29 +213,25 @@ USA VIRTUAL NUMBERS
 
 <span class="section-badge">
 
-USA Virtual Numbers
+USA VIRTUAL NUMBERS
 
 </span>
 
 <h2>
 
-SMS Verification Numbers
+Rent SMS Verification Numbers
 
 </h2>
 
 <p>
 
-Rent USA virtual numbers instantly for OTP verification on your favorite platforms.
+Instantly rent USA virtual numbers for WhatsApp, Telegram, Google, Facebook, Instagram and hundreds of other services.
 
 </p>
 
 </div>
 
-<!-- Search -->
-
 <div class="market-filters">
-
-<div class="search-box">
 
 <input
 type="text"
@@ -335,20 +239,6 @@ id="numberSearch"
 placeholder="Search service...">
 
 </div>
-
-</div>
-
-<!-- Services -->
-
-<div
-class="numbers-grid"
-id="numberServices">
-
-<!-- Loaded from get-sms-service -->
-
-</div>
-
-<!-- Loading -->
 
 <div
 id="numbersLoading"
@@ -364,15 +254,15 @@ Loading services...
 
 </div>
 
-<!-- Empty -->
+<div
+id="numberServices"
+class="products-grid">
+
+</div>
 
 <div
 id="numbersEmpty"
 class="empty-state">
-
-<img
-src="assets/empty-box.svg"
-alt="No Services">
 
 <h3>
 
@@ -382,7 +272,7 @@ No Services Available
 
 <p>
 
-Please check back later.
+Please try again later.
 
 </p>
 
@@ -392,55 +282,195 @@ Please check back later.
 
 </section>
 
-<!-- ==========================
-FOOTER
-========================== -->
+<!-- PURCHASED ACCOUNT MODAL -->
+
+<div
+id="credentialModal"
+class="modal">
+
+<div class="modal-content">
+
+<h2>
+
+Purchase Successful
+
+</h2>
+
+<div class="credential-box">
+
+<label>Username</label>
+
+<div class="copy-field">
+
+<input
+id="credentialUsername"
+readonly>
+
+<button
+class="copy-btn"
+data-copy="credentialUsername">
+
+📋
+
+</button>
+
+</div>
+
+<label>Password</label>
+
+<div class="copy-field">
+
+<input
+id="credentialPassword"
+readonly>
+
+<button
+class="copy-btn"
+data-copy="credentialPassword">
+
+📋
+
+</button>
+
+</div>
+
+<label>Recovery Email</label>
+
+<div class="copy-field">
+
+<input
+id="credentialRecoveryEmail"
+readonly>
+
+<button
+class="copy-btn"
+data-copy="credentialRecoveryEmail">
+
+📋
+
+</button>
+
+</div>
+
+<label>Recovery Password</label>
+
+<div class="copy-field">
+
+<input
+id="credentialRecoveryPassword"
+readonly>
+
+<button
+class="copy-btn"
+data-copy="credentialRecoveryPassword">
+
+📋
+
+</button>
+
+</div>
+
+<label>Notes</label>
+
+<textarea
+id="credentialNotes"
+readonly></textarea>
+
+</div>
+
+<button
+id="closeCredentialModal"
+class="primary-btn">
+
+Done
+
+</button>
+
+</div>
+
+</div>
+
+<!-- SMS RENTAL MODAL -->
+
+<div
+id="smsModal"
+class="modal">
+
+<div class="modal-content">
+
+<h2>
+
+USA Number Rented
+
+</h2>
+
+<div class="credential-box">
+
+<label>Phone Number</label>
+
+<div class="copy-field">
+
+<input
+id="smsNumber"
+readonly>
+
+<button
+class="copy-btn"
+data-copy="smsNumber">
+
+📋
+
+</button>
+
+</div>
+
+<label>Service</label>
+
+<input
+id="smsService"
+readonly>
+
+<label>Status</label>
+
+<input
+id="smsStatus"
+readonly>
+
+<label>OTP Code</label>
+
+<input
+id="smsCode"
+readonly>
+
+<label>SMS Message</label>
+
+<textarea
+id="smsMessage"
+readonly></textarea>
+
+</div>
+
+<button
+id="closeSmsModal"
+class="primary-btn">
+
+Done
+
+</button>
+
+</div>
+
+</div>
 
 <footer class="footer">
 
 <div class="container">
 
-<div class="footer-content">
-
-<div class="footer-brand">
-
-<img src="assets/logo.png" alt="SocialElite Logo">
-
-<h3>SocialElite</h3>
-
 <p>
 
-Premium marketplace for verified social media accounts and USA virtual numbers.
+© 2026 SocialElite. All Rights Reserved.
 
 </p>
-
-</div>
-
-<div class="footer-links">
-
-<a href="about.html">About</a>
-
-<a href="support.html">Support</a>
-
-<a href="privacy.html">Privacy Policy</a>
-
-<a href="terms.html">Terms of Service</a>
-
-<a href="contact.html">Contact</a>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-
-<p>
-
-&copy; 2026 SocialElite. All rights reserved.
-
-</p>
-
-</div>
 
 </div>
 
@@ -449,4 +479,5 @@ Premium marketplace for verified social media accounts and USA virtual numbers.
 <script src="marketplace.js"></script>
 
 </body>
-  </html>
+
+                   </html>
