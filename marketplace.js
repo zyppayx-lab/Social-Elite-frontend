@@ -1,80 +1,114 @@
-/* ===========================================
+/* ==========================================
 SOCIALELITE MARKETPLACE
 marketplace.js
 PART 1
-=========================================== */
+========================================== */
 
 "use strict";
 
-/* ==========================
+/* ==========================================
 SUPABASE
-========================== */
+========================================== */
 
 const SUPABASE_URL = "https://dohxtukzxopwkvxeppdl.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvaHh0dWt6eG9wd2t2eGVwcGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxOTA5NzksImV4cCI6MjA5ODc2Njk3OX0.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
+
+const SUPABASE_ANON_KEY = "sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
 
 const supabase = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
 );
 
-/* ==========================
+/* ==========================================
+EDGE FUNCTIONS
+========================================== */
+
+const PURCHASE_SOCIAL_ENDPOINT =
+`${SUPABASE_URL}/functions/v1/purchase-social-account`;
+
+const GET_SMSGIG_SERVICES_ENDPOINT =
+`${SUPABASE_URL}/functions/v1/get-smsgig-services`;
+
+const PURCHASE_NUMBER_ENDPOINT =
+`${SUPABASE_URL}/functions/v1/purchase-number`;
+
+const GET_SMS_ENDPOINT =
+`${SUPABASE_URL}/functions/v1/get-sms`;
+
+/* ==========================================
 ELEMENTS
-========================== */
+========================================== */
 
-const socialGrid = document.getElementById("socialProducts");
-const socialLoading = document.getElementById("socialLoading");
-const socialEmpty = document.getElementById("socialEmpty");
+const socialProducts =
+document.getElementById("socialProducts");
 
-const numberGrid = document.getElementById("numberServices");
-const numbersLoading = document.getElementById("numbersLoading");
-const numbersEmpty = document.getElementById("numbersEmpty");
+const socialLoading =
+document.getElementById("socialLoading");
 
-const socialSearch = document.getElementById("socialSearch");
-const numberSearch = document.getElementById("numberSearch");
+const socialEmpty =
+document.getElementById("socialEmpty");
 
-const platformFilter = document.getElementById("platformFilter");
-const countryFilter = document.getElementById("countryFilter");
-const categoryFilter = document.getElementById("categoryFilter");
-const priceFilter = document.getElementById("priceFilter");
+const numberServices =
+document.getElementById("numberServices");
 
-let socialProducts = [];
-let smsServices = [];
-let session = null;
+const numbersLoading =
+document.getElementById("numbersLoading");
 
-/* ==========================
-INIT
-========================== */
+const numbersEmpty =
+document.getElementById("numbersEmpty");
+
+const platformFilter =
+document.getElementById("platformFilter");
+
+const countryFilter =
+document.getElementById("countryFilter");
+
+const categoryFilter =
+document.getElementById("categoryFilter");
+
+const priceFilter =
+document.getElementById("priceFilter");
+
+const socialSearch =
+document.getElementById("socialSearch");
+
+const numberSearch =
+document.getElementById("numberSearch");
+
+/* ==========================================
+GLOBAL VARIABLES
+========================================== */
+
+let allProducts = [];
+
+let allCountries = [];
+
+let allCategories = [];
+
+let allServices = [];
+
+let pollingInterval = null;
+
+/* ==========================================
+START APP
+========================================== */
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    const {
-        data
-    } = await supabase.auth.getSession();
-
-    session = data.session;
-
-    if (!session) {
-
-        location.href = "login.html";
-        return;
-
-    }
-
     await loadCountries();
-
-    await loadPlatforms();
 
     await loadCategories();
 
     await loadProducts();
 
-    await loadSmsServices();
+    await loadSmsGigServices();
+
+    registerEvents();
 
 });
-/* ==========================
+/* ==========================================
 LOAD COUNTRIES
-========================== */
+========================================== */
 
 async function loadCountries() {
 
@@ -83,125 +117,195 @@ async function loadCountries() {
         .select("country")
         .order("country");
 
-    if (error) return;
+    if (error) {
 
-    countryFilter.innerHTML =
-        `<option value="">All Countries</option>`;
+        console.error(error);
 
-    data.forEach(item => {
+        return;
 
-        countryFilter.innerHTML +=
-        `<option value="${item.country}">
-            ${item.country}
-        </option>`;
+    }
+
+    allCountries = data;
+
+    countryFilter.innerHTML = `
+        <option value="">Country</option>
+    `;
+
+    data.forEach(country => {
+
+        countryFilter.innerHTML += `
+            <option value="${country.country}">
+                ${country.country}
+            </option>
+        `;
 
     });
 
 }
 
-/* ==========================
-LOAD PLATFORMS
-========================== */
-
-async function loadPlatforms() {
-
-    const { data, error } = await supabase
-        .from("categories")
-        .select("platform");
-
-    if (error) return;
-
-    platformFilter.innerHTML =
-        `<option value="">All Platforms</option>`;
-
-    [...new Set(data.map(item => item.platform))]
-        .sort()
-        .forEach(platform => {
-
-            platformFilter.innerHTML +=
-            `<option value="${platform}">
-                ${platform}
-            </option>`;
-
-        });
-
-}
-
-/* ==========================
+/* ==========================================
 LOAD CATEGORIES
-========================== */
+========================================== */
 
 async function loadCategories() {
 
     const { data, error } = await supabase
         .from("categories")
-        .select("name");
+        .select("platform,name")
+        .order("platform");
 
-    if (error) return;
+    if (error) {
 
-    categoryFilter.innerHTML =
-        `<option value="">All Categories</option>`;
+        console.error(error);
 
-    [...new Set(data.map(item => item.name))]
-        .sort()
-        .forEach(category => {
+        return;
 
-            categoryFilter.innerHTML +=
-            `<option value="${category}">
-                ${category}
-            </option>`;
+    }
 
-        });
+    allCategories = data;
+
+    const platforms =
+    [...new Set(data.map(item => item.platform))];
+
+    platformFilter.innerHTML = `
+        <option value="">Platform</option>
+    `;
+
+    categoryFilter.innerHTML = `
+        <option value="">Category</option>
+    `;
+
+    platforms.forEach(platform => {
+
+        platformFilter.innerHTML += `
+            <option value="${platform}">
+                ${platform}
+            </option>
+        `;
+
+    });
+
+    data.forEach(category => {
+
+        categoryFilter.innerHTML += `
+            <option value="${category.name}">
+                ${category.name}
+            </option>
+        `;
+
+    });
 
 }
 
-/* ==========================
-LOAD PRODUCTS
-========================== */
+/* ==========================================
+LOAD MARKETPLACE PRODUCTS
+========================================== */
 
 async function loadProducts() {
 
     socialLoading.style.display = "flex";
 
+    socialProducts.style.display = "none";
+
+    socialEmpty.style.display = "none";
+
     const { data, error } = await supabase
         .from("available_products")
         .select("*")
-        .order("price");
+        .order("price",{ ascending:true });
 
     socialLoading.style.display = "none";
 
     if (error) {
 
+        console.error(error);
+
         socialEmpty.style.display = "flex";
+
         return;
 
     }
 
-    socialProducts = data;
+    allProducts = data;
 
-    renderProducts(data);
+    renderProducts(allProducts);
 
 }
-/* ==========================
-RENDER PRODUCTS
-========================== */
 
-function renderProducts(products) {
+/* ==========================================
+LOAD SMSGIG SERVICES
+========================================== */
 
-    socialGrid.innerHTML = "";
+async function loadSmsGigServices() {
 
-    if (!products.length) {
+    numbersLoading.style.display = "flex";
 
-        socialEmpty.style.display = "flex";
+    numberServices.style.display = "none";
+
+    numbersEmpty.style.display = "none";
+
+    const session =
+    await supabase.auth.getSession();
+
+    const token =
+    session.data.session?.access_token;
+
+    const response =
+    await fetch(
+        GET_SMSGIG_SERVICES_ENDPOINT,
+        {
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        }
+    );
+
+    const result =
+    await response.json();
+
+    numbersLoading.style.display = "none";
+
+    if(!response.ok){
+
+        console.error(result);
+
+        numbersEmpty.style.display = "flex";
+
         return;
 
     }
+
+    allServices =
+    result.data || [];
+
+    renderSmsServices(allServices);
+
+}
+/* ==========================================
+RENDER SOCIAL PRODUCTS
+========================================== */
+
+function renderProducts(products){
+
+    socialProducts.innerHTML = "";
+
+    if(products.length === 0){
+
+        socialProducts.style.display = "none";
+
+        socialEmpty.style.display = "flex";
+
+        return;
+
+    }
+
+    socialProducts.style.display = "grid";
 
     socialEmpty.style.display = "none";
 
-    products.forEach(product => {
+    products.forEach(product=>{
 
-        socialGrid.innerHTML += `
+        socialProducts.innerHTML += `
 
         <div class="market-card">
 
@@ -209,14 +313,16 @@ function renderProducts(products) {
 
                 <div class="platform">
 
-                    <img src="assets/icons/${product.platform.toLowerCase().replace("/", "-")}.png">
+                    <img src="assets/platforms/${product.platform.toLowerCase()}.png">
 
                     <div>
 
                         <h3>${product.name}</h3>
 
                         <span class="category">
-                            ${product.category}
+
+                            ${product.platform} • ${product.category}
+
                         </span>
 
                     </div>
@@ -224,7 +330,9 @@ function renderProducts(products) {
                 </div>
 
                 <span class="country">
+
                     ${product.country}
+
                 </span>
 
             </div>
@@ -232,20 +340,26 @@ function renderProducts(products) {
             <div class="market-card-body">
 
                 <p class="description">
+
                     ${product.description}
+
                 </p>
 
-                <div class="price">
-                    ₦${Number(product.price).toLocaleString()}
-                </div>
+                <h2 class="price">
 
-                <div class="stock">
-                    ${product.stock} Available
-                </div>
+                    ₦${Number(product.price).toLocaleString()}
+
+                </h2>
+
+                <span class="stock">
+
+                    ${product.stock} In Stock
+
+                </span>
 
                 <button
                     class="buy-btn"
-                    onclick="buyProduct('${product.id}')">
+                    onclick="buySocialAccount('${product.id}')">
 
                     Buy Now
 
@@ -261,294 +375,31 @@ function renderProducts(products) {
 
 }
 
-/* ==========================
-FILTERS
-========================== */
-
-platformFilter.onchange = filterProducts;
-countryFilter.onchange = filterProducts;
-categoryFilter.onchange = filterProducts;
-priceFilter.onchange = filterProducts;
-socialSearch.oninput = filterProducts;
-
-function filterProducts() {
-
-    let results = [...socialProducts];
-
-    if (platformFilter.value) {
-
-        results = results.filter(item =>
-            item.platform === platformFilter.value
-        );
-
-    }
-
-    if (countryFilter.value) {
-
-        results = results.filter(item =>
-            item.country === countryFilter.value
-        );
-
-    }
-
-    if (categoryFilter.value) {
-
-        results = results.filter(item =>
-            item.category === categoryFilter.value
-        );
-
-    }
-
-    if (socialSearch.value) {
-
-        const keyword = socialSearch.value.toLowerCase();
-
-        results = results.filter(item =>
-
-            item.name.toLowerCase().includes(keyword) ||
-
-            item.platform.toLowerCase().includes(keyword) ||
-
-            item.category.toLowerCase().includes(keyword)
-
-        );
-
-    }
-
-    if (priceFilter.value === "low") {
-
-        results.sort((a, b) => a.price - b.price);
-
-    }
-
-    if (priceFilter.value === "high") {
-
-        results.sort((a, b) => b.price - a.price);
-
-    }
-
-    renderProducts(results);
-
-}
-/* ==========================
-BUY SOCIAL ACCOUNT
-========================== */
-
-async function buyProduct(productId) {
-
-    if (!confirm("Purchase this account?")) return;
-
-    try {
-
-        const {
-            data: {
-                session
-            }
-        } = await supabase.auth.getSession();
-
-        const response = await fetch(
-
-            `${SUPABASE_URL}/functions/v1/purchase-social-account`,
-
-            {
-
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type": "application/json",
-
-                    "Authorization": `Bearer ${session.access_token}`
-
-                },
-
-                body: JSON.stringify({
-
-                    product_id: productId
-
-                })
-
-            }
-
-        );
-
-        const result = await response.json();
-
-        if (!response.ok) {
-
-            alert(result.message || "Purchase failed.");
-
-            return;
-
-        }
-
-        /* ======================
-        DISPLAY CREDENTIALS
-        ====================== */
-
-        document.getElementById("credentialUsername").value =
-            result.username || "";
-
-        document.getElementById("credentialPassword").value =
-            result.password || "";
-
-        document.getElementById("credentialRecoveryEmail").value =
-            result.recovery_email || "";
-
-        document.getElementById("credentialRecoveryPassword").value =
-            result.recovery_password || "";
-
-        document.getElementById("credentialNotes").value =
-            result.notes || "No notes.";
-
-        document.getElementById("credentialModal").style.display =
-            "flex";
-
-        /* Remove sold product */
-
-        await loadProducts();
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        alert("Something went wrong.");
-
-    }
-
-}
-
-/* ==========================
-COPY TO CLIPBOARD
-========================== */
-
-document.querySelectorAll(".copy-btn")
-
-.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        const input = document.getElementById(
-
-            button.dataset.copy
-
-        );
-
-        navigator.clipboard.writeText(input.value);
-
-        button.textContent = "✓";
-
-        setTimeout(() => {
-
-            button.textContent = "📋";
-
-        }, 1500);
-
-    });
-
-});
-
-/* ==========================
-CLOSE CREDENTIAL MODAL
-========================== */
-
-document
-
-.getElementById("closeCredentialModal")
-
-.addEventListener("click", () => {
-
-    document.getElementById("credentialModal")
-
-    .style.display = "none";
-
-});
-```
-/* ==========================
-LOAD SMS SERVICES
-========================== */
-
-async function loadSmsServices() {
-
-    numbersLoading.style.display = "flex";
-
-    try {
-
-        const {
-            data: {
-                session
-            }
-        } = await supabase.auth.getSession();
-
-        const response = await fetch(
-
-            `${SUPABASE_URL}/functions/v1/get-smsgig-services`,
-
-            {
-
-                headers: {
-
-                    "Authorization": `Bearer ${session.access_token}`
-
-                }
-
-            }
-
-        );
-
-        const result = await response.json();
-
-        numbersLoading.style.display = "none";
-
-        if (!response.ok) {
-
-            numbersEmpty.style.display = "flex";
-
-            return;
-
-        }
-
-        smsServices = result.data;
-
-        renderSmsServices(result.data);
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        numbersLoading.style.display = "none";
-
-        numbersEmpty.style.display = "flex";
-
-    }
-
-}
-
-/* ==========================
+/* ==========================================
 RENDER SMS SERVICES
-========================== */
+========================================== */
 
-function renderSmsServices(services) {
+function renderSmsServices(services){
 
-    numberGrid.innerHTML = "";
+    numberServices.innerHTML = "";
 
-    if (!services.length) {
+    if(services.length===0){
 
-        numbersEmpty.style.display = "flex";
+        numberServices.style.display="none";
+
+        numbersEmpty.style.display="flex";
 
         return;
 
     }
 
-    numbersEmpty.style.display = "none";
+    numberServices.style.display="grid";
 
-    services.forEach(service => {
+    numbersEmpty.style.display="none";
 
-        numberGrid.innerHTML += `
+    services.forEach(service=>{
+
+        numberServices.innerHTML += `
 
         <div class="market-card">
 
@@ -560,17 +411,11 @@ function renderSmsServices(services) {
 
                     <span class="category">
 
-                        USA Number
+                        USA Virtual Number
 
                     </span>
 
                 </div>
-
-                <span class="country">
-
-                    USA
-
-                </span>
 
             </div>
 
@@ -578,27 +423,19 @@ function renderSmsServices(services) {
 
                 <p class="description">
 
-                    SMS Verification Service
+                    Instant SMS verification number.
 
                 </p>
 
-                <div class="price">
+                <h2 class="price">
 
-                    ₦${Number(service.selling_price).toLocaleString()}
+                    ₦${Number(service.price).toLocaleString()}
 
-                </div>
-
-                <div class="stock">
-
-                    ${service.stock} Available
-
-                </div>
+                </h2>
 
                 <button
-
                     class="buy-btn"
-
-                    onclick="buyNumber('${service.service_code}')">
+                    onclick="purchaseNumber('${service.service_code}')">
 
                     Rent Number
 
@@ -613,69 +450,187 @@ function renderSmsServices(services) {
     });
 
 }
+/* ==========================================
+BUY SOCIAL ACCOUNT
+========================================== */
 
-/* ==========================
-SEARCH SERVICES
-========================== */
+async function buySocialAccount(productId){
 
-numberSearch.addEventListener("input", () => {
+    try{
 
-    const keyword = numberSearch.value.toLowerCase();
+        const session =
+        await supabase.auth.getSession();
 
-    const filtered = smsServices.filter(service =>
+        const token =
+        session.data.session?.access_token;
 
-        service.name.toLowerCase().includes(keyword)
+        if(!token){
 
-    );
+            alert("Please login first.");
 
-    renderSmsServices(filtered);
+            return;
 
-});
-/* ==========================
-BUY USA NUMBER
-========================== */
+        }
 
-async function buyNumber(serviceCode) {
+        const button =
+        event.target;
 
-    if (!confirm("Rent this USA virtual number?")) return;
+        button.disabled = true;
 
-    try {
+        button.innerHTML = "Processing...";
 
-        const {
-            data: {
-                session
-            }
-        } = await supabase.auth.getSession();
-
-        const response = await fetch(
-
-            `${SUPABASE_URL}/functions/v1/purchase-number`,
-
+        const response =
+        await fetch(
+            PURCHASE_SOCIAL_ENDPOINT,
             {
+                method:"POST",
 
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type": "application/json",
-
-                    "Authorization": `Bearer ${session.access_token}`
-
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":`Bearer ${token}`
                 },
 
-                body: JSON.stringify({
+                body:JSON.stringify({
+                    product_id:productId
+                })
+            }
+        );
 
-                    service_code: serviceCode
+        const result =
+        await response.json();
+
+        button.disabled = false;
+
+        button.innerHTML = "Buy Now";
+
+        if(!response.ok){
+
+            alert(result.message || "Purchase failed.");
+
+            return;
+
+        }
+
+        document.getElementById("credentialUsername").value =
+        result.username || "";
+
+        document.getElementById("credentialPassword").value =
+        result.password || "";
+
+        document.getElementById("credentialRecoveryEmail").value =
+        result.recovery_email || "";
+
+        document.getElementById("credentialRecoveryPassword").value =
+        result.recovery_password || "";
+
+        document.getElementById("credentialNotes").value =
+        result.notes || "";
+
+        document.getElementById("credentialModal").style.display =
+        "flex";
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Unable to complete purchase.");
+
+    }
+
+}
+
+/* ==========================================
+CLOSE CREDENTIAL MODAL
+========================================== */
+
+document
+.getElementById("closeCredentialModal")
+.addEventListener("click",async()=>{
+
+    document
+    .getElementById("credentialModal")
+    .style.display="none";
+
+    await loadProducts();
+
+});
+
+/* ==========================================
+COPY BUTTONS
+========================================== */
+
+document
+.querySelectorAll(".copy-btn")
+.forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        const input =
+        document.getElementById(
+            button.dataset.copy
+        );
+
+        navigator.clipboard.writeText(
+            input.value
+        );
+
+        button.innerHTML="✓";
+
+        setTimeout(()=>{
+
+            button.innerHTML="📋";
+
+        },1000);
+
+    });
+
+});
+/* ==========================================
+PURCHASE USA NUMBER
+========================================== */
+
+async function purchaseNumber(serviceCode){
+
+    try{
+
+        const session =
+        await supabase.auth.getSession();
+
+        const token =
+        session.data.session?.access_token;
+
+        if(!token){
+
+            alert("Please login first.");
+
+            return;
+
+        }
+
+        const response =
+        await fetch(
+            PURCHASE_NUMBER_ENDPOINT,
+            {
+                method:"POST",
+
+                headers:{
+                    "Authorization":`Bearer ${token}`,
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify({
+
+                    service_code:serviceCode
 
                 })
 
             }
-
         );
 
-        const result = await response.json();
+        const result =
+        await response.json();
 
-        if (!response.ok) {
+        if(!response.ok){
 
             alert(result.message || "Unable to rent number.");
 
@@ -684,28 +639,26 @@ async function buyNumber(serviceCode) {
         }
 
         document.getElementById("smsNumber").value =
-            result.phone_number;
+        result.phone_number;
 
         document.getElementById("smsService").value =
-            result.service_code;
+        result.service_code;
 
         document.getElementById("smsStatus").value =
-            result.provider_status;
+        result.status;
 
-        document.getElementById("smsCode").value =
-            "";
+        document.getElementById("smsCode").value = "";
 
-        document.getElementById("smsMessage").value =
-            "Waiting for OTP...";
+        document.getElementById("smsMessage").value = "";
 
         document.getElementById("smsModal").style.display =
-            "flex";
+        "flex";
 
-        pollOtp(result.activation_id);
+        startSmsPolling(result.activation_id);
 
     }
 
-    catch (error) {
+    catch(error){
 
         console.error(error);
 
@@ -715,129 +668,272 @@ async function buyNumber(serviceCode) {
 
 }
 
-/* ==========================
-POLL OTP
-========================== */
+/* ==========================================
+GET SMS
+========================================== */
 
-let otpPolling;
+async function getSms(activationId){
 
-async function pollOtp(activationId) {
+    const session =
+    await supabase.auth.getSession();
 
-    clearInterval(otpPolling);
+    const token =
+    session.data.session?.access_token;
 
-    otpPolling = setInterval(async () => {
+    const response =
+    await fetch(
+        GET_SMS_ENDPOINT,
+        {
 
-        try {
+            method:"POST",
 
-            const {
-                data: {
-                    session
-                }
-            } = await supabase.auth.getSession();
+            headers:{
 
-            const response = await fetch(
+                "Authorization":`Bearer ${token}`,
 
-                `${SUPABASE_URL}/functions/v1/check-sms-status?activation_id=${activationId}`,
+                "Content-Type":"application/json"
 
-                {
+            },
 
-                    headers: {
+            body:JSON.stringify({
 
-                        "Authorization": `Bearer ${session.access_token}`
+                activation_id:activationId
 
-                    }
-
-                }
-
-            );
-
-            const result = await response.json();
-
-            if (!response.ok) return;
-
-            document.getElementById("smsStatus").value =
-                result.provider_status;
-
-            if (result.otp_code) {
-
-                document.getElementById("smsCode").value =
-                    result.otp_code;
-
-                document.getElementById("smsMessage").value =
-                    result.otp_message;
-
-                clearInterval(otpPolling);
-
-            }
+            })
 
         }
+    );
 
-        catch (error) {
-
-            console.error(error);
-
-        }
-
-    }, 3000);
+    return await response.json();
 
 }
 
-/* ==========================
+/* ==========================================
+START POLLING
+========================================== */
+
+function startSmsPolling(activationId){
+
+    if(pollingInterval){
+
+        clearInterval(pollingInterval);
+
+    }
+
+    pollingInterval = setInterval(async()=>{
+
+        const result =
+        await getSms(activationId);
+
+        if(!result) return;
+
+        if(result.status){
+
+            document.getElementById("smsStatus").value =
+            result.status;
+
+        }
+
+        if(result.code){
+
+            document.getElementById("smsCode").value =
+            result.code;
+
+        }
+
+        if(result.message){
+
+            document.getElementById("smsMessage").value =
+            result.message;
+
+        }
+
+        if(result.code){
+
+            clearInterval(pollingInterval);
+
+        }
+
+    },3000);
+
+}
+
+/* ==========================================
 CLOSE SMS MODAL
-========================== */
+========================================== */
 
 document
-
 .getElementById("closeSmsModal")
+.addEventListener("click",()=>{
 
-.addEventListener("click", () => {
+    document
+    .getElementById("smsModal")
+    .style.display="none";
 
-    clearInterval(otpPolling);
-
-    document.getElementById("smsModal")
-
-    .style.display = "none";
+    clearInterval(pollingInterval);
 
 });
-/* ==========================
-CLOSE MODALS WHEN CLICKING
-OUTSIDE
-========================== */
+/* ==========================================
+SEARCH & FILTERS
+========================================== */
 
-window.addEventListener("click", (event) => {
+function registerEvents(){
+
+    socialSearch.addEventListener("input",filterProducts);
+
+    platformFilter.addEventListener("change",filterProducts);
+
+    countryFilter.addEventListener("change",filterProducts);
+
+    categoryFilter.addEventListener("change",filterProducts);
+
+    priceFilter.addEventListener("change",filterProducts);
+
+    numberSearch.addEventListener("input",()=>{
+
+        const keyword =
+        numberSearch.value.toLowerCase();
+
+        const filtered =
+        allServices.filter(service=>
+
+            service.name
+            .toLowerCase()
+            .includes(keyword)
+
+        );
+
+        renderSmsServices(filtered);
+
+    });
+
+}
+
+/* ==========================================
+FILTER PRODUCTS
+========================================== */
+
+function filterProducts(){
+
+    let filtered = [...allProducts];
+
+    const keyword =
+    socialSearch.value.toLowerCase().trim();
+
+    const platform =
+    platformFilter.value;
+
+    const country =
+    countryFilter.value;
+
+    const category =
+    categoryFilter.value;
+
+    const price =
+    priceFilter.value;
+
+    if(keyword){
+
+        filtered = filtered.filter(product=>
+
+            product.name
+            .toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            product.description
+            .toLowerCase()
+            .includes(keyword)
+
+        );
+
+    }
+
+    if(platform){
+
+        filtered = filtered.filter(product=>
+
+            product.platform === platform
+
+        );
+
+    }
+
+    if(country){
+
+        filtered = filtered.filter(product=>
+
+            product.country === country
+
+        );
+
+    }
+
+    if(category){
+
+        filtered = filtered.filter(product=>
+
+            product.category === category
+
+        );
+
+    }
+
+    if(price==="low"){
+
+        filtered.sort((a,b)=>
+
+            Number(a.price)-Number(b.price)
+
+        );
+
+    }
+
+    if(price==="high"){
+
+        filtered.sort((a,b)=>
+
+            Number(b.price)-Number(a.price)
+
+        );
+
+    }
+
+    renderProducts(filtered);
+
+}
+
+/* ==========================================
+CLICK OUTSIDE MODAL
+========================================== */
+
+window.addEventListener("click",(event)=>{
 
     const credentialModal =
-        document.getElementById("credentialModal");
+    document.getElementById("credentialModal");
 
     const smsModal =
-        document.getElementById("smsModal");
+    document.getElementById("smsModal");
 
-    if (event.target === credentialModal) {
+    if(event.target===credentialModal){
 
-        credentialModal.style.display = "none";
+        credentialModal.style.display="none";
+
+        loadProducts();
 
     }
 
-    if (event.target === smsModal) {
+    if(event.target===smsModal){
 
-        clearInterval(otpPolling);
+        smsModal.style.display="none";
 
-        smsModal.style.display = "none";
+        clearInterval(pollingInterval);
 
     }
 
 });
 
-/* ==========================
-AUTO REFRESH MARKETPLACE
-========================== */
-
-setInterval(() => {
-
-    loadProducts();
-
-}, 60000);
-
-/* ==========================
+/* ==========================================
 END OF marketplace.js
-========================== */
+========================================== */
