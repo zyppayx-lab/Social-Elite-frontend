@@ -2,338 +2,451 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Marketplace | SocialElite</title>
 
-<link rel="stylesheet" href="marketplace.css">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
+<link rel="stylesheet" href="marketplace.css">
 </head>
 
 <body>
 
-<div class="marketplace">
+<!-- ==========================
+HEADER
+========================== -->
 
-<header class="top-header">
+<header class="header">
 
-<a href="dashboard.html" class="back-btn">
+<div class="container">
 
-<i class="fa-solid fa-arrow-left"></i>
+<a href="index.html" class="logo">
+
+<img src="assets/logo.png" alt="SocialElite">
+
+<span>SocialElite</span>
 
 </a>
 
-<div class="header-logo">
+<nav class="desktop-nav">
+
+<a href="index.html">Home</a>
+
+<a href="#" class="active">Marketplace</a>
+
+<a href="blog.html">Blog</a>
+
+<a href="about.html">About</a>
+
+<a href="support.html">Support</a>
+
+</nav>
+
+<div class="header-actions">
+
+<a href="wallet.html" class="wallet-btn">
+
+<i class="fas fa-wallet"></i>
+
+<span id="walletBalance">₦0.00</span>
+
+</a>
+
+<a href="profile.html" class="profile-btn">
 
 <img
-src="assets/logo.png"
-class="logo"
-alt="SocialElite">
+id="userAvatar"
+src="assets/default-avatar.png"
+alt="Profile">
 
-<div>
+</a>
+
+<button class="mobile-toggle">
+
+☰
+
+</button>
+
+</div>
+
+</div>
+
+</header>
+
+<!-- ==========================
+HERO
+========================== -->
+
+<section class="marketplace-hero">
+
+<div class="container">
+
+<div class="hero-content">
+
+<span class="hero-badge">
+
+Trusted Marketplace
+
+</span>
+
+<h1>
+
+Buy Premium Social Media Accounts & USA Virtual Numbers
+
+</h1>
+
+<p>
+
+Purchase verified social media accounts with instant delivery or rent USA virtual numbers for SMS verification—all from one secure marketplace.
+
+</p>
+
+<div class="hero-buttons">
+
+<a href="#social-section" class="primary-btn">
+
+Browse Accounts
+
+</a>
+
+<a href="#numbers-section" class="secondary-btn">
+
+USA Numbers
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ==========================
+SOCIAL MEDIA SECTION
+Starts in Part 2
+========================== -->
+<!-- ==========================
+SOCIAL MEDIA ACCOUNTS
+========================== -->
+
+<section id="social-section" class="market-section">
+
+<div class="container">
+
+<div class="section-header">
+
+<span class="section-badge">
+
+Social Media Accounts
+
+</span>
 
 <h2>
 
-Marketplace
+Premium Social Accounts
 
 </h2>
 
 <p>
 
-Accounts & Virtual Numbers
+Buy verified social media accounts with instant delivery after successful payment.
 
 </p>
 
 </div>
 
-</div>
+<!-- Filters -->
 
-<button class="notification-btn">
-
-<i class="fa-solid fa-bell"></i>
-
-<span class="notification-dot"></span>
-
-</button>
-
-</header>
-
-<section class="search-section">
+<div class="market-filters">
 
 <div class="search-box">
 
-<i class="fa-solid fa-magnifying-glass"></i>
-
 <input
 type="text"
-id="searchInput"
-placeholder="Search accounts or virtual numbers...">
+id="socialSearch"
+placeholder="Search account...">
 
 </div>
 
-</section>
-
-<section class="filter-section">
-
 <select id="platformFilter">
 
-<option value="">
+<option value="">All Platforms</option>
 
-All Platforms
+<option value="Instagram">Instagram</option>
 
-</option>
+<option value="Facebook">Facebook</option>
 
-<option value="Instagram">
+<option value="TikTok">TikTok</option>
 
-Instagram
+<option value="Discord">Discord</option>
 
-</option>
+<option value="Gmail">Gmail</option>
 
-<option value="Facebook">
+<option value="Reddit">Reddit</option>
 
-Facebook
+<option value="Telegram">Telegram</option>
 
-</option>
+<option value="Threads">Threads</option>
 
-<option value="TikTok">
-
-TikTok
-
-</option>
-
-<option value="Gmail">
-
-Gmail
-
-</option>
-
-<option value="Discord">
-
-Discord
-
-</option>
-
-<option value="Reddit">
-
-Reddit
-
-</option>
-
-<option value="Telegram">
-
-Telegram
-
-</option>
-
-<option value="Virtual Number">
-
-Virtual Number
-
-</option>
+<option value="Twitter/X">Twitter/X</option>
 
 </select>
 
 <select id="countryFilter">
 
-<option value="">
+<option value="">All Countries</option>
 
-All Countries
+<!-- Loaded dynamically -->
 
-</option>
+</select>
 
-<option value="USA">
+<select id="categoryFilter">
 
-USA
+<option value="">All Categories</option>
 
-</option>
+<!-- Loaded dynamically -->
 
-<option value="UK">
+</select>
 
-United Kingdom
+<select id="priceFilter">
 
-</option>
+<option value="">Price</option>
 
-<option value="Canada">
+<option value="low-high">
 
-Canada
-
-</option>
-
-<option value="Nigeria">
-
-Nigeria
+Lowest Price
 
 </option>
 
-<option value="India">
+<option value="high-low">
 
-India
+Highest Price
 
 </option>
 
 </select>
 
-</section>
+</div>
 
-<section class="featured-title">
+<!-- Products -->
 
-<h3>
+<div
+class="products-grid"
+id="socialProducts">
 
-Marketplace
-
-</h3>
-
-<p>
-
-Purchase social accounts or virtual numbers instantly.
-
-</p>
-
-</section>
-
-<section
-id="accountsContainer"
-class="accounts-grid">
-
-<!-- Loaded dynamically from marketplace.js -->
-
-</section>
-
-<section class="market-actions">
-
-<button
-id="loadMoreBtn"
-class="load-more-btn">
-
-<i class="fa-solid fa-plus"></i>
-
-Load More
-
-</button>
-
-</section>
-
-<section
-id="emptyState"
-class="empty-state"
-style="display:none;">
-
-<i class="fa-solid fa-box-open"></i>
-
-<h3>
-
-No Products Found
-
-</h3>
-
-<p>
-
-Try changing your search or filter to view more products.
-
-</p>
-
-</section>
+<!-- Loaded from marketplace_products -->
 
 </div>
 
-<!-- LOADING -->
+<!-- Loading -->
 
 <div
-id="loadingOverlay"
-class="loading-overlay">
+id="socialLoading"
+class="loading-box">
 
 <div class="loader"></div>
 
 <p>
 
-Loading marketplace...
+Loading products...
 
 </p>
 
 </div>
 
-<!-- TOAST -->
+<!-- Empty -->
 
 <div
-id="toast"
-class="toast">
+id="socialEmpty"
+class="empty-state">
+
+<img
+src="assets/empty-box.svg"
+alt="No Products">
+
+<h3>
+
+No Products Available
+
+</h3>
+
+<p>
+
+There are currently no accounts matching your filters.
+
+</p>
 
 </div>
 
-<!-- BOTTOM NAVIGATION -->
+</div>
 
-<nav class="bottom-nav">
+</section>
 
-<a
-href="dashboard.html"
-class="nav-item">
+<!-- ==========================
+USA VIRTUAL NUMBERS
+Starts in Part 3
+========================== -->
+<!-- ==========================
+USA VIRTUAL NUMBERS
+========================== -->
 
-<i class="fa-solid fa-house"></i>
+<section id="numbers-section" class="market-section">
 
-<span>
+<div class="container">
 
-Home
+<div class="section-header">
 
-</span>
+<span class="section-badge">
 
-</a>
-
-<a
-href="marketplace.html"
-class="nav-item active">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-<span>
-
-Marketplace
+USA Virtual Numbers
 
 </span>
 
-</a>
+<h2>
 
-<a
-href="referral.html"
-class="nav-item">
+SMS Verification Numbers
 
-<i class="fa-solid fa-users"></i>
+</h2>
 
-<span>
+<p>
 
-Referral
+Rent USA virtual numbers instantly for OTP verification on your favorite platforms.
 
-</span>
+</p>
 
-</a>
+</div>
 
-<a
-href="profile.html"
-class="nav-item">
+<!-- Search -->
 
-<i class="fa-solid fa-user"></i>
+<div class="market-filters">
 
-<span>
+<div class="search-box">
 
-Profile
+<input
+type="text"
+id="numberSearch"
+placeholder="Search service...">
 
-</span>
+</div>
 
-</a>
+</div>
 
-</nav>
+<!-- Services -->
 
-<script type="module" src="marketplace.js"></script>
+<div
+class="numbers-grid"
+id="numberServices">
+
+<!-- Loaded from get-sms-service -->
+
+</div>
+
+<!-- Loading -->
+
+<div
+id="numbersLoading"
+class="loading-box">
+
+<div class="loader"></div>
+
+<p>
+
+Loading services...
+
+</p>
+
+</div>
+
+<!-- Empty -->
+
+<div
+id="numbersEmpty"
+class="empty-state">
+
+<img
+src="assets/empty-box.svg"
+alt="No Services">
+
+<h3>
+
+No Services Available
+
+</h3>
+
+<p>
+
+Please check back later.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ==========================
+FOOTER
+========================== -->
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="footer-content">
+
+<div class="footer-brand">
+
+<img src="assets/logo.png" alt="SocialElite Logo">
+
+<h3>SocialElite</h3>
+
+<p>
+
+Premium marketplace for verified social media accounts and USA virtual numbers.
+
+</p>
+
+</div>
+
+<div class="footer-links">
+
+<a href="about.html">About</a>
+
+<a href="support.html">Support</a>
+
+<a href="privacy.html">Privacy Policy</a>
+
+<a href="terms.html">Terms of Service</a>
+
+<a href="contact.html">Contact</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<p>
+
+&copy; 2026 SocialElite. All rights reserved.
+
+</p>
+
+</div>
+
+</div>
+
+</footer>
+
+<script src="marketplace.js"></script>
 
 </body>
-
   </html>
