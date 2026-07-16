@@ -484,7 +484,7 @@ async function loadSmsServices() {
 
         const response = await fetch(
 
-            `${SUPABASE_URL}/functions/v1/get-sms-service`,
+            `${SUPABASE_URL}/functions/v1/get-smsgig-services`,
 
             {
 
