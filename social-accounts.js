@@ -1,937 +1,850 @@
-/==================================================
+/*==================================================
 SOCIALELITE
 social-accounts.js
 PART 1
-==================================================/
+==================================================*/
 
-/========================
-SUPABASE
-=========================/
+/*========================
+SUPABASE CONFIG
+=========================*/
 
-const SUPABASE_URL =
-"https://dohxtukzxopwkvxeppdl.supabase.co";
+const SUPABASE_URL = "https://dohxtukzxopwkvxeppdl.supabase.co";
 
-const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvaHh0dWt6eG9wd2t2eGVwcGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxOTA5NzksImV4cCI6MjA5ODc2Njk3OX0.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvaHh0dWt6eG9wd2t2eGVwcGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxOTA5NzksImV4cCI6MjA5ODc2Njk3OX0.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
 
 const supabase = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
 );
-
-/========================
-EDGE FUNCTION
-=========================/
 
 const PURCHASE_ENDPOINT =
 "https://dohxtukzxopwkvxeppdl.supabase.co/functions/v1/purchase-social-account";
 
-/========================
-DOM
-=========================/
-
-const loader =
-document.getElementById("pageLoader");
-
-const productsGrid =
-document.getElementById("productsGrid");
-
-const loadingCards =
-document.getElementById("loadingCards");
-
-const emptyState =
-document.getElementById("emptyState");
-
-const resultCount =
-document.getElementById("resultCount");
-
-const searchInput =
-document.getElementById("searchInput");
-
-const platformFilter =
-document.getElementById("platformFilter");
-
-const countryFilter =
-document.getElementById("countryFilter");
-
-const refreshBtn =
-document.getElementById("refreshBtn");
-
-const purchaseModal =
-document.getElementById("purchaseModal");
-
-const successModal =
-document.getElementById("successModal");
-
-const confirmPurchaseBtn =
-document.getElementById("confirmPurchaseBtn");
-
-const closePurchaseModal =
-document.getElementById("closePurchaseModal");
-
-const closeSuccessModal =
-document.getElementById("closeSuccessModal");
-
-const toast =
-document.getElementById("toast");
-
-const toastMessage =
-document.getElementById("toastMessage");
-
-/========================
-GLOBAL STATE
-=========================/
+/*========================
+GLOBAL VARIABLES
+=========================*/
 
 let session = null;
-
 let jwt = null;
-
 let currentUser = null;
 
-let allProducts = [];
-
+let products = [];
 let filteredProducts = [];
-
 let selectedProduct = null;
 
-/========================
-INIT
-=========================/
+/*========================
+DOM ELEMENTS
+=========================*/
 
-document.addEventListener(
-"DOMContentLoaded",
-initializePage
-);
+const loader = document.getElementById("pageLoader");
 
-/========================
+const productsGrid = document.getElementById("productsGrid");
+
+const loadingCards = document.getElementById("loadingCards");
+
+const emptyState = document.getElementById("emptyState");
+
+const resultCount = document.getElementById("resultCount");
+
+const searchInput = document.getElementById("searchInput");
+
+const platformFilter = document.getElementById("platformFilter");
+
+const countryFilter = document.getElementById("countryFilter");
+
+const refreshBtn = document.getElementById("refreshBtn");
+
+const purchaseModal = document.getElementById("purchaseModal");
+
+const successModal = document.getElementById("successModal");
+
+const confirmPurchaseBtn = document.getElementById("confirmPurchaseBtn");
+
+const closePurchaseModal = document.getElementById("closePurchaseModal");
+
+const closeSuccessModal = document.getElementById("closeSuccessModal");
+
+const toast = document.getElementById("toast");
+
+const toastMessage = document.getElementById("toastMessage");
+
+/*========================
 INITIALIZE
-=========================/
+=========================*/
 
-async function initializePage(){
+document.addEventListener("DOMContentLoaded", async () => {
 
-showLoader();
+    try {
 
-const authenticated =
-await checkAuthentication();
+        showLoader();
 
-if(!authenticated){
+        await verifySession();
 
-return;
+        await loadMarketplace();
 
-}
+        await loadCountries();
 
-await Promise.all([
-loadProducts(),
-loadCountries()
-]);
+        hideLoader();
 
-hideLoader();
+    } catch (error) {
 
-}
+        console.error(error);
 
-/========================
-AUTH
-=========================/
+        hideLoader();
 
-async function checkAuthentication(){
+        showToast(error.message || "Unable to load marketplace.");
 
-const {
-data,
-error
-} =
-await supabase.auth.getSession();
+    }
 
-if(error){
+});
 
-redirectToLogin();
+/*========================
+VERIFY USER SESSION
+=========================*/
 
-return false;
+async function verifySession() {
 
-}
+    const { data, error } =
+    await supabase.auth.getSession();
 
-session = data.session;
+    if (error) {
 
-if(!session){
+        window.location.href = "login.html";
 
-redirectToLogin();
+        throw new Error(error.message);
 
-return false;
+    }
 
-}
+    if (!data.session) {
 
-jwt =
-session.access_token;
+        window.location.href = "login.html";
 
-currentUser =
-session.user;
+        throw new Error("Login required.");
 
-const verify =
-await supabase.auth.getUser();
+    }
 
-if(
-verify.error ||
-!verify.data.user
-){
+    session = data.session;
 
-redirectToLogin();
+    jwt = session.access_token;
 
-return false;
+    currentUser = session.user;
 
 }
 
-return true;
+/*========================
+LOAD MARKETPLACE
+=========================*/
+
+async function loadMarketplace() {
+
+    showLoadingCards();
+
+    const { data, error } = await supabase
+
+    .from("available_products")
+
+    .select("*")
+
+    .order("name", { ascending: true });
+
+    hideLoadingCards();
+
+    if (error) {
+
+        throw new Error(error.message);
+
+    }
+
+    products = data || [];
+
+    filteredProducts = [...products];
+
+    renderProducts();
 
 }
 
-/========================
-REDIRECT
-=========================/
-
-function redirectToLogin(){
-
-window.location.href =
-"login.html";
-
-}
-
-/========================
-LOAD PRODUCTS
-=========================/
-
-async function loadProducts(){
-
-showLoadingCards();
-
-const {
-data,
-error
-} =
-await supabase
-
-.from("available_products")
-
-.select("*")
-
-.order(
-"name",
-{
-ascending:true
-}
-);
-
-hideLoadingCards();
-
-if(error){
-
-console.error(error);
-
-showToast(
-"Unable to load marketplace."
-);
-
-return;
-
-}
-
-allProducts =
-data || [];
-
-filteredProducts =
-[...allProducts];
-
-renderProducts();
-
-}
-
-/========================
+/*========================
 LOAD COUNTRIES
-=========================/
+=========================*/
 
-async function loadCountries(){
+async function loadCountries() {
 
-const {
-data,
-error
-} =
-await supabase
+    const { data, error } = await supabase
 
-.from("available_countries")
+    .from("available_countries")
 
-.select("*")
+    .select("*")
 
-.order(
-"country"
-);
+    .order("country");
 
-if(error){
+    if (error) return;
 
-console.error(error);
+    countryFilter.innerHTML =
+    `<option value="all">All Countries</option>`;
 
-return;
+    data.forEach(country => {
 
-}
+        countryFilter.innerHTML +=
+        `<option value="${country.country}">
+            ${country.country}
+        </option>`;
 
-countryFilter.innerHTML =
-
-`<option value="all">
-All Countries
-
-</option>`;  data.forEach(item=>{
-
-countryFilter.innerHTML +=
-
-`<option value="${item.country}">
-${item.country}
-
-</option>`;  });
+    });
 
 }
 
-/========================
+/*========================
 LOADER
-=========================/
+=========================*/
 
-function showLoader(){
+function showLoader() {
 
-loader.style.display="flex";
-
-}
-
-function hideLoader(){
-
-loader.style.display="none";
+    if(loader)
+    loader.style.display = "flex";
 
 }
 
-/========================
+function hideLoader() {
+
+    if(loader)
+    loader.style.display = "none";
+
+}
+
+/*========================
 LOADING GRID
-=========================/
+=========================*/
 
-function showLoadingCards(){
+function showLoadingCards() {
 
-loadingCards.classList.remove(
-"hidden"
-);
+    if(loadingCards)
+        loadingCards.classList.remove("hidden");
 
-productsGrid.classList.add(
-"hidden"
-);
+    if(productsGrid)
+        productsGrid.classList.add("hidden");
 
 }
 
-function hideLoadingCards(){
+function hideLoadingCards() {
 
-loadingCards.classList.add(
-"hidden"
-);
+    if(loadingCards)
+        loadingCards.classList.add("hidden");
 
-productsGrid.classList.remove(
-"hidden"
-);
+    if(productsGrid)
+        productsGrid.classList.remove("hidden");
 
 }
 
-/========================
+/*========================
 TOAST
-=========================/
+=========================*/
 
 function showToast(message){
 
-toastMessage.textContent =
-message;
+    if(!toast || !toastMessage) return;
 
-toast.classList.add("show");
+    toastMessage.textContent = message;
 
-setTimeout(()=>{
+    toast.classList.add("show");
 
-toast.classList.remove("show");
+    setTimeout(() => {
 
-},3000);
+        toast.classList.remove("show");
+
+    },3000);
 
 }
-/==================================================
+/*==================================================
 SOCIALELITE
 social-accounts.js
 PART 2
-==================================================/
+==================================================*/
 
-/========================
+/*========================
 RENDER PRODUCTS
-=========================/
+=========================*/
 
-function renderProducts(){
+function renderProducts() {
 
-productsGrid.innerHTML="";
+    if (!productsGrid) return;
 
-if(filteredProducts.length===0){
+    productsGrid.innerHTML = "";
 
-productsGrid.classList.add("hidden");
-emptyState.classList.remove("hidden");
+    if (filteredProducts.length === 0) {
 
-resultCount.textContent="0 Products Found";
+        productsGrid.classList.add("hidden");
 
-return;
+        if (emptyState)
+            emptyState.classList.remove("hidden");
 
-}
+        if (resultCount)
+            resultCount.textContent = "0 Products Found";
 
-productsGrid.classList.remove("hidden");
-emptyState.classList.add("hidden");
+        return;
+    }
 
-resultCount.textContent=
-${filteredProducts.length} Product${filteredProducts.length===1?"":"s"} Found;
+    productsGrid.classList.remove("hidden");
 
-filteredProducts.forEach(product=>{
+    if (emptyState)
+        emptyState.classList.add("hidden");
 
-const stock=
-Number(product.stock)||0;
+    if (resultCount)
+        resultCount.textContent =
+            `${filteredProducts.length} Product${filteredProducts.length === 1 ? "" : "s"} Found`;
 
-const available=
-stock>0;
+    filteredProducts.forEach(product => {
 
-const card=document.createElement("div");
+        const stock = Number(product.stock || 0);
 
-card.className="product-card fade-in";
+        const available = stock > 0;
 
-card.innerHTML=`
+        const card = document.createElement("div");
 
-<div class="product-top">  <div class="platform-badge">  <i class="fa-solid fa-globe"></i>
+        card.className = "product-card fade-in";
 
-${product.platform||"Unknown"}
+        card.innerHTML = `
 
-</div>  <div class="stock-badge ${available?"":"out"}">  ${available?${stock} In Stock:"Out Of Stock"}
+<div class="product-top">
 
-</div>  </div>  <h2 class="product-name">  ${product.name}
+<div class="platform-badge">
 
-</h2>  <p class="product-description">  ${product.description||"No description available."}
+<i class="fa-solid fa-globe"></i>
 
-</p>  <div class="product-details">  <div class="detail-box">  <span>Country</span>
+${product.platform || "Unknown"}
 
-<strong>  ${product.country||"Global"}
+</div>
 
-</strong>  </div>  <div class="detail-box">  <span>Category</span>
+<div class="stock-badge ${available ? "" : "out"}">
 
-<strong>  ${product.category||"-"}
+${available ? `${stock} In Stock` : "Out Of Stock"}
 
-</strong>  </div>  </div>  <div class="price-row">  <div>  <div class="price-label">  Price
+</div>
 
-</div>  </div>  <div class="product-price">  ₦${Number(product.price).toLocaleString()}
+</div>
 
-</div>  </div>  <button
+<h2 class="product-name">
+
+${product.name}
+
+</h2>
+
+<p class="product-description">
+
+${product.description || "No description available."}
+
+</p>
+
+<div class="product-details">
+
+<div class="detail-box">
+
+<span>Country</span>
+
+<strong>${product.country || "Global"}</strong>
+
+</div>
+
+<div class="detail-box">
+
+<span>Category</span>
+
+<strong>${product.category || "-"}</strong>
+
+</div>
+
+</div>
+
+<div class="price-row">
+
+<div class="price-label">
+
+Price
+
+</div>
+
+<div class="product-price">
+
+₦${Number(product.price).toLocaleString()}
+
+</div>
+
+</div>
+
+<button
 class="buy-btn"
-${available?"":"disabled"}
-data-id="${product.id}">
+data-id="${product.id}"
+${available ? "" : "disabled"}>
 
-${available?"Purchase":"Out Of Stock"}
+${available ? "Purchase" : "Out Of Stock"}
 
-</button>  `;
+</button>
 
-productsGrid.appendChild(card);
+`;
 
-});
+        productsGrid.appendChild(card);
 
-attachBuyEvents();
+    });
 
-}
-
-/========================
-BUY EVENTS
-=========================/
-
-function attachBuyEvents(){
-
-document
-.querySelectorAll(".buy-btn")
-.forEach(button=>{
-
-button.onclick=()=>{
-
-const id=
-button.dataset.id;
-
-selectedProduct=
-allProducts.find(
-p=>p.id===id
-);
-
-if(!selectedProduct){
-
-showToast(
-"Product not found."
-);
-
-return;
+    attachBuyButtons();
 
 }
 
-openPurchaseModal(
-selectedProduct
-);
+/*========================
+BUY BUTTONS
+=========================*/
 
-};
+function attachBuyButtons() {
 
-});
+    const buttons =
+        document.querySelectorAll(".buy-btn");
 
-}
+    buttons.forEach(button => {
 
-/========================
-PURCHASE MODAL
-=========================/
+        button.addEventListener("click", () => {
 
-function openPurchaseModal(product){
+            const id = button.dataset.id;
 
-document.getElementById(
-"modalName"
-).textContent=
-product.name;
+            selectedProduct =
+                products.find(item => item.id === id);
 
-document.getElementById(
-"modalPlatform"
-).textContent=
-product.platform;
+            if (!selectedProduct) {
 
-document.getElementById(
-"modalCountry"
-).textContent=
-product.country;
+                showToast("Product not found.");
 
-document.getElementById(
-"modalPrice"
-).textContent=
-₦${Number(product.price).toLocaleString()};
+                return;
 
-purchaseModal.classList.remove(
-"hidden"
-);
+            }
+
+            openPurchaseModal(selectedProduct);
+
+        });
+
+    });
 
 }
 
-closePurchaseModal.onclick=()=>{
+/*========================
+OPEN PURCHASE MODAL
+=========================*/
 
-purchaseModal.classList.add(
-"hidden"
-);
+function openPurchaseModal(product) {
 
-selectedProduct=null;
+    document.getElementById("modalName").textContent =
+        product.name;
 
-};
+    document.getElementById("modalPlatform").textContent =
+        product.platform || "-";
 
-/========================
+    document.getElementById("modalCountry").textContent =
+        product.country || "Global";
+
+    document.getElementById("modalPrice").textContent =
+        `₦${Number(product.price).toLocaleString()}`;
+
+    purchaseModal.classList.remove("hidden");
+
+}
+
+/*========================
+CLOSE PURCHASE MODAL
+=========================*/
+
+if (closePurchaseModal) {
+
+    closePurchaseModal.addEventListener("click", () => {
+
+        purchaseModal.classList.add("hidden");
+
+        selectedProduct = null;
+
+    });
+
+}
+
+/*========================
 SEARCH
-=========================/
+=========================*/
 
-searchInput.addEventListener(
-"input",
-filterProducts
-);
+if (searchInput) {
 
-/========================
-FILTERS
-=========================/
-
-platformFilter.addEventListener(
-"change",
-filterProducts
-);
-
-countryFilter.addEventListener(
-"change",
-filterProducts
-);
-
-/========================
-FILTER LOGIC
-=========================/
-
-function filterProducts(){
-
-const keyword=
-searchInput.value
-.toLowerCase()
-.trim();
-
-const platform=
-platformFilter.value;
-
-const country=
-countryFilter.value;
-
-filteredProducts=
-allProducts.filter(product=>{
-
-const matchesSearch=
-
-(product.name||"")
-.toLowerCase()
-.includes(keyword)
-
-||
-
-(product.description||"")
-.toLowerCase()
-.includes(keyword)
-
-||
-
-(product.platform||"")
-.toLowerCase()
-.includes(keyword);
-
-const matchesPlatform=
-
-platform==="all"
-
-||
-
-product.platform===platform;
-
-const matchesCountry=
-
-country==="all"
-
-||
-
-product.country===country;
-
-return(
-
-matchesSearch&&
-matchesPlatform&&
-matchesCountry
-
-);
-
-});
-
-renderProducts();
+    searchInput.addEventListener("input", filterProducts);
 
 }
 
-/========================
-REFRESH
-=========================/
+/*========================
+PLATFORM FILTER
+=========================*/
 
-refreshBtn.onclick=
-async()=>{
+if (platformFilter) {
 
-showLoader();
+    platformFilter.addEventListener("change", filterProducts);
 
-await loadProducts();
+}
 
-await loadCountries();
+/*========================
+COUNTRY FILTER
+=========================*/
 
-hideLoader();
+if (countryFilter) {
 
-showToast(
-"Marketplace Updated"
-);
+    countryFilter.addEventListener("change", filterProducts);
 
-};
-/==================================================
+}
+
+/*========================
+FILTER PRODUCTS
+=========================*/
+
+function filterProducts() {
+
+    const keyword =
+        searchInput.value.toLowerCase().trim();
+
+    const platform =
+        platformFilter.value;
+
+    const country =
+        countryFilter.value;
+
+    filteredProducts = products.filter(product => {
+
+        const matchSearch =
+
+            (product.name || "")
+            .toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            (product.description || "")
+            .toLowerCase()
+            .includes(keyword)
+
+            ||
+
+            (product.platform || "")
+            .toLowerCase()
+            .includes(keyword);
+
+        const matchPlatform =
+
+            platform === "all" ||
+
+            product.platform === platform;
+
+        const matchCountry =
+
+            country === "all" ||
+
+            product.country === country;
+
+        return (
+            matchSearch &&
+            matchPlatform &&
+            matchCountry
+        );
+
+    });
+
+    renderProducts();
+
+}
+
+/*========================
+REFRESH BUTTON
+=========================*/
+
+if (refreshBtn) {
+
+    refreshBtn.addEventListener("click", async () => {
+
+        try {
+
+            showLoader();
+
+            await loadMarketplace();
+
+            await loadCountries();
+
+            hideLoader();
+
+            showToast("Marketplace updated.");
+
+        } catch (error) {
+
+            hideLoader();
+
+            console.error(error);
+
+            showToast(error.message);
+
+        }
+
+    });
+
+}
+/*==================================================
 SOCIALELITE
 social-accounts.js
 PART 3 (FINAL)
-==================================================/
+==================================================*/
 
-/========================
+/*========================
 PURCHASE ACCOUNT
-=========================/
+=========================*/
 
-confirmPurchaseBtn.addEventListener(
-"click",
-purchaseAccount
-);
+if (confirmPurchaseBtn) {
 
-async function purchaseAccount(){
-
-if(!selectedProduct){
-
-showToast("No product selected.");
-
-return;
+    confirmPurchaseBtn.addEventListener("click", purchaseAccount);
 
 }
 
-confirmPurchaseBtn.disabled=true;
+async function purchaseAccount() {
 
-confirmPurchaseBtn.innerHTML=
-<i class="fa-solid fa-spinner fa-spin"></i> Processing...;
+    if (!selectedProduct) {
 
-try{
+        showToast("Please select a product.");
 
-const response=
-await fetch(
-PURCHASE_ENDPOINT,
-{
-method:"POST",
+        return;
 
-headers:{
+    }
 
-"Content-Type":"application/json",
+    try {
 
-"Authorization":
-Bearer ${jwt}
+        confirmPurchaseBtn.disabled = true;
 
-},
+        confirmPurchaseBtn.innerHTML =
+            `<i class="fa-solid fa-spinner fa-spin"></i> Processing...`;
 
-body:JSON.stringify({
+        const response = await fetch(PURCHASE_ENDPOINT, {
 
-product_id:selectedProduct.id
+            method: "POST",
 
-})
+            headers: {
 
-}
-);
+                "Content-Type": "application/json",
 
-const result=
-await response.json();
+                "Authorization": `Bearer ${jwt}`
 
-if(!response.ok){
+            },
 
-throw new Error(
+            body: JSON.stringify({
 
-result.message||
+                product_id: selectedProduct.id
 
-"Purchase failed."
+            })
 
-);
+        });
 
-}
+        const result = await response.json();
 
-purchaseModal.classList.add(
-"hidden"
-);
+        if (!response.ok || !result.success) {
 
-showCredentials(
-result.data.credentials
-);
+            throw new Error(
 
-showToast(
-"Purchase Successful"
-);
+                result.message ||
 
-await loadProducts();
+                "Purchase failed."
 
-}catch(error){
+            );
 
-console.error(error);
+        }
 
-showToast(
+        purchaseModal.classList.add("hidden");
 
-error.message||
+        showCredentials(result.data.credentials);
 
-"Purchase failed."
+        showToast("Purchase successful.");
 
-);
+        await loadMarketplace();
 
-}finally{
+    } catch (error) {
 
-confirmPurchaseBtn.disabled=false;
+        console.error(error);
 
-confirmPurchaseBtn.innerHTML=
-"Purchase Now";
+        showToast(error.message);
+
+    } finally {
+
+        confirmPurchaseBtn.disabled = false;
+
+        confirmPurchaseBtn.innerHTML = "Purchase Now";
+
+    }
 
 }
 
-}
-
-/========================
+/*========================
 SHOW CREDENTIALS
-=========================/
+=========================*/
 
-function showCredentials(credentials){
+function showCredentials(credentials) {
 
-document.getElementById(
-"credUsername"
-).value=
-credentials.username||"";
+    document.getElementById("credUsername").value =
+        credentials.username || "";
 
-document.getElementById(
-"credPassword"
-).value=
-credentials.password||"";
+    document.getElementById("credPassword").value =
+        credentials.password || "";
 
-document.getElementById(
-"credRecoveryEmail"
-).value=
-credentials.recovery_email||"";
+    document.getElementById("credRecoveryEmail").value =
+        credentials.recovery_email || "";
 
-document.getElementById(
-"credRecoveryPassword"
-).value=
-credentials.recovery_password||"";
+    document.getElementById("credRecoveryPassword").value =
+        credentials.recovery_password || "";
 
-document.getElementById(
-"credNotes"
-).value=
-credentials.notes||"";
+    document.getElementById("credNotes").value =
+        credentials.notes || "";
 
-successModal.classList.remove(
-"hidden"
-);
+    successModal.classList.remove("hidden");
 
 }
 
-/========================
-CLOSE SUCCESS
-=========================/
+/*========================
+CLOSE SUCCESS MODAL
+=========================*/
 
-closeSuccessModal.onclick=()=>{
+if (closeSuccessModal) {
 
-successModal.classList.add(
-"hidden"
-);
+    closeSuccessModal.addEventListener("click", () => {
 
-};
+        successModal.classList.add("hidden");
 
-/========================
+    });
+
+}
+
+/*========================
 COPY BUTTONS
-=========================/
+=========================*/
 
-document
-.querySelectorAll(".copyBtn")
-.forEach(button=>{
+document.querySelectorAll(".copyBtn").forEach(button => {
 
-button.addEventListener(
-"click",
-()=>{
+    button.addEventListener("click", async () => {
 
-const id=
-button.dataset.copy;
+        try {
 
-const input=
-document.getElementById(id);
+            const input = document.getElementById(
 
-if(!input)return;
+                button.dataset.copy
 
-navigator.clipboard.writeText(
-input.value
-);
+            );
 
-showToast(
-"Copied"
-);
+            await navigator.clipboard.writeText(
 
-});
+                input.value
 
-});
+            );
 
-/========================
-SESSION WATCHER
-=========================/
+            showToast("Copied successfully.");
 
-supabase.auth.onAuthStateChange(
-(event)=>{
+        } catch {
 
-if(
-event==="SIGNED_OUT"
-){
+            showToast("Copy failed.");
 
-redirectToLogin();
+        }
 
-}
-
-if(
-event==="TOKEN_REFRESHED"
-){
-
-supabase.auth
-.getSession()
-.then(({data})=>{
-
-jwt=
-data.session?.access_token||jwt;
+    });
 
 });
 
-}
-
-}
-);
-
-/========================
+/*========================
 CLICK OUTSIDE MODAL
-=========================/
+=========================*/
 
-window.addEventListener(
-"click",
-(event)=>{
+window.addEventListener("click", (event) => {
 
-if(
-event.target===purchaseModal
-){
+    if (event.target === purchaseModal) {
 
-purchaseModal.classList.add(
-"hidden"
-);
+        purchaseModal.classList.add("hidden");
 
-}
+    }
 
-if(
-event.target===successModal
-){
+    if (event.target === successModal) {
 
-successModal.classList.add(
-"hidden"
-);
+        successModal.classList.add("hidden");
 
-}
+    }
 
 });
 
-/========================
-ESC KEY
-=========================/
+/*========================
+ESC CLOSE
+=========================*/
 
-document.addEventListener(
-"keydown",
-(event)=>{
+document.addEventListener("keydown", (event) => {
 
-if(event.key==="Escape"){
+    if (event.key !== "Escape") return;
 
-purchaseModal.classList.add(
-"hidden"
-);
+    purchaseModal.classList.add("hidden");
 
-successModal.classList.add(
-"hidden"
-);
-
-}
+    successModal.classList.add("hidden");
 
 });
 
-/========================
+/*========================
+SESSION MONITOR
+=========================*/
+
+supabase.auth.onAuthStateChange(async (event) => {
+
+    if (event === "SIGNED_OUT") {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    if (event === "TOKEN_REFRESHED") {
+
+        const {
+
+            data
+
+        } = await supabase.auth.getSession();
+
+        jwt = data.session?.access_token;
+
+    }
+
+});
+
+/*========================
 NETWORK STATUS
-=========================/
+=========================*/
 
-window.addEventListener(
-"offline",
-()=>{
+window.addEventListener("offline", () => {
 
-showToast(
-"No internet connection."
-);
+    showToast("No internet connection.");
 
 });
 
-window.addEventListener(
-"online",
-()=>{
+window.addEventListener("online", () => {
 
-showToast(
-"Connection restored."
-);
+    showToast("Connection restored.");
 
 });
 
-/========================
-INITIAL PRODUCT REFRESH
-=========================/
+/*========================
+AUTO REFRESH
+=========================*/
 
-setInterval(async()=>{
+setInterval(async () => {
 
-if(document.hidden)return;
+    if (document.hidden) return;
 
-await loadProducts();
+    try {
 
-},60000);
+        await loadMarketplace();
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}, 60000);
+
+/*========================
+END OF FILE
+=========================*/
