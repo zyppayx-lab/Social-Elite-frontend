@@ -3,341 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SocialElite | Social Accounts Marketplace</title>
+<title>SocialElite | Social Accounts</title>
 
 <link rel="stylesheet" href="social-accounts.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
 <body>
 
-<!-- ========= LOADER ========= -->
-
-<div id="pageLoader" class="page-loader">
-
-<div class="loader-box">
-
-<div class="loader"></div>
-
-<h2>SocialElite</h2>
-
-<p>Loading Marketplace...</p>
-
+<div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loader"></div>
+    <p>Please wait...</p>
 </div>
-
-</div>
-
-<!-- ========= PAGE ========= -->
-
-<div class="container">
 
 <header class="topbar">
 
 <div class="logo">
-
-<i class="fa-solid fa-store"></i>
-
+<i class="fa-solid fa-shield-halved"></i>
 <span>SocialElite</span>
-
 </div>
-
-<div class="header-right">
 
 <button id="refreshBtn">
-
 <i class="fa-solid fa-rotate"></i>
-
 </button>
-
-</div>
 
 </header>
 
-<!-- ========= HERO ========= -->
-
 <section class="hero">
 
-<h1>
-
-Premium Social Media Accounts
-
-</h1>
+<h1>Premium Social Media Accounts</h1>
 
 <p>
-
-Purchase verified and quality social media accounts securely.
-
+Purchase verified high-quality social media accounts instantly.
+Credentials are revealed immediately after successful payment.
 </p>
 
 </section>
 
-<!-- ========= SEARCH ========= -->
-
-<section class="search-section">
+<section class="filters">
 
 <div class="search-box">
 
 <i class="fa-solid fa-magnifying-glass"></i>
 
 <input
-type="text"
 id="searchInput"
-placeholder="Search accounts...">
+type="text"
+placeholder="Search account...">
 
 </div>
-
-</section>
-
-<!-- ========= FILTERS ========= -->
-
-<section class="filters">
-
-<select id="platformFilter">
-
-<option value="all">
-
-All Platforms
-
-</option>
-
-<option value="Instagram">
-
-Instagram
-
-</option>
-
-<option value="Facebook">
-
-Facebook
-
-</option>
-
-<option value="TikTok">
-
-TikTok
-
-</option>
-
-<option value="Twitter">
-
-Twitter/X
-
-</option>
-
-<option value="Telegram">
-
-Telegram
-
-</option>
-
-<option value="Discord">
-
-Discord
-
-</option>
-
-<option value="Gmail">
-
-Gmail
-
-</option>
-
-<option value="Reddit">
-
-Reddit
-
-</option>
-
-</select>
 
 <select id="countryFilter">
 
-<option value="all">
+<option value="">All Countries</option>
 
-All Countries
+<option value="Switzerland">Switzerland</option>
 
-</option>
+<option value="United Kingdom">United Kingdom</option>
+
+<option value="Norway">Norway</option>
+
+<option value="Denmark">Denmark</option>
+
+<option value="Iceland">Iceland</option>
 
 </select>
 
 </section>
 
-<!-- ========= RESULTS ========= -->
+<section id="errorContainer" class="hidden">
 
-<section class="results-header">
+<div class="error-box">
 
-<h3 id="resultCount">
+<i class="fa-solid fa-circle-exclamation"></i>
 
-Loading...
+<p id="errorMessage"></p>
 
-</h3>
-
-</section>
-
-<!-- ========= PRODUCTS ========= -->
-
-<section
-id="productsGrid"
-class="products-grid">
-
-<!-- JS -->
+</div>
 
 </section>
 
-<!-- ========= EMPTY ========= -->
+<section id="productsGrid" class="products-grid">
 
-<div
-id="emptyState"
-class="empty-state hidden">
+<!-- JavaScript will render products here -->
+
+</section>
+
+<section id="emptyState" class="empty-state hidden">
 
 <i class="fa-solid fa-box-open"></i>
 
-<h2>
-
-No Products Found
-
-</h2>
+<h2>No Accounts Available</h2>
 
 <p>
-
-Try another search or category.
-
+There are currently no social media accounts available.
+Please check back later.
 </p>
 
-</div>
+</section>
 
-<!-- ========= LOADING ========= -->
-
-<div
-id="loadingCards"
-class="loading-grid">
-
-<div class="loading-card"></div>
-
-<div class="loading-card"></div>
-
-<div class="loading-card"></div>
-
-<div class="loading-card"></div>
-
-<div class="loading-card"></div>
-
-<div class="loading-card"></div>
-
-</div>
-
-</div>
-
-<!-- ========= PURCHASE MODAL ========= -->
-
-<div
-id="purchaseModal"
-class="modal hidden">
+<div id="purchaseModal" class="modal hidden">
 
 <div class="modal-content">
 
-<button
-id="closePurchaseModal"
-class="close-btn">
+<h2>Confirm Purchase</h2>
 
-<i class="fa-solid fa-xmark"></i>
+<div class="purchase-details">
 
-</button>
+<p>
 
-<h2>
+<strong>Account:</strong>
 
-Purchase Account
-
-</h2>
-
-<div class="purchase-info">
-
-<div class="info-row">
-
-<span>
-
-Product
-
-</span>
-
-<strong id="modalName">
-
--
-
-</strong>
-
-</div>
-
-<div class="info-row">
-
-<span>
-
-Platform
-
-</span>
-
-<strong id="modalPlatform">
-
--
-
-</strong>
-
-</div>
-
-<div class="info-row">
-
-<span>
-
-Country
-
-</span>
-
-<strong id="modalCountry">
-
--
-
-</strong>
-
-</div>
-
-<div class="info-row">
-
-<span>
-
-Price
-
-</span>
-
-<strong id="modalPrice">
-
--
-
-</strong>
-
-</div>
-
-</div>
-
-<p class="warning">
-
-After payment, account credentials will immediately become available.
+<span id="modalName"></span>
 
 </p>
 
-<button
-id="confirmPurchaseBtn"
-class="purchase-btn">
+<p>
 
-Purchase Now
+<strong>Country:</strong>
+
+<span id="modalCountry"></span>
+
+</p>
+
+<p>
+
+<strong>Price:</strong>
+
+₦<span id="modalPrice"></span>
+
+</p>
+
+</div>
+
+<div class="modal-buttons">
+
+<button
+id="cancelPurchase"
+class="secondary-btn">
+
+Cancel
+
+</button>
+
+<button
+id="confirmPurchase"
+class="primary-btn">
+
+Purchase
 
 </button>
 
@@ -345,137 +162,78 @@ Purchase Now
 
 </div>
 
-<!-- ========= SUCCESS MODAL ========= -->
+</div>
 
-<div
-id="successModal"
-class="modal hidden">
+<div id="successModal" class="modal hidden">
 
 <div class="modal-content success">
 
-<div class="success-icon">
+<i class="fa-solid fa-circle-check success-icon"></i>
 
-<i class="fa-solid fa-circle-check"></i>
+<h2>Purchase Successful</h2>
 
-</div>
-
-<h2>
-
-Purchase Successful
-
-</h2>
+<p>
+Your account credentials are shown below.
+Store them safely.
+</p>
 
 <div class="credentials">
 
-<div class="credential">
+<div class="credential-item">
 
-<label>
-
-Username
-
-</label>
+<label>Username</label>
 
 <input
-id="credUsername"
+id="credentialUsername"
 readonly>
-
-<button
-class="copyBtn"
-data-copy="credUsername">
-
-<i class="fa-regular fa-copy"></i>
-
-</button>
 
 </div>
 
-<div class="credential">
+<div class="credential-item">
 
-<label>
-
-Password
-
-</label>
+<label>Password</label>
 
 <input
-id="credPassword"
+id="credentialPassword"
 readonly>
-
-<button
-class="copyBtn"
-data-copy="credPassword">
-
-<i class="fa-regular fa-copy"></i>
-
-</button>
 
 </div>
 
-<div class="credential">
+<div class="credential-item">
 
-<label>
-
-Recovery Email
-
-</label>
+<label>Recovery Email</label>
 
 <input
-id="credRecoveryEmail"
+id="credentialRecoveryEmail"
 readonly>
-
-<button
-class="copyBtn"
-data-copy="credRecoveryEmail">
-
-<i class="fa-regular fa-copy"></i>
-
-</button>
 
 </div>
 
-<div class="credential">
+<div class="credential-item">
 
-<label>
-
-Recovery Password
-
-</label>
+<label>Recovery Password</label>
 
 <input
-id="credRecoveryPassword"
+id="credentialRecoveryPassword"
 readonly>
-
-<button
-class="copyBtn"
-data-copy="credRecoveryPassword">
-
-<i class="fa-regular fa-copy"></i>
-
-</button>
 
 </div>
 
-<div class="credential">
+<div class="credential-item">
 
-<label>
-
-Notes
-
-</label>
+<label>Notes</label>
 
 <textarea
-id="credNotes"
-readonly>
-
-</textarea>
+id="credentialNotes"
+readonly></textarea>
 
 </div>
 
 </div>
 
 <button
-id="closeSuccessModal"
-class="done-btn">
+id="closeSuccess"
+class="primary-btn">
 
 Done
 
@@ -485,17 +243,9 @@ Done
 
 </div>
 
-<!-- ========= TOAST ========= -->
-
-<div id="toast" class="toast">
-    <span id="toastMessage"></span>
-</div>
-
-<!-- Supabase JavaScript SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Your JavaScript -->
 <script src="social-accounts.js"></script>
 
 </body>
-</html>
+    </html>
