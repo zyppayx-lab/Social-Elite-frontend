@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SocialElite | Social Accounts Marketplace</title>
+
+<link rel="stylesheet" href="social-accounts.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ========= LOADER ========= -->
+
+<div id="pageLoader" class="page-loader">
+
+<div class="loader-box">
+
+<div class="loader"></div>
+
+<h2>SocialElite</h2>
+
+<p>Loading Marketplace...</p>
+
+</div>
+
+</div>
+
+<!-- ========= PAGE ========= -->
+
+<div class="container">
+
+<header class="topbar">
+
+<div class="logo">
+
+<i class="fa-solid fa-store"></i>
+
+<span>SocialElite</span>
+
+</div>
+
+<div class="header-right">
+
+<button id="refreshBtn">
+
+<i class="fa-solid fa-rotate"></i>
+
+</button>
+
+</div>
+
+</header>
+
+<!-- ========= HERO ========= -->
+
+<section class="hero">
+
+<h1>
+
+Premium Social Media Accounts
+
+</h1>
+
+<p>
+
+Purchase verified and quality social media accounts securely.
+
+</p>
+
+</section>
+
+<!-- ========= SEARCH ========= -->
+
+<section class="search-section">
+
+<div class="search-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search accounts...">
+
+</div>
+
+</section>
+
+<!-- ========= FILTERS ========= -->
+
+<section class="filters">
+
+<select id="platformFilter">
+
+<option value="all">
+
+All Platforms
+
+</option>
+
+<option value="Instagram">
+
+Instagram
+
+</option>
+
+<option value="Facebook">
+
+Facebook
+
+</option>
+
+<option value="TikTok">
+
+TikTok
+
+</option>
+
+<option value="Twitter">
+
+Twitter/X
+
+</option>
+
+<option value="Telegram">
+
+Telegram
+
+</option>
+
+<option value="Discord">
+
+Discord
+
+</option>
+
+<option value="Gmail">
+
+Gmail
+
+</option>
+
+<option value="Reddit">
+
+Reddit
+
+</option>
+
+</select>
+
+<select id="countryFilter">
+
+<option value="all">
+
+All Countries
+
+</option>
+
+</select>
+
+</section>
+
+<!-- ========= RESULTS ========= -->
+
+<section class="results-header">
+
+<h3 id="resultCount">
+
+Loading...
+
+</h3>
+
+</section>
+
+<!-- ========= PRODUCTS ========= -->
+
+<section
+id="productsGrid"
+class="products-grid">
+
+<!-- JS -->
+
+</section>
+
+<!-- ========= EMPTY ========= -->
+
+<div
+id="emptyState"
+class="empty-state hidden">
+
+<i class="fa-solid fa-box-open"></i>
+
+<h2>
+
+No Products Found
+
+</h2>
+
+<p>
+
+Try another search or category.
+
+</p>
+
+</div>
+
+<!-- ========= LOADING ========= -->
+
+<div
+id="loadingCards"
+class="loading-grid">
+
+<div class="loading-card"></div>
+
+<div class="loading-card"></div>
+
+<div class="loading-card"></div>
+
+<div class="loading-card"></div>
+
+<div class="loading-card"></div>
+
+<div class="loading-card"></div>
+
+</div>
+
+</div>
+
+<!-- ========= PURCHASE MODAL ========= -->
+
+<div
+id="purchaseModal"
+class="modal hidden">
+
+<div class="modal-content">
+
+<button
+id="closePurchaseModal"
+class="close-btn">
+
+<i class="fa-solid fa-xmark"></i>
+
+</button>
+
+<h2>
+
+Purchase Account
+
+</h2>
+
+<div class="purchase-info">
+
+<div class="info-row">
+
+<span>
+
+Product
+
+</span>
+
+<strong id="modalName">
+
+-
+
+</strong>
+
+</div>
+
+<div class="info-row">
+
+<span>
+
+Platform
+
+</span>
+
+<strong id="modalPlatform">
+
+-
+
+</strong>
+
+</div>
+
+<div class="info-row">
+
+<span>
+
+Country
+
+</span>
+
+<strong id="modalCountry">
+
+-
+
+</strong>
+
+</div>
+
+<div class="info-row">
+
+<span>
+
+Price
+
+</span>
+
+<strong id="modalPrice">
+
+-
+
+</strong>
+
+</div>
+
+</div>
+
+<p class="warning">
+
+After payment, account credentials will immediately become available.
+
+</p>
+
+<button
+id="confirmPurchaseBtn"
+class="purchase-btn">
+
+Purchase Now
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ========= SUCCESS MODAL ========= -->
+
+<div
+id="successModal"
+class="modal hidden">
+
+<div class="modal-content success">
+
+<div class="success-icon">
+
+<i class="fa-solid fa-circle-check"></i>
+
+</div>
+
+<h2>
+
+Purchase Successful
+
+</h2>
+
+<div class="credentials">
+
+<div class="credential">
+
+<label>
+
+Username
+
+</label>
+
+<input
+id="credUsername"
+readonly>
+
+<button
+class="copyBtn"
+data-copy="credUsername">
+
+<i class="fa-regular fa-copy"></i>
+
+</button>
+
+</div>
+
+<div class="credential">
+
+<label>
+
+Password
+
+</label>
+
+<input
+id="credPassword"
+readonly>
+
+<button
+class="copyBtn"
+data-copy="credPassword">
+
+<i class="fa-regular fa-copy"></i>
+
+</button>
+
+</div>
+
+<div class="credential">
+
+<label>
+
+Recovery Email
+
+</label>
+
+<input
+id="credRecoveryEmail"
+readonly>
+
+<button
+class="copyBtn"
+data-copy="credRecoveryEmail">
+
+<i class="fa-regular fa-copy"></i>
+
+</button>
+
+</div>
+
+<div class="credential">
+
+<label>
+
+Recovery Password
+
+</label>
+
+<input
+id="credRecoveryPassword"
+readonly>
+
+<button
+class="copyBtn"
+data-copy="credRecoveryPassword">
+
+<i class="fa-regular fa-copy"></i>
+
+</button>
+
+</div>
+
+<div class="credential">
+
+<label>
+
+Notes
+
+</label>
+
+<textarea
+id="credNotes"
+readonly>
+
+</textarea>
+
+</div>
+
+</div>
+
+<button
+id="closeSuccessModal"
+class="done-btn">
+
+Done
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ========= TOAST ========= -->
+
+<div
+id="toast"
+class="toast">
+
+<span id="toastMessage">
+
+</span>
+
+</div>
+
+<script src="social-accounts.js"></script>
+
+</body>
+  </html>
