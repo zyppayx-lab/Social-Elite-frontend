@@ -1,7 +1,7 @@
 /* ==========================================
 SOCIALELITE MARKETPLACE
 marketplace.js
-PART 1
+PART 1 OF 4
 ========================================== */
 
 "use strict";
@@ -10,11 +10,14 @@ PART 1
 SUPABASE
 ========================================== */
 
-const SUPABASE_URL = "https://dohxtukzxopwkvxeppdl.supabase.co";
+const SUPABASE_URL =
+"https://dohxtukzxopwkvxeppdl.supabase.co";
 
-const SUPABASE_ANON_KEY = "sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
+const SUPABASE_ANON_KEY =
+"sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
 
-const supabase = window.supabase.createClient(
+const supabase =
+window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
 );
@@ -75,71 +78,105 @@ document.getElementById("socialSearch");
 const numberSearch =
 document.getElementById("numberSearch");
 
+const walletBalance =
+document.getElementById("walletBalance");
+
 /* ==========================================
 GLOBAL VARIABLES
 ========================================== */
 
 let allProducts = [];
-
 let allCountries = [];
-
 let allCategories = [];
-
 let allServices = [];
-
 let pollingInterval = null;
+
+/* ==========================================
+AUTH SESSION
+========================================== */
+
+async function getAccessToken(){
+
+    const {
+        data:{session}
+    } = await supabase.auth.getSession();
+
+    if(!session){
+
+        window.location.href="login.html";
+
+        return null;
+
+    }
+
+    return session.access_token;
+
+}
 
 /* ==========================================
 START APP
 ========================================== */
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded",async()=>{
 
-    await loadCountries();
+    await Promise.all([
 
-    await loadCategories();
+        loadCountries(),
 
-    await loadProducts();
+        loadCategories()
 
-    await loadSmsGigServices();
+    ]);
+
+    await Promise.all([
+
+        loadProducts(),
+
+        loadSmsGigServices()
+
+    ]);
 
     registerEvents();
 
 });
+
 /* ==========================================
 LOAD COUNTRIES
 ========================================== */
 
-async function loadCountries() {
+async function loadCountries(){
 
-    const { data, error } = await supabase
+    try{
+
+        const {data,error} =
+        await supabase
         .from("available_countries")
         .select("country")
         .order("country");
 
-    if (error) {
+        if(error) throw error;
 
-        console.error(error);
+        allCountries = data || [];
 
-        return;
+        countryFilter.innerHTML =
+        `<option value="">Country</option>`;
+
+        allCountries.forEach(country=>{
+
+            countryFilter.innerHTML += `
+                <option value="${country.country}">
+                    ${country.country}
+                </option>
+            `;
+
+        });
 
     }
 
-    allCountries = data;
+    catch(error){
 
-    countryFilter.innerHTML = `
-        <option value="">Country</option>
-    `;
+        console.error(error);
 
-    data.forEach(country => {
-
-        countryFilter.innerHTML += `
-            <option value="${country.country}">
-                ${country.country}
-            </option>
-        `;
-
-    });
+    }
 
 }
 
@@ -147,88 +184,100 @@ async function loadCountries() {
 LOAD CATEGORIES
 ========================================== */
 
-async function loadCategories() {
+async function loadCategories(){
 
-    const { data, error } = await supabase
+    try{
+
+        const {data,error} =
+        await supabase
         .from("categories")
         .select("platform,name")
         .order("platform");
 
-    if (error) {
+        if(error) throw error;
 
-        console.error(error);
+        allCategories = data || [];
 
-        return;
+        platformFilter.innerHTML =
+        `<option value="">Platform</option>`;
+
+        categoryFilter.innerHTML =
+        `<option value="">Category</option>`;
+
+        [...new Set(
+            allCategories.map(c=>c.platform)
+        )].forEach(platform=>{
+
+            platformFilter.innerHTML += `
+                <option value="${platform}">
+                    ${platform}
+                </option>
+            `;
+
+        });
+
+        allCategories.forEach(category=>{
+
+            categoryFilter.innerHTML += `
+                <option value="${category.name}">
+                    ${category.name}
+                </option>
+            `;
+
+        });
 
     }
 
-    allCategories = data;
+    catch(error){
 
-    const platforms =
-    [...new Set(data.map(item => item.platform))];
+        console.error(error);
 
-    platformFilter.innerHTML = `
-        <option value="">Platform</option>
-    `;
-
-    categoryFilter.innerHTML = `
-        <option value="">Category</option>
-    `;
-
-    platforms.forEach(platform => {
-
-        platformFilter.innerHTML += `
-            <option value="${platform}">
-                ${platform}
-            </option>
-        `;
-
-    });
-
-    data.forEach(category => {
-
-        categoryFilter.innerHTML += `
-            <option value="${category.name}">
-                ${category.name}
-            </option>
-        `;
-
-    });
+    }
 
 }
 
 /* ==========================================
-LOAD MARKETPLACE PRODUCTS
+LOAD SOCIAL PRODUCTS
 ========================================== */
 
-async function loadProducts() {
+async function loadProducts(){
 
-    socialLoading.style.display = "flex";
+    socialLoading.style.display="flex";
+    socialProducts.style.display="none";
+    socialEmpty.style.display="none";
 
-    socialProducts.style.display = "none";
+    try{
 
-    socialEmpty.style.display = "none";
-
-    const { data, error } = await supabase
+        const {data,error} =
+        await supabase
         .from("available_products")
         .select("*")
-        .order("price",{ ascending:true });
+        .order("price",{
+            ascending:true
+        });
 
-    socialLoading.style.display = "none";
+        if(error) throw error;
 
-    if (error) {
+        allProducts = data || [];
 
-        console.error(error);
-
-        socialEmpty.style.display = "flex";
-
-        return;
+        renderProducts(allProducts);
 
     }
 
-    allProducts = data;
+    catch(error){
 
-    renderProducts(allProducts);
+        console.error(error);
+
+        socialProducts.style.display="none";
+        socialEmpty.style.display="flex";
+
+    }
+
+    finally{
+
+        socialLoading.style.display="none";
+
+    }
 
 }
 
@@ -236,394 +285,26 @@ async function loadProducts() {
 LOAD SMSGIG SERVICES
 ========================================== */
 
-async function loadSmsGigServices() {
+async function loadSmsGigServices(){
 
-    numbersLoading.style.display = "flex";
-
-    numberServices.style.display = "none";
-
-    numbersEmpty.style.display = "none";
-
-    const session =
-    await supabase.auth.getSession();
-
-    const token =
-    session.data.session?.access_token;
-
-    const response =
-    await fetch(
-        GET_SMSGIG_SERVICES_ENDPOINT,
-        {
-            headers:{
-                Authorization:`Bearer ${token}`
-            }
-        }
-    );
-
-    const result =
-    await response.json();
-
-    numbersLoading.style.display = "none";
-
-    if(!response.ok){
-
-        console.error(result);
-
-        numbersEmpty.style.display = "flex";
-
-        return;
-
-    }
-
-    allServices =
-    result.data || [];
-
-    renderSmsServices(allServices);
-
-}
-/* ==========================================
-RENDER SOCIAL PRODUCTS
-========================================== */
-
-function renderProducts(products){
-
-    socialProducts.innerHTML = "";
-
-    if(products.length === 0){
-
-        socialProducts.style.display = "none";
-
-        socialEmpty.style.display = "flex";
-
-        return;
-
-    }
-
-    socialProducts.style.display = "grid";
-
-    socialEmpty.style.display = "none";
-
-    products.forEach(product=>{
-
-        socialProducts.innerHTML += `
-
-        <div class="market-card">
-
-            <div class="market-card-top">
-
-                <div class="platform">
-
-                    <img src="assets/platforms/${product.platform.toLowerCase()}.png">
-
-                    <div>
-
-                        <h3>${product.name}</h3>
-
-                        <span class="category">
-
-                            ${product.platform} • ${product.category}
-
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <span class="country">
-
-                    ${product.country}
-
-                </span>
-
-            </div>
-
-            <div class="market-card-body">
-
-                <p class="description">
-
-                    ${product.description}
-
-                </p>
-
-                <h2 class="price">
-
-                    ₦${Number(product.price).toLocaleString()}
-
-                </h2>
-
-                <span class="stock">
-
-                    ${product.stock} In Stock
-
-                </span>
-
-                <button
-                    class="buy-btn"
-                    onclick="buySocialAccount('${product.id}')">
-
-                    Buy Now
-
-                </button>
-
-            </div>
-
-        </div>
-
-        `;
-
-    });
-
-}
-
-/* ==========================================
-RENDER SMS SERVICES
-========================================== */
-
-function renderSmsServices(services){
-
-    numberServices.innerHTML = "";
-
-    if(services.length===0){
-
-        numberServices.style.display="none";
-
-        numbersEmpty.style.display="flex";
-
-        return;
-
-    }
-
-    numberServices.style.display="grid";
-
+    numbersLoading.style.display="flex";
+    numberServices.style.display="none";
     numbersEmpty.style.display="none";
 
-    services.forEach(service=>{
-
-        numberServices.innerHTML += `
-
-        <div class="market-card">
-
-            <div class="market-card-top">
-
-                <div>
-
-                    <h3>${service.name}</h3>
-
-                    <span class="category">
-
-                        USA Virtual Number
-
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div class="market-card-body">
-
-                <p class="description">
-
-                    Instant SMS verification number.
-
-                </p>
-
-                <h2 class="price">
-
-                    ₦${Number(service.price).toLocaleString()}
-
-                </h2>
-
-                <button
-                    class="buy-btn"
-                    onclick="purchaseNumber('${service.service_code}')">
-
-                    Rent Number
-
-                </button>
-
-            </div>
-
-        </div>
-
-        `;
-
-    });
-
-}
-/* ==========================================
-BUY SOCIAL ACCOUNT
-========================================== */
-
-async function buySocialAccount(productId){
-
     try{
 
-        const session =
-        await supabase.auth.getSession();
-
         const token =
-        session.data.session?.access_token;
+        await getAccessToken();
 
-        if(!token){
-
-            alert("Please login first.");
-
-            return;
-
-        }
-
-        const button =
-        event.target;
-
-        button.disabled = true;
-
-        button.innerHTML = "Processing...";
+        if(!token) return;
 
         const response =
         await fetch(
-            PURCHASE_SOCIAL_ENDPOINT,
+            GET_SMSGIG_SERVICES_ENDPOINT,
             {
-                method:"POST",
-
                 headers:{
-                    "Content-Type":"application/json",
-                    "Authorization":`Bearer ${token}`
-                },
-
-                body:JSON.stringify({
-                    product_id:productId
-                })
-            }
-        );
-
-        const result =
-        await response.json();
-
-        button.disabled = false;
-
-        button.innerHTML = "Buy Now";
-
-        if(!response.ok){
-
-            alert(result.message || "Purchase failed.");
-
-            return;
-
-        }
-
-        document.getElementById("credentialUsername").value =
-        result.username || "";
-
-        document.getElementById("credentialPassword").value =
-        result.password || "";
-
-        document.getElementById("credentialRecoveryEmail").value =
-        result.recovery_email || "";
-
-        document.getElementById("credentialRecoveryPassword").value =
-        result.recovery_password || "";
-
-        document.getElementById("credentialNotes").value =
-        result.notes || "";
-
-        document.getElementById("credentialModal").style.display =
-        "flex";
-
-    }catch(err){
-
-        console.error(err);
-
-        alert("Unable to complete purchase.");
-
-    }
-
-}
-
-/* ==========================================
-CLOSE CREDENTIAL MODAL
-========================================== */
-
-document
-.getElementById("closeCredentialModal")
-.addEventListener("click",async()=>{
-
-    document
-    .getElementById("credentialModal")
-    .style.display="none";
-
-    await loadProducts();
-
-});
-
-/* ==========================================
-COPY BUTTONS
-========================================== */
-
-document
-.querySelectorAll(".copy-btn")
-.forEach(button=>{
-
-    button.addEventListener("click",()=>{
-
-        const input =
-        document.getElementById(
-            button.dataset.copy
-        );
-
-        navigator.clipboard.writeText(
-            input.value
-        );
-
-        button.innerHTML="✓";
-
-        setTimeout(()=>{
-
-            button.innerHTML="📋";
-
-        },1000);
-
-    });
-
-});
-/* ==========================================
-PURCHASE USA NUMBER
-========================================== */
-
-async function purchaseNumber(serviceCode){
-
-    try{
-
-        const session =
-        await supabase.auth.getSession();
-
-        const token =
-        session.data.session?.access_token;
-
-        if(!token){
-
-            alert("Please login first.");
-
-            return;
-
-        }
-
-        const response =
-        await fetch(
-            PURCHASE_NUMBER_ENDPOINT,
-            {
-                method:"POST",
-
-                headers:{
-                    "Authorization":`Bearer ${token}`,
-                    "Content-Type":"application/json"
-                },
-
-                body:JSON.stringify({
-
-                    service_code:serviceCode
-
-                })
-
+                    Authorization:`Bearer ${token}`
+                }
             }
         );
 
@@ -632,35 +313,404 @@ async function purchaseNumber(serviceCode){
 
         if(!response.ok){
 
-            alert(result.message || "Unable to rent number.");
-
-            return;
+            throw new Error(
+                result.message ||
+                "Unable to load services."
+            );
 
         }
 
-        document.getElementById("smsNumber").value =
-        result.phone_number;
+        allServices =
+        result.data || [];
 
-        document.getElementById("smsService").value =
-        result.service_code;
-
-        document.getElementById("smsStatus").value =
-        result.status;
-
-        document.getElementById("smsCode").value = "";
-
-        document.getElementById("smsMessage").value = "";
-
-        document.getElementById("smsModal").style.display =
-        "flex";
-
-        startSmsPolling(result.activation_id);
+        renderSmsServices(allServices);
 
     }
 
     catch(error){
 
         console.error(error);
+
+        numberServices.style.display="none";
+        numbersEmpty.style.display="flex";
+
+    }
+
+    finally{
+
+        numbersLoading.style.display="none";
+
+    }
+
+}
+/* ==========================================
+LOAD SMSGIG SERVICES
+========================================== */
+
+async function loadSmsGigServices() {
+
+    numbersLoading.style.display = "flex";
+    numberServices.style.display = "none";
+    numbersEmpty.style.display = "none";
+
+    try {
+
+        const {
+            data: { session }
+        } = await supabase.auth.getSession();
+
+        if (!session) {
+            throw new Error("No active session");
+        }
+
+        const response = await fetch(
+            GET_SMSGIG_SERVICES_ENDPOINT,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${session.access_token}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        numbersLoading.style.display = "none";
+
+        if (!response.ok) {
+            throw new Error(result.message || "Unable to load services");
+        }
+
+        allServices = result.data || [];
+
+        renderSmsServices(allServices);
+
+    } catch (err) {
+
+        console.error(err);
+
+        numbersLoading.style.display = "none";
+        numbersEmpty.style.display = "flex";
+
+    }
+
+}
+
+/* ==========================================
+RENDER SOCIAL PRODUCTS
+========================================== */
+
+function renderProducts(products) {
+
+    socialProducts.innerHTML = "";
+
+    if (!products || products.length === 0) {
+
+        socialProducts.style.display = "none";
+        socialEmpty.style.display = "flex";
+        return;
+
+    }
+
+    socialProducts.style.display = "grid";
+    socialEmpty.style.display = "none";
+
+    products.forEach(product => {
+
+        socialProducts.insertAdjacentHTML(
+            "beforeend",
+            `
+            <div class="market-card">
+
+                <div class="market-card-top">
+
+                    <div class="platform">
+
+                        <img
+                            src="assets/platforms/${(product.platform || "default")
+                                .toLowerCase()
+                                .replace("/", "-")}.png"
+                            onerror="this.src='assets/platforms/default.png'"
+                        >
+
+                        <div>
+
+                            <h3>${product.name}</h3>
+
+                            <span class="category">
+                                ${product.platform} • ${product.category}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <span class="country">
+                        ${product.country}
+                    </span>
+
+                </div>
+
+                <div class="market-card-body">
+
+                    <p class="description">
+                        ${product.description || ""}
+                    </p>
+
+                    <h2 class="price">
+                        ₦${Number(product.price).toLocaleString()}
+                    </h2>
+
+                    <span class="stock">
+                        ${product.stock} Available
+                    </span>
+
+                    <button
+                        class="buy-btn"
+                        onclick="buySocialAccount('${product.id}', this)">
+                        Buy Now
+                    </button>
+
+                </div>
+
+            </div>
+            `
+        );
+
+    });
+
+}
+/* ==========================================
+RENDER SMS SERVICES
+========================================== */
+
+function renderSmsServices(services) {
+
+    numberServices.innerHTML = "";
+
+    if (!services || services.length === 0) {
+
+        numberServices.style.display = "none";
+        numbersEmpty.style.display = "flex";
+        return;
+
+    }
+
+    numberServices.style.display = "grid";
+    numbersEmpty.style.display = "none";
+
+    services.forEach(service => {
+
+        numberServices.insertAdjacentHTML(
+            "beforeend",
+            `
+            <div class="market-card">
+
+                <div class="market-card-top">
+
+                    <div>
+
+                        <h3>${service.name}</h3>
+
+                        <span class="category">
+                            Virtual Number
+                        </span>
+
+                    </div>
+
+                    <span class="stock">
+                        ${service.stock}
+                    </span>
+
+                </div>
+
+                <div class="market-card-body">
+
+                    <p class="description">
+                        TTL: ${service.ttl}s
+                    </p>
+
+                    <h2 class="price">
+                        ₦${Number(service.selling_price).toLocaleString()}
+                    </h2>
+
+                    <button
+                        class="buy-btn"
+                        onclick="purchaseNumber('${service.service_code}', this)">
+
+                        Rent Number
+
+                    </button>
+
+                </div>
+
+            </div>
+            `
+        );
+
+    });
+
+}
+
+/* ==========================================
+BUY SOCIAL ACCOUNT
+========================================== */
+
+async function buySocialAccount(productId, button) {
+
+    try {
+
+        const {
+            data: { session }
+        } = await supabase.auth.getSession();
+
+        if (!session) {
+
+            alert("Please login first.");
+            return;
+
+        }
+
+        button.disabled = true;
+        button.textContent = "Processing...";
+
+        const response = await fetch(
+            PURCHASE_SOCIAL_ENDPOINT,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${session.access_token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    product_id: productId
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        button.disabled = false;
+        button.textContent = "Buy Now";
+
+        if (!response.ok) {
+
+            alert(result.message || "Purchase failed.");
+            return;
+
+        }
+
+        document.getElementById("credentialUsername").value =
+            result.username || "";
+
+        document.getElementById("credentialPassword").value =
+            result.password || "";
+
+        document.getElementById("credentialRecoveryEmail").value =
+            result.recovery_email || "";
+
+        document.getElementById("credentialRecoveryPassword").value =
+            result.recovery_password || "";
+
+        document.getElementById("credentialNotes").value =
+            result.notes || "";
+
+        document.getElementById("credentialModal").style.display = "flex";
+
+        await loadProducts();
+
+    } catch (err) {
+
+        console.error(err);
+
+        if (button) {
+
+            button.disabled = false;
+            button.textContent = "Buy Now";
+
+        }
+
+        alert("Unable to complete purchase.");
+
+    }
+
+}
+/* ==========================================
+PURCHASE USA NUMBER
+========================================== */
+
+async function purchaseNumber(serviceCode, button) {
+
+    try {
+
+        const {
+            data: { session }
+        } = await supabase.auth.getSession();
+
+        if (!session) {
+
+            alert("Please login first.");
+            return;
+
+        }
+
+        button.disabled = true;
+        button.textContent = "Processing...";
+
+        const response = await fetch(
+            PURCHASE_NUMBER_ENDPOINT,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${session.access_token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    service_code: serviceCode
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        button.disabled = false;
+        button.textContent = "Rent Number";
+
+        if (!response.ok) {
+
+            alert(result.message || "Unable to rent number.");
+            return;
+
+        }
+
+        document.getElementById("smsNumber").value =
+            result.order.phone_number || "";
+
+        document.getElementById("smsService").value =
+            result.order.service_name || "";
+
+        document.getElementById("smsStatus").value =
+            result.order.status || "active";
+
+        document.getElementById("smsCode").value = "";
+
+        document.getElementById("smsMessage").value = "";
+
+        document.getElementById("smsModal").style.display = "flex";
+
+        startSmsPolling(result.order.order_id);
+
+    } catch (error) {
+
+        console.error(error);
+
+        if (button) {
+
+            button.disabled = false;
+            button.textContent = "Rent Number";
+
+        }
 
         alert("Something went wrong.");
 
@@ -672,35 +722,25 @@ async function purchaseNumber(serviceCode){
 GET SMS
 ========================================== */
 
-async function getSms(activationId){
+async function getSms(orderId) {
 
-    const session =
-    await supabase.auth.getSession();
+    const {
+        data: { session }
+    } = await supabase.auth.getSession();
 
-    const token =
-    session.data.session?.access_token;
+    if (!session) return null;
 
-    const response =
-    await fetch(
+    const response = await fetch(
         GET_SMS_ENDPOINT,
         {
-
-            method:"POST",
-
-            headers:{
-
-                "Authorization":`Bearer ${token}`,
-
-                "Content-Type":"application/json"
-
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${session.access_token}`,
+                "Content-Type": "application/json"
             },
-
-            body:JSON.stringify({
-
-                activation_id:activationId
-
+            body: JSON.stringify({
+                order_id: orderId
             })
-
         }
     );
 
@@ -709,228 +749,133 @@ async function getSms(activationId){
 }
 
 /* ==========================================
-START POLLING
+START SMS POLLING
 ========================================== */
 
-function startSmsPolling(activationId){
+function startSmsPolling(orderId) {
 
-    if(pollingInterval){
+    if (pollingInterval) {
 
         clearInterval(pollingInterval);
 
     }
 
-    pollingInterval = setInterval(async()=>{
+    pollingInterval = setInterval(async () => {
 
-        const result =
-        await getSms(activationId);
+        const result = await getSms(orderId);
 
-        if(!result) return;
+        if (!result) return;
 
-        if(result.status){
+        if (result.status) {
 
             document.getElementById("smsStatus").value =
-            result.status;
+                result.status;
 
         }
 
-        if(result.code){
+        if (result.code) {
 
             document.getElementById("smsCode").value =
-            result.code;
+                result.code;
 
         }
 
-        if(result.message){
+        if (result.message) {
 
             document.getElementById("smsMessage").value =
-            result.message;
+                result.message;
 
         }
 
-        if(result.code){
+        if (result.code) {
 
             clearInterval(pollingInterval);
 
         }
 
-    },3000);
+    }, 5000);
 
 }
 
 /* ==========================================
-CLOSE SMS MODAL
+REGISTER EVENTS
 ========================================== */
 
-document
-.getElementById("closeSmsModal")
-.addEventListener("click",()=>{
+function registerEvents() {
 
-    document
-    .getElementById("smsModal")
-    .style.display="none";
+    socialSearch.addEventListener("input", filterProducts);
 
-    clearInterval(pollingInterval);
+    platformFilter.addEventListener("change", filterProducts);
 
-});
-/* ==========================================
-SEARCH & FILTERS
-========================================== */
+    countryFilter.addEventListener("change", filterProducts);
 
-function registerEvents(){
+    categoryFilter.addEventListener("change", filterProducts);
 
-    socialSearch.addEventListener("input",filterProducts);
+    priceFilter.addEventListener("change", filterProducts);
 
-    platformFilter.addEventListener("change",filterProducts);
+    numberSearch.addEventListener("input", () => {
 
-    countryFilter.addEventListener("change",filterProducts);
+        const keyword = numberSearch.value.toLowerCase();
 
-    categoryFilter.addEventListener("change",filterProducts);
+        renderSmsServices(
 
-    priceFilter.addEventListener("change",filterProducts);
-
-    numberSearch.addEventListener("input",()=>{
-
-        const keyword =
-        numberSearch.value.toLowerCase();
-
-        const filtered =
-        allServices.filter(service=>
-
-            service.name
-            .toLowerCase()
-            .includes(keyword)
+            allServices.filter(service =>
+                service.name.toLowerCase().includes(keyword)
+            )
 
         );
-
-        renderSmsServices(filtered);
 
     });
 
 }
 
 /* ==========================================
-FILTER PRODUCTS
+WINDOW EVENTS
 ========================================== */
 
-function filterProducts(){
-
-    let filtered = [...allProducts];
-
-    const keyword =
-    socialSearch.value.toLowerCase().trim();
-
-    const platform =
-    platformFilter.value;
-
-    const country =
-    countryFilter.value;
-
-    const category =
-    categoryFilter.value;
-
-    const price =
-    priceFilter.value;
-
-    if(keyword){
-
-        filtered = filtered.filter(product=>
-
-            product.name
-            .toLowerCase()
-            .includes(keyword)
-
-            ||
-
-            product.description
-            .toLowerCase()
-            .includes(keyword)
-
-        );
-
-    }
-
-    if(platform){
-
-        filtered = filtered.filter(product=>
-
-            product.platform === platform
-
-        );
-
-    }
-
-    if(country){
-
-        filtered = filtered.filter(product=>
-
-            product.country === country
-
-        );
-
-    }
-
-    if(category){
-
-        filtered = filtered.filter(product=>
-
-            product.category === category
-
-        );
-
-    }
-
-    if(price==="low"){
-
-        filtered.sort((a,b)=>
-
-            Number(a.price)-Number(b.price)
-
-        );
-
-    }
-
-    if(price==="high"){
-
-        filtered.sort((a,b)=>
-
-            Number(b.price)-Number(a.price)
-
-        );
-
-    }
-
-    renderProducts(filtered);
-
-}
-
-/* ==========================================
-CLICK OUTSIDE MODAL
-========================================== */
-
-window.addEventListener("click",(event)=>{
+window.addEventListener("click", (event) => {
 
     const credentialModal =
-    document.getElementById("credentialModal");
+        document.getElementById("credentialModal");
 
     const smsModal =
-    document.getElementById("smsModal");
+        document.getElementById("smsModal");
 
-    if(event.target===credentialModal){
+    if (event.target === credentialModal) {
 
-        credentialModal.style.display="none";
+        credentialModal.style.display = "none";
 
         loadProducts();
 
     }
 
-    if(event.target===smsModal){
+    if (event.target === smsModal) {
 
-        smsModal.style.display="none";
+        smsModal.style.display = "none";
 
         clearInterval(pollingInterval);
 
     }
+
+});
+
+document
+.getElementById("closeCredentialModal")
+.addEventListener("click", () => {
+
+    document.getElementById("credentialModal").style.display = "none";
+
+    loadProducts();
+
+});
+
+document
+.getElementById("closeSmsModal")
+.addEventListener("click", () => {
+
+    document.getElementById("smsModal").style.display = "none";
+
+    clearInterval(pollingInterval);
 
 });
 
