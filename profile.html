@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SocialElite - Profile</title>
+
+    <link rel="stylesheet" href="profile.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="profile-container">
+
+
+    <!-- Profile Header -->
+
+    <header class="profile-header">
+
+        <h1>My Profile</h1>
+
+        <p>Manage your account information</p>
+
+    </header>
+
+
+
+
+    <!-- Avatar Section -->
+
+    <section class="profile-card avatar-section">
+
+
+        <img 
+        id="profileAvatar"
+        src=""
+        alt="Profile Avatar"
+        >
+
+
+        <input 
+        type="file"
+        id="avatarInput"
+        accept="image/*"
+        hidden
+        >
+
+
+        <button id="changeAvatarBtn">
+            Change Avatar
+        </button>
+
+
+    </section>
+
+
+
+
+
+    <!-- Profile Information -->
+
+    <section class="profile-card">
+
+
+        <h2>Account Information</h2>
+
+
+
+        <div class="info-group">
+
+            <label>
+                Full Name
+            </label>
+
+            <input 
+            id="fullName"
+            type="text"
+            placeholder="Your name"
+            disabled
+            >
+
+        </div>
+
+
+
+
+
+        <div class="info-group">
+
+            <label>
+                Email
+            </label>
+
+            <input 
+            id="email"
+            type="email"
+            disabled
+            >
+
+        </div>
+
+
+
+
+
+        <div class="info-group">
+
+            <label>
+                Joined
+            </label>
+
+            <input 
+            id="createdAt"
+            disabled
+            >
+
+        </div>
+
+
+
+        <button id="editProfileBtn">
+            Edit Profile
+        </button>
+
+
+
+        <button id="saveProfileBtn" class="hidden">
+            Save Changes
+        </button>
+
+
+    </section>
+
+
+
+
+
+    <!-- Referral Information -->
+
+    <section class="profile-card">
+
+
+        <h2>Referral</h2>
+
+
+        <p>
+            Referral Code:
+        </p>
+
+
+        <strong id="referralCode">
+            Loading...
+        </strong>
+
+
+    </section>
+
+
+
+</div>
+
+
+
+<script src="profile.js"></script>
+
+
+</body>
+
+      </html>
