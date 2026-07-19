@@ -1,705 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SocialElite - Premium Digital Accounts & Virtual Numbers Marketplace">
-    <meta name="keywords" content="Social Accounts, Virtual Numbers, SMS Verification, Marketplace">
-    <meta name="author" content="SocialElite">
+    <title>Accs Market - Buy Verified Digital Accounts</title>
 
-    <title>SocialElite | Premium Digital Accounts & Virtual Numbers</title>
+    <meta name="description"
+        content="Buy premium verified social media accounts, virtual numbers and digital services securely.">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Remix Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="index.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#6D5BFF",
+                        secondary: "#8A5CFF",
+                        dark: "#060A18",
+                        card: "#111827"
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-<body>
+<body class="bg-dark text-white overflow-x-hidden">
 
-<!-- ================= HEADER ================= -->
-
-<header class="header">
-
-    <div class="container">
-
-        <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="SocialElite Logo">
-            <span>Social<span class="accent">Elite</span></span>
-        </a>
-
-        <nav class="navbar">
-
-            <ul class="nav-links">
-
-                <li><a href="index.html" class="active">Home</a></li>
-
-                <li><a href="accounts.html">Accounts</a></li>
-
-                <li><a href="virtual-numbers.html">Virtual Numbers</a></li>
-
-                <li><a href="how-it-works.html">How It Works</a></li>
-
-                <li><a href="refer.html">Refer & Earn</a></li>
-
-                <li><a href="blog.html">Blog</a></li>
-
-                <li><a href="about.html">About</a></li>
-
-                <li><a href="help-center.html">Help Center</a></li>
-
-                <li><a href="contact.html">Contact</a></li>
-
-            </ul>
-
-        </nav>
-
-        <div class="nav-buttons">
-
-            <a href="login.html" class="btn btn-outline">
-                Log In
-            </a>
-
-            <a href="signup.html" class="btn btn-primary">
-                Create Account
-            </a>
-
+    <!-- Background Blur -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute w-[500px] h-[500px] bg-purple-600 opacity-20 blur-[150px] -top-32 -left-32 rounded-full">
         </div>
 
-        <button class="menu-toggle" id="menuToggle">
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </button>
-
+        <div
+            class="absolute w-[500px] h-[500px] bg-blue-500 opacity-20 blur-[150px] bottom-0 right-0 rounded-full">
+        </div>
     </div>
 
-</header>
+    <!-- ================= NAVBAR ================= -->
 
-<!-- ================= HERO ================= -->
+    <header
+        class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-black/30 border-b border-white/10">
 
-<section class="hero">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
 
-    <div class="hero-bg"></div>
+            <!-- Logo -->
 
-    <div class="container hero-container">
+            <a href="index.html" class="flex items-center gap-3">
 
-        <!-- Left Side -->
+                <div
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
 
-        <div class="hero-content">
-
-            <div class="hero-badge">
-
-                <i class="ri-shield-check-line"></i>
-
-                Trusted. Safe. Fast. Reliable.
-
-            </div>
-
-            <h1>
-
-                Your Trusted Platform
-                for Digital Accounts &
-                <span>Virtual Numbers</span>
-
-            </h1>
-
-            <p>
-
-                Buy premium social media accounts and virtual numbers
-                instantly and securely. Built for speed, privacy,
-                and complete peace of mind.
-
-            </p>
-
-            <div class="hero-buttons">
-
-                <a href="accounts.html" class="btn btn-primary">
-
-                    <i class="ri-shopping-bag-line"></i>
-
-                    Browse Accounts
-
-                </a>
-
-                <a href="virtual-numbers.html" class="btn btn-secondary">
-
-                    <i class="ri-smartphone-line"></i>
-
-                    Get Virtual Numbers
-
-                </a>
-
-            </div>
-
-            <div class="hero-rating">
-
-                <div class="avatars">
-
-                    <img src="images/users/user1.jpg" alt="">
-                    <img src="images/users/user2.jpg" alt="">
-                    <img src="images/users/user3.jpg" alt="">
-                    <img src="images/users/user4.jpg" alt="">
+                    <i class="fa-solid fa-shield-halved text-white text-xl"></i>
 
                 </div>
 
-                <div class="rating-text">
+                <div>
 
-                    <div class="stars">
+                    <h1 class="font-bold text-2xl">
+                        Accs Market
+                    </h1>
 
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-                        <i class="ri-star-fill"></i>
-
-                    </div>
-
-                    <span>Trusted by thousands of users</span>
+                    <span class="text-gray-400 text-xs">
+                        Secure Digital Marketplace
+                    </span>
 
                 </div>
 
-            </div>
+            </a>
 
-        </div>
+            <!-- Desktop Menu -->
 
-        <!-- Right Side -->
-
-        <div class="hero-image">
-
-            <img src="images/hero.png" alt="SocialElite Hero">
-
-        </div>
-
-    </div>
-
-</section>
-<!-- ================= FEATURES ================= -->
-
-<section class="features" id="features">
-
-    <div class="container">
-
-        <div class="section-header">
-
-            <h2>
-
-                Everything You Need,
-                <span>All in One Place</span>
-
-            </h2>
-
-            <p>
-
-                Powerful features designed for a smooth, secure and
-                lightning-fast experience.
-
-            </p>
-
-        </div>
-
-        <div class="features-grid">
-
-            <!-- Card 1 -->
-
-            <article class="feature-card">
-
-                <div class="feature-icon">
-
-                    <i class="ri-user-3-fill"></i>
-
-                </div>
-
-                <h3>Social Media Accounts</h3>
-
-                <p>
-
-                    Purchase premium Facebook, Instagram, TikTok,
-                    Gmail, Discord, Reddit and many more verified
-                    accounts ready for instant delivery.
-
-                </p>
-
-                <div class="feature-platforms">
-
-                    <i class="ri-instagram-fill"></i>
-                    <i class="ri-facebook-circle-fill"></i>
-                    <i class="ri-tiktok-fill"></i>
-                    <i class="ri-youtube-fill"></i>
-                    <i class="ri-twitter-x-fill"></i>
-
-                </div>
-
-                <a href="accounts.html" class="feature-link">
-
-                    Explore Accounts
-                    <i class="ri-arrow-right-line"></i>
-
-                </a>
-
-            </article>
-
-            <!-- Card 2 -->
-
-            <article class="feature-card">
-
-                <div class="feature-icon">
-
-                    <i class="ri-smartphone-fill"></i>
-
-                </div>
-
-                <h3>Virtual Numbers</h3>
-
-                <p>
-
-                    Buy virtual phone numbers from multiple countries
-                    for WhatsApp, Telegram, Facebook, Instagram,
-                    Threads, X and hundreds of other services.
-
-                </p>
-
-                <div class="feature-image">
-
-                    <img src="images/virtual-number.png"
-                         alt="Virtual Numbers">
-
-                </div>
-
-                <a href="virtual-numbers.html"
-                   class="feature-link">
-
-                    Browse Numbers
-
-                    <i class="ri-arrow-right-line"></i>
-
-                </a>
-
-            </article>
-
-            <!-- Card 3 -->
-
-            <article class="feature-card">
-
-                <div class="feature-icon">
-
-                    <i class="ri-wallet-3-fill"></i>
-
-                </div>
-
-                <h3>Secure Deposits</h3>
-
-                <p>
-
-                    Deposit funds safely using trusted payment
-                    gateways. Your wallet balance updates instantly
-                    after successful payment.
-
-                </p>
-
-                <div class="feature-image">
-
-                    <img src="images/wallet.png"
-                         alt="Secure Wallet">
-
-                </div>
+            <nav class="hidden lg:flex items-center gap-8">
 
                 <a href="signup.html"
-                   class="feature-link">
+                    class="hover:text-purple-400 transition">
+                    Accounts
+                </a>
 
-                    Create Wallet
+                <a href="signup.html"
+                    class="hover:text-purple-400 transition">
+                    Virtual Numbers
+                </a>
 
-                    <i class="ri-arrow-right-line"></i>
+                <a href="how-it-works.html"
+                    class="hover:text-purple-400 transition">
+                    How It Works
+                </a>
+
+                <a href="blog.html"
+                    class="hover:text-purple-400 transition">
+                    Blog
+                </a>
+
+            </nav>
+
+            <!-- Buttons -->
+
+            <div class="hidden lg:flex items-center gap-4">
+
+                <a href="login.html"
+                    class="px-6 py-3 rounded-full border border-white/20 hover:border-purple-500 transition">
+
+                    Login
 
                 </a>
 
-            </article>
-
-            <!-- Card 4 -->
-
-            <article class="feature-card">
-
-                <div class="feature-icon">
-
-                    <i class="ri-gift-fill"></i>
-
-                </div>
-
-                <h3>Refer & Earn</h3>
-
-                <p>
-
-                    Invite your friends to SocialElite and earn
-                    referral commissions every time they complete
-                    eligible purchases.
-
-                </p>
-
-                <div class="feature-image">
-
-                    <img src="images/referral.png"
-                         alt="Referral Rewards">
-
-                </div>
-
-                <a href="refer.html"
-                   class="feature-link">
-
-                    Learn More
-
-                    <i class="ri-arrow-right-line"></i>
-
-                </a>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
-<!-- ================= HOW IT WORKS ================= -->
-
-<section class="how-it-works" id="how-it-works">
-
-    <div class="container">
-
-        <div class="section-header">
-
-            <span class="section-tag">
-                How It Works
-            </span>
-
-            <h2>
-
-                Buy in Minutes,
-                <span>Not Hours</span>
-
-            </h2>
-
-            <p>
-
-                Purchasing premium accounts and virtual numbers has never
-                been easier. Complete everything in four simple steps.
-
-            </p>
-
-        </div>
-
-        <div class="steps">
-
-            <!-- STEP 1 -->
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    01
-                </div>
-
-                <div class="step-icon">
-
-                    <i class="ri-search-eye-line"></i>
-
-                </div>
-
-                <h3>Browse Products</h3>
-
-                <p>
-
-                    Explore our marketplace and choose from premium
-                    social accounts, virtual numbers and digital services.
-
-                </p>
-
-            </div>
-
-            <div class="step-arrow">
-
-                <i class="ri-arrow-right-long-line"></i>
-
-            </div>
-
-            <!-- STEP 2 -->
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    02
-                </div>
-
-                <div class="step-icon">
-
-                    <i class="ri-wallet-3-line"></i>
-
-                </div>
-
-                <h3>Fund Wallet</h3>
-
-                <p>
-
-                    Deposit securely using supported payment methods.
-                    Your wallet updates automatically after payment.
-
-                </p>
-
-            </div>
-
-            <div class="step-arrow">
-
-                <i class="ri-arrow-right-long-line"></i>
-
-            </div>
-
-            <!-- STEP 3 -->
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    03
-                </div>
-
-                <div class="step-icon">
-
-                    <i class="ri-shopping-cart-2-line"></i>
-
-                </div>
-
-                <h3>Complete Purchase</h3>
-
-                <p>
-
-                    Checkout instantly. Your payment is processed safely
-                    and your order begins immediately.
-
-                </p>
-
-            </div>
-
-            <div class="step-arrow">
-
-                <i class="ri-arrow-right-long-line"></i>
-
-            </div>
-
-            <!-- STEP 4 -->
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    04
-                </div>
-
-                <div class="step-icon">
-
-                    <i class="ri-shield-check-line"></i>
-
-                </div>
-
-                <h3>Instant Delivery</h3>
-
-                <p>
-
-                    Receive your purchased account credentials or
-                    virtual number instantly from your dashboard.
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= STATS ================= -->
-
-<section class="stats">
-
-    <div class="container">
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-
-                <h3 class="counter" data-target="50000">
-                    0
-                </h3>
-
-                <p>Successful Orders</p>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h3 class="counter" data-target="120">
-                    0
-                </h3>
-
-                <p>Countries Supported</p>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h3 class="counter" data-target="99">
-                    0
-                </h3>
-
-                <p>Customer Satisfaction (%)</p>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h3 class="counter" data-target="24">
-                    0
-                </h3>
-
-                <p>Hours Support</p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-<!-- ================= WHY CHOOSE US ================= -->
-
-<section class="why-us">
-
-    <div class="container">
-
-        <div class="section-header">
-
-            <span class="section-tag">
-                Why Choose SocialElite
-            </span>
-
-            <h2>
-
-                Trusted by Thousands of
-                <span>Customers Worldwide</span>
-
-            </h2>
-
-            <p>
-
-                We focus on security, instant delivery and customer
-                satisfaction so you can purchase with complete confidence.
-
-            </p>
-
-        </div>
-
-        <div class="why-grid">
-
-            <div class="why-card">
-
-                <i class="ri-shield-check-fill"></i>
-
-                <h3>Safe & Secure</h3>
-
-                <p>
-
-                    Every transaction is protected using modern
-                    security standards and encrypted communication.
-
-                </p>
-
-            </div>
-
-            <div class="why-card">
-
-                <i class="ri-flashlight-fill"></i>
-
-                <h3>Instant Delivery</h3>
-
-                <p>
-
-                    Products are delivered automatically immediately
-                    after successful payment confirmation.
-
-                </p>
-
-            </div>
-
-            <div class="why-card">
-
-                <i class="ri-award-fill"></i>
-
-                <h3>Premium Quality</h3>
-
-                <p>
-
-                    Carefully verified products with high-quality
-                    standards before being listed.
-
-                </p>
-
-            </div>
-
-            <div class="why-card">
-
-                <i class="ri-customer-service-2-fill"></i>
-
-                <h3>24/7 Support</h3>
-
-                <p>
-
-                    Our support team is always available whenever
-                    you need assistance.
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ================= CTA ================= -->
-
-<section class="cta">
-
-    <div class="container">
-
-        <div class="cta-content">
-
-            <h2>
-
-                Ready to Get Started?
-
-            </h2>
-
-            <p>
-
-                Join thousands of customers buying premium digital
-                products safely on SocialElite.
-
-            </p>
-
-            <div class="cta-buttons">
-
-                <a href="signup.html" class="btn btn-primary">
+                <a href="signup.html"
+                    class="px-7 py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-500 hover:scale-105 transition">
 
                     Create Account
 
                 </a>
 
-                <a href="accounts.html" class="btn btn-secondary">
+            </div>
 
-                    Browse Marketplace
+            <!-- Mobile Menu Button -->
+
+            <button id="menuBtn"
+                class="lg:hidden text-2xl">
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+        </div>
+
+        <!-- Mobile Menu -->
+
+        <div id="mobileMenu"
+            class="hidden lg:hidden border-t border-white/10 bg-[#090D1F]">
+
+            <div class="flex flex-col p-6 space-y-5">
+
+                <a href="signup.html">Accounts</a>
+
+                <a href="signup.html">Virtual Numbers</a>
+
+                <a href="how-it-works.html">How It Works</a>
+
+                <a href="blog.html">Blog</a>
+
+                <a href="login.html">Login</a>
+
+                <a href="signup.html"
+                    class="bg-purple-600 text-center py-3 rounded-xl">
+
+                    Create Account
 
                 </a>
 
@@ -707,142 +164,896 @@
 
         </div>
 
-    </div>
+    </header>
 
-</section>
+    <!-- ================= HERO ================= -->
 
-<!-- ================= FOOTER ================= -->
+    <section class="pt-44 pb-24">
 
-<footer class="footer">
+        <div class="max-w-7xl mx-auto px-6">
 
-    <div class="container">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-        <div class="footer-grid">
+                <!-- Left -->
 
-            <div class="footer-column">
+                <div>
 
-                <h3>SocialElite</h3>
+                    <span
+                        class="inline-flex items-center gap-2 bg-purple-600/20 text-purple-300 px-4 py-2 rounded-full text-sm mb-6">
 
-                <p>
+                        <i class="fa-solid fa-bolt"></i>
 
-                    Premium marketplace for social media accounts,
-                    virtual numbers and digital services.
+                        Trusted by Thousands
 
-                </p>
+                    </span>
 
-            </div>
+                    <h1
+                        class="text-5xl md:text-7xl font-black leading-tight">
 
-            <div class="footer-column">
+                        Buy Verified
 
-                <h4>Marketplace</h4>
+                        <span
+                            class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
 
-                <ul>
+                            Digital Accounts
 
-                    <li><a href="accounts.html">Accounts</a></li>
+                        </span>
 
-                    <li><a href="virtual-numbers.html">Virtual Numbers</a></li>
+                        Instantly
 
-                    <li><a href="categories.html">Categories</a></li>
+                    </h1>
 
-                    <li><a href="how-it-works.html">How It Works</a></li>
+                    <p
+                        class="mt-8 text-gray-400 text-lg leading-8 max-w-xl">
 
-                </ul>
+                        Secure marketplace for premium social media accounts,
+                        virtual numbers, and digital services with instant
+                        delivery and trusted support.
 
-            </div>
+                    </p>
 
-            <div class="footer-column">
+                    <div class="flex flex-wrap gap-5 mt-10">
 
-                <h4>Company</h4>
+                        <a href="signup.html"
+                            class="px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-blue-500 hover:scale-105 transition">
 
-                <ul>
+                            Browse Accounts
 
-                    <li><a href="about.html">About</a></li>
+                        </a>
 
-                    <li><a href="blog.html">Blog</a></li>
+                        <a href="signup.html"
+                            class="px-8 py-4 rounded-full border border-white/20 hover:border-purple-500 transition">
 
-                    <li><a href="contact.html">Contact</a></li>
+                            Get Virtual Numbers
 
-                    <li><a href="refer.html">Refer & Earn</a></li>
+                        </a>
 
-                </ul>
+                    </div>
 
-            </div>
+                    <div
+                        class="flex items-center gap-10 mt-12 text-gray-300">
 
-            <div class="footer-column">
+                        <div>
 
-                <h4>Legal</h4>
+                            <h2 class="text-3xl font-bold">10K+</h2>
 
-                <ul>
+                            <p class="text-sm">Accounts Sold</p>
 
-                    <li><a href="privacy.html">Privacy Policy</a></li>
+                        </div>
 
-                    <li><a href="terms.html">Terms & Conditions</a></li>
+                        <div>
 
-                    <li><a href="refund-policy.html">Refund Policy</a></li>
+                            <h2 class="text-3xl font-bold">99.8%</h2>
 
-                    <li><a href="help-center.html">Help Center</a></li>
+                            <p class="text-sm">Success Rate</p>
 
-                </ul>
+                        </div>
 
-            </div>
+                        <div>
 
-            <div class="footer-column">
+                            <h2 class="text-3xl font-bold">24/7</h2>
 
-                <h4>Newsletter</h4>
+                            <p class="text-sm">Support</p>
 
-                <p>
+                        </div>
 
-                    Subscribe to receive product updates and exclusive offers.
+                    </div>
 
-                </p>
+                </div>
 
-                <form class="newsletter-form">
+                <!-- Right -->
 
-                    <input
-                        type="email"
-                        placeholder="Enter your email"
-                        required
-                    >
+                <div class="relative flex justify-center">
 
-                    <button type="submit">
+                    <div
+                        class="absolute w-96 h-96 bg-purple-600 rounded-full blur-[140px] opacity-40"></div>
 
-                        Subscribe
+                    <div
+                        class="relative bg-gradient-to-br from-[#171E37] to-[#0D1325] border border-white/10 rounded-[40px] shadow-2xl p-8">
 
-                    </button>
+                        <img
+                            src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=700"
+                            alt="Phone"
+                            class="rounded-[30px] w-[320px]">
 
-                </form>
+                    </div>
 
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-
-            <p>© <span id="year"></span> SocialElite. All Rights Reserved.</p>
-
-            <div class="social-links">
-
-                <a href="#"><i class="ri-facebook-fill"></i></a>
-
-                <a href="#"><i class="ri-twitter-x-fill"></i></a>
-
-                <a href="#"><i class="ri-instagram-fill"></i></a>
-
-                <a href="#"><i class="ri-linkedin-fill"></i></a>
-
-                <a href="#"><i class="ri-telegram-fill"></i></a>
+                </div>
 
             </div>
 
         </div>
 
-    </div>
-<div class="back-to-top">
-    <i class="ri-arrow-up-line"></i>
-</div>
-</footer>
+            </section>
+                <!-- ================= FEATURES ================= -->
 
-<script src="index.js"></script>
+    <section class="pb-28">
+
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="text-center mb-16">
+
+                <span
+                    class="text-purple-400 uppercase tracking-[4px] text-sm font-semibold">
+
+                    Our Services
+
+                </span>
+
+                <h2
+                    class="text-4xl md:text-5xl font-black mt-4">
+
+                    Everything You Need
+
+                </h2>
+
+                <p
+                    class="text-gray-400 max-w-2xl mx-auto mt-5">
+
+                    Buy verified accounts, rent virtual numbers and enjoy secure
+                    digital transactions with instant delivery.
+
+                </p>
+
+            </div>
+
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+
+                <!-- Card 1 -->
+
+                <a href="signup.html"
+                    class="group rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 hover:border-purple-500 hover:-translate-y-2 transition duration-300">
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-purple-600 to-blue-500 flex items-center justify-center mb-6">
+
+                        <i class="fa-solid fa-user-group text-2xl"></i>
+
+                    </div>
+
+                    <h3 class="text-2xl font-bold">
+
+                        Social Accounts
+
+                    </h3>
+
+                    <p class="text-gray-400 mt-4">
+
+                        Buy Facebook, Instagram, Gmail, Twitter, TikTok,
+                        Telegram and many more premium verified accounts.
+
+                    </p>
+
+                    <div
+                        class="mt-8 flex items-center justify-between">
+
+                        <span class="text-purple-400">
+
+                            Browse
+
+                        </span>
+
+                        <i
+                            class="fa-solid fa-arrow-right group-hover:translate-x-2 transition"></i>
+
+                    </div>
+
+                </a>
+
+                <!-- Card 2 -->
+
+                <a href="signup.html"
+                    class="group rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 hover:border-blue-500 hover:-translate-y-2 transition duration-300">
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center mb-6">
+
+                        <i class="fa-solid fa-sim-card text-2xl"></i>
+
+                    </div>
+
+                    <h3 class="text-2xl font-bold">
+
+                        Virtual Numbers
+
+                    </h3>
+
+                    <p class="text-gray-400 mt-4">
+
+                        Receive SMS online with temporary numbers from multiple
+                        countries for quick verification.
+
+                    </p>
+
+                    <div
+                        class="mt-8 flex items-center justify-between">
+
+                        <span class="text-blue-400">
+
+                            Get Number
+
+                        </span>
+
+                        <i
+                            class="fa-solid fa-arrow-right group-hover:translate-x-2 transition"></i>
+
+                    </div>
+
+                </a>
+
+                <!-- Card 3 -->
+
+                <a href="blog.html"
+                    class="group rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 hover:border-green-500 hover:-translate-y-2 transition duration-300">
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center mb-6">
+
+                        <i class="fa-solid fa-wallet text-2xl"></i>
+
+                    </div>
+
+                    <h3 class="text-2xl font-bold">
+
+                        Secure Deposit
+
+                    </h3>
+
+                    <p class="text-gray-400 mt-4">
+
+                        Protected wallet funding, encrypted payments and secure
+                        checkout for every transaction.
+
+                    </p>
+
+                    <div
+                        class="mt-8 flex items-center justify-between">
+
+                        <span class="text-green-400">
+
+                            Learn More
+
+                        </span>
+
+                        <i
+                            class="fa-solid fa-arrow-right group-hover:translate-x-2 transition"></i>
+
+                    </div>
+
+                </a>
+
+                <!-- Card 4 -->
+
+                <a href="blog.html"
+                    class="group rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 hover:border-yellow-500 hover:-translate-y-2 transition duration-300">
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center mb-6">
+
+                        <i class="fa-solid fa-gift text-2xl"></i>
+
+                    </div>
+
+                    <h3 class="text-2xl font-bold">
+
+                        Refer & Earn
+
+                    </h3>
+
+                    <p class="text-gray-400 mt-4">
+
+                        Invite friends and earn rewards every time they make a
+                        successful purchase.
+
+                    </p>
+
+                    <div
+                        class="mt-8 flex items-center justify-between">
+
+                        <span class="text-yellow-400">
+
+                            Read More
+
+                        </span>
+
+                        <i
+                            class="fa-solid fa-arrow-right group-hover:translate-x-2 transition"></i>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+        <!-- ================= HOW IT WORKS ================= -->
+
+    <section id="how-it-works" class="py-28">
+
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="text-center mb-20">
+
+                <span
+                    class="uppercase tracking-[4px] text-sm text-purple-400 font-semibold">
+
+                    Simple Process
+
+                </span>
+
+                <h2
+                    class="text-4xl md:text-5xl font-black mt-4">
+
+                    How It Works
+
+                </h2>
+
+                <p
+                    class="text-gray-400 max-w-2xl mx-auto mt-5">
+
+                    Buying premium digital accounts takes only a few minutes.
+                    Follow these four simple steps.
+
+                </p>
+
+            </div>
+
+            <div class="relative">
+
+                <!-- Timeline -->
+
+                <div
+                    class="hidden lg:block absolute left-0 right-0 top-16 h-1 bg-gradient-to-r from-purple-600 via-blue-500 to-purple-600 rounded-full">
+                </div>
+
+                <div class="grid lg:grid-cols-4 gap-10">
+
+                    <!-- Step 1 -->
+
+                    <div
+                        class="relative bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl hover:border-purple-500 transition">
+
+                        <div
+                            class="absolute -top-6 left-8 w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-blue-500 flex items-center justify-center text-xl font-bold">
+
+                            1
+
+                        </div>
+
+                        <div
+                            class="mt-8 w-16 h-16 rounded-2xl bg-purple-600/20 flex items-center justify-center">
+
+                            <i class="fa-solid fa-user-plus text-3xl text-purple-400"></i>
+
+                        </div>
+
+                        <h3 class="text-2xl font-bold mt-6">
+
+                            Create Account
+
+                        </h3>
+
+                        <p class="text-gray-400 mt-4 leading-7">
+
+                            Sign up in seconds and verify your email to unlock
+                            the marketplace.
+
+                        </p>
+
+                        <a href="signup.html"
+                            class="inline-flex items-center gap-2 mt-8 text-purple-400">
+
+                            Get Started
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                    <!-- Step 2 -->
+
+                    <div
+                        class="relative bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl hover:border-blue-500 transition">
+
+                        <div
+                            class="absolute -top-6 left-8 w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-xl font-bold">
+
+                            2
+
+                        </div>
+
+                        <div
+                            class="mt-8 w-16 h-16 rounded-2xl bg-blue-600/20 flex items-center justify-center">
+
+                            <i class="fa-solid fa-magnifying-glass text-3xl text-blue-400"></i>
+
+                        </div>
+
+                        <h3 class="text-2xl font-bold mt-6">
+
+                            Browse Products
+
+                        </h3>
+
+                        <p class="text-gray-400 mt-4 leading-7">
+
+                            Explore verified social accounts and virtual numbers
+                            from trusted sellers.
+
+                        </p>
+
+                        <a href="signup.html"
+                            class="inline-flex items-center gap-2 mt-8 text-blue-400">
+
+                            Browse Now
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                    <!-- Step 3 -->
+
+                    <div
+                        class="relative bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl hover:border-green-500 transition">
+
+                        <div
+                            class="absolute -top-6 left-8 w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center text-xl font-bold">
+
+                            3
+
+                        </div>
+
+                        <div
+                            class="mt-8 w-16 h-16 rounded-2xl bg-green-600/20 flex items-center justify-center">
+
+                            <i class="fa-solid fa-credit-card text-3xl text-green-400"></i>
+
+                        </div>
+
+                        <h3 class="text-2xl font-bold mt-6">
+
+                            Secure Payment
+
+                        </h3>
+
+                        <p class="text-gray-400 mt-4 leading-7">
+
+                            Complete payment through our encrypted checkout with
+                            wallet protection.
+
+                        </p>
+
+                        <a href="blog.html"
+                            class="inline-flex items-center gap-2 mt-8 text-green-400">
+
+                            Learn More
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                    <!-- Step 4 -->
+
+                    <div
+                        class="relative bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-xl hover:border-yellow-500 transition">
+
+                        <div
+                            class="absolute -top-6 left-8 w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center text-xl font-bold">
+
+                            4
+
+                        </div>
+
+                        <div
+                            class="mt-8 w-16 h-16 rounded-2xl bg-yellow-600/20 flex items-center justify-center">
+
+                            <i class="fa-solid fa-download text-3xl text-yellow-400"></i>
+
+                        </div>
+
+                        <h3 class="text-2xl font-bold mt-6">
+
+                            Instant Delivery
+
+                        </h3>
+
+                        <p class="text-gray-400 mt-4 leading-7">
+
+                            Receive your purchased account or virtual number
+                            immediately after payment.
+
+                        </p>
+
+                        <a href="blog.html"
+                            class="inline-flex items-center gap-2 mt-8 text-yellow-400">
+
+                            Read More
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+                                </section>
+                                    <!-- ================= WHY CHOOSE US ================= -->
+
+    <section class="pb-28">
+
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                <!-- Left -->
+
+                <div>
+
+                    <span
+                        class="uppercase tracking-[4px] text-sm text-purple-400 font-semibold">
+
+                        Why Choose Us
+
+                    </span>
+
+                    <h2 class="text-5xl font-black mt-5 leading-tight">
+
+                        Trusted Marketplace For Digital Products
+
+                    </h2>
+
+                    <p class="text-gray-400 mt-6 leading-8 text-lg">
+
+                        We provide a secure platform for buying premium social
+                        media accounts and virtual numbers with instant delivery,
+                        encrypted payments and professional customer support.
+
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 gap-6 mt-12">
+
+                        <div
+                            class="rounded-2xl bg-white/5 border border-white/10 p-6">
+
+                            <i class="fa-solid fa-shield-halved text-4xl text-purple-400 mb-5"></i>
+
+                            <h3 class="text-xl font-bold">
+
+                                100% Secure
+
+                            </h3>
+
+                            <p class="text-gray-400 mt-3">
+
+                                Protected payments with trusted encryption.
+
+                            </p>
+
+                        </div>
+
+                        <div
+                            class="rounded-2xl bg-white/5 border border-white/10 p-6">
+
+                            <i class="fa-solid fa-bolt text-4xl text-blue-400 mb-5"></i>
+
+                            <h3 class="text-xl font-bold">
+
+                                Instant Delivery
+
+                            </h3>
+
+                            <p class="text-gray-400 mt-3">
+
+                                Receive your order immediately after payment.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Right -->
+
+                <div class="grid grid-cols-2 gap-6">
+
+                    <div
+                        class="rounded-3xl bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-white/10 p-8 text-center">
+
+                        <h3 class="text-5xl font-black">
+
+                            10K+
+
+                        </h3>
+
+                        <p class="text-gray-300 mt-3">
+
+                            Happy Customers
+
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="rounded-3xl bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border border-white/10 p-8 text-center">
+
+                        <h3 class="text-5xl font-black">
+
+                            99.8%
+
+                        </h3>
+
+                        <p class="text-gray-300 mt-3">
+
+                            Successful Orders
+
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="rounded-3xl bg-gradient-to-br from-green-600/20 to-emerald-600/20 border border-white/10 p-8 text-center">
+
+                        <h3 class="text-5xl font-black">
+
+                            24/7
+
+                        </h3>
+
+                        <p class="text-gray-300 mt-3">
+
+                            Customer Support
+
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="rounded-3xl bg-gradient-to-br from-pink-600/20 to-purple-600/20 border border-white/10 p-8 text-center">
+
+                        <h3 class="text-5xl font-black">
+
+                            150+
+
+                        </h3>
+
+                        <p class="text-gray-300 mt-3">
+
+                            Products
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= CTA ================= -->
+
+    <section class="pb-28">
+
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div
+                class="rounded-[40px] overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-600 to-blue-600 p-14 text-center shadow-2xl">
+
+                <h2 class="text-5xl font-black">
+
+                    Ready To Get Started?
+
+                </h2>
+
+                <p class="mt-6 text-lg text-purple-100 max-w-2xl mx-auto">
+
+                    Join thousands of customers buying premium verified digital
+                    accounts and virtual numbers with complete confidence.
+
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-6 mt-10">
+
+                    <a href="signup.html"
+                        class="px-8 py-4 bg-white text-gray-900 rounded-full font-bold hover:scale-105 transition">
+
+                        Create Account
+
+                    </a>
+
+                    <a href="login.html"
+                        class="px-8 py-4 border border-white rounded-full hover:bg-white hover:text-gray-900 transition">
+
+                        Login
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="border-t border-white/10">
+
+        <div class="max-w-7xl mx-auto px-6 py-16">
+
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
+
+                <div>
+
+                    <h2 class="text-3xl font-black">
+
+                        Accs Market
+
+                    </h2>
+
+                    <p class="text-gray-400 mt-5 leading-8">
+
+                        The trusted marketplace for verified social media
+                        accounts, virtual numbers and secure digital products.
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <h3 class="text-xl font-bold mb-6">
+
+                        Marketplace
+
+                    </h3>
+
+                    <ul class="space-y-4 text-gray-400">
+
+                        <li><a href="signup.html">Browse Accounts</a></li>
+
+                        <li><a href="signup.html">Virtual Numbers</a></li>
+
+                        <li><a href="how-it-works.html">How It Works</a></li>
+
+                        <li><a href="blog.html">Blog</a></li>
+
+                    </ul>
+
+                </div>
+
+                <div>
+
+                    <h3 class="text-xl font-bold mb-6">
+
+                        Support
+
+                    </h3>
+
+                    <ul class="space-y-4 text-gray-400">
+
+                        <li><a href="blog.html">Help Center</a></li>
+
+                        <li><a href="blog.html">Contact</a></li>
+
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
+
+                        <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+
+                    </ul>
+
+                </div>
+
+                <div>
+
+                    <h3 class="text-xl font-bold mb-6">
+
+                        Follow Us
+
+                    </h3>
+
+                    <div class="flex gap-4">
+
+                        <a href="blog.html"
+                            class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-purple-600 transition">
+
+                            <i class="fab fa-facebook-f"></i>
+
+                        </a>
+
+                        <a href="blog.html"
+                            class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-purple-600 transition">
+
+                            <i class="fab fa-instagram"></i>
+
+                        </a>
+
+                        <a href="blog.html"
+                            class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-purple-600 transition">
+
+                            <i class="fab fa-x-twitter"></i>
+
+                        </a>
+
+                        <a href="blog.html"
+                            class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-purple-600 transition">
+
+                            <i class="fab fa-telegram"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div
+                class="border-t border-white/10 mt-14 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+
+                <p class="text-gray-500">
+
+                    © 2025 Accs Market. All Rights Reserved.
+
+                </p>
+
+                <div class="flex gap-6 text-gray-400">
+
+                    <a href="privacy-policy.html">Privacy</a>
+
+                    <a href="terms-and-conditions.html">Terms</a>
+
+                    <a href="refund-policy.html">Refund Policy</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <script src="index.js"></script>
 
 </body>
-      </html>
+
+    </html>
