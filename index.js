@@ -1,40 +1,35 @@
-/*======================================
-SOCIALELITE LANDING PAGE
-index.js
-PART 1
-======================================*/
+// ======================================
+// MOBILE MENU
+// ======================================
 
-"use strict";
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
 
-/*==============================
-ELEMENTS
-==============================*/
+if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
 
-const header = document.querySelector(".header");
+        const icon = menuBtn.querySelector("i");
 
-const menuToggle = document.querySelector(".menu-toggle");
+        if (mobileMenu.classList.contains("hidden")) {
+            icon.classList.remove("fa-xmark");
+            icon.classList.add("fa-bars");
+        } else {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-xmark");
+        }
+    });
+}
 
-const navbar = document.querySelector(".navbar");
+// ======================================
+// NAVBAR SCROLL
+// ======================================
 
-const navLinks = document.querySelectorAll(".nav-links a");
-
-const counters = document.querySelectorAll(".counter");
-
-const reveals = document.querySelectorAll(
-    ".reveal,.reveal-left,.reveal-right"
-);
-
-const backToTop = document.querySelector(".back-to-top");
-
-const newsletterForm = document.querySelector(".newsletter-form");
-
-/*==============================
-STICKY HEADER
-==============================*/
+const header = document.querySelector("header");
 
 window.addEventListener("scroll", () => {
 
-    if (window.scrollY > 60) {
+    if (window.scrollY > 80) {
 
         header.classList.add("scrolled");
 
@@ -46,232 +41,175 @@ window.addEventListener("scroll", () => {
 
 });
 
-/*==============================
-MOBILE MENU
-==============================*/
+// ======================================
+// REVEAL ANIMATION
+// ======================================
 
-if (menuToggle && navbar) {
+const revealElements = document.querySelectorAll("section");
 
-    menuToggle.addEventListener("click", () => {
+const reveal = () => {
 
-        menuToggle.classList.toggle("active");
+    const trigger = window.innerHeight - 120;
 
-        navbar.classList.toggle("active");
+    revealElements.forEach((section) => {
 
-    });
-
-}
-
-/*==============================
-CLOSE MENU
-==============================*/
-
-navLinks.forEach(link => {
-
-    link.addEventListener("click", () => {
-
-        if (navbar) {
-
-            navbar.classList.remove("active");
-
-        }
-
-        if (menuToggle) {
-
-            menuToggle.classList.remove("active");
-
-        }
-
-    });
-
-});
-
-/*==============================
-ACTIVE NAVIGATION
-==============================*/
-
-const sections = document.querySelectorAll("section");
-
-window.addEventListener("scroll", () => {
-
-    let current = "";
-
-    sections.forEach(section => {
-
-        const sectionTop = section.offsetTop - 120;
-
-        const sectionHeight = section.offsetHeight;
-
-        if (window.scrollY >= sectionTop) {
-
-            current = section.getAttribute("id");
-
-        }
-
-    });
-
-    navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        if (
-            current &&
-            link.getAttribute("href") === "#" + current
-        ) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-});
-/*======================================
-PART 2
-SCROLL REVEAL
-COUNTERS
-BACK TO TOP
-NEWSLETTER
-END OF FILE
-======================================*/
-
-/*==============================
-SCROLL REVEAL
-==============================*/
-
-function revealElements() {
-
-    const trigger = window.innerHeight * 0.85;
-
-    reveals.forEach(element => {
-
-        const top = element.getBoundingClientRect().top;
+        const top = section.getBoundingClientRect().top;
 
         if (top < trigger) {
 
-            element.classList.add("active");
+            section.classList.add("fade-up");
 
         }
 
     });
 
-}
+};
 
-window.addEventListener("scroll", revealElements);
+window.addEventListener("scroll", reveal);
 
-window.addEventListener("load", revealElements);
+reveal();
 
-/*==============================
-COUNTER ANIMATION
-==============================*/
+// ======================================
+// SMOOTH BUTTON EFFECT
+// ======================================
 
-let counterStarted = false;
+document.querySelectorAll("a").forEach((link) => {
 
-function startCounters() {
+    link.addEventListener("mouseenter", () => {
 
-    const statsSection = document.querySelector(".stats");
-
-    if (!statsSection) return;
-
-    const trigger = statsSection.getBoundingClientRect().top;
-
-    if (trigger < window.innerHeight && !counterStarted) {
-
-        counterStarted = true;
-
-        counters.forEach(counter => {
-
-            const target = Number(counter.dataset.target);
-
-            const increment = target / 100;
-
-            let current = 0;
-
-            const updateCounter = () => {
-
-                current += increment;
-
-                if (current < target) {
-
-                    counter.textContent = Math.floor(current);
-
-                    requestAnimationFrame(updateCounter);
-
-                } else {
-
-                    counter.textContent = target;
-
-                }
-
-            };
-
-            updateCounter();
-
-        });
-
-    }
-
-}
-
-window.addEventListener("scroll", startCounters);
-
-window.addEventListener("load", startCounters);
-
-/*==============================
-BACK TO TOP
-==============================*/
-
-if (backToTop) {
-
-    window.addEventListener("scroll", () => {
-
-        if (window.scrollY > 400) {
-
-            backToTop.classList.add("show");
-
-        } else {
-
-            backToTop.classList.remove("show");
-
-        }
+        link.style.transition = ".35s";
 
     });
 
-    backToTop.addEventListener("click", () => {
+});
 
-        window.scrollTo({
+// ======================================
+// CARD TILT EFFECT
+// ======================================
 
-            top: 0,
+document.querySelectorAll(".grid > a").forEach((card) => {
 
-            behavior: "smooth"
+    card.addEventListener("mousemove", (e) => {
 
-        });
+        const rect = card.getBoundingClientRect();
 
-    });
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-}
+        const rotateX = -(y - rect.height / 2) / 20;
+        const rotateY = (x - rect.width / 2) / 20;
 
-/*==============================
-NEWSLETTER FORM
-==============================*/
-
-if (newsletterForm) {
-
-    newsletterForm.addEventListener("submit", e => {
-
-        e.preventDefault();
-
-        alert("Thank you for subscribing to SocialElite!");
-
-        newsletterForm.reset();
+        card.style.transform =
+            `perspective(1000px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)
+             translateY(-8px)`;
 
     });
 
+    card.addEventListener("mouseleave", () => {
+
+        card.style.transform =
+            "perspective(1000px) rotateX(0) rotateY(0)";
+
+    });
+
+});
+
+// ======================================
+// BUTTON RIPPLE
+// ======================================
+
+document.querySelectorAll("a").forEach((button) => {
+
+    button.addEventListener("click", function (e) {
+
+        const circle = document.createElement("span");
+
+        const size = Math.max(
+            this.clientWidth,
+            this.clientHeight
+        );
+
+        circle.style.width = size + "px";
+        circle.style.height = size + "px";
+
+        circle.style.left =
+            e.clientX -
+            this.getBoundingClientRect().left -
+            size / 2 +
+            "px";
+
+        circle.style.top =
+            e.clientY -
+            this.getBoundingClientRect().top -
+            size / 2 +
+            "px";
+
+        circle.style.position = "absolute";
+        circle.style.borderRadius = "50%";
+        circle.style.background = "rgba(255,255,255,.3)";
+        circle.style.transform = "scale(0)";
+        circle.style.animation = "ripple .6s linear";
+        circle.style.pointerEvents = "none";
+
+        this.style.position = "relative";
+        this.style.overflow = "hidden";
+
+        this.appendChild(circle);
+
+        setTimeout(() => {
+
+            circle.remove();
+
+        }, 600);
+
+    });
+
+});
+
+// ======================================
+// RIPPLE STYLE
+// ======================================
+
+const style = document.createElement("style");
+
+style.innerHTML = `
+@keyframes ripple{
+
+from{
+
+transform:scale(0);
+opacity:.7;
+
 }
 
-/*==============================
-CURRENT YEAR
-==============================*/
+to{
+
+transform:scale(4);
+opacity:0;
+
+}
+
+}
+`;
+
+document.head.appendChild(style);
+
+// ======================================
+// PARALLAX BACKGROUND
+// ======================================
+
+window.addEventListener("scroll", () => {
+
+    document.body.style.backgroundPositionY =
+        window.scrollY * 0.2 + "px";
+
+});
+
+// ======================================
+// COPYRIGHT YEAR
+// ======================================
 
 const year = document.querySelector("#year");
 
@@ -281,28 +219,4 @@ if (year) {
 
 }
 
-/*==============================
-PRELOADER (OPTIONAL)
-==============================*/
-
-window.addEventListener("load", () => {
-
-    const preloader = document.querySelector(".preloader");
-
-    if (preloader) {
-
-        preloader.classList.add("hide");
-
-        setTimeout(() => {
-
-            preloader.remove();
-
-        }, 500);
-
-    }
-
-});
-
-/*======================================
-END OF index.js
-======================================*/
+console.log("Landing page loaded successfully.");
