@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SocialElite - My Purchases</title>
+
+    <link rel="stylesheet" href="my-purchases.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="purchase-container">
+
+
+
+    <header class="purchase-header">
+
+        <h1>My Purchases</h1>
+
+        <p>View your purchased products</p>
+
+    </header>
+
+
+
+
+
+    <!-- Filters -->
+
+    <section class="filter-section">
+
+
+        <button 
+        class="filter-btn active"
+        data-filter="all">
+
+        All
+
+        </button>
+
+
+
+
+        <button
+        class="filter-btn"
+        data-filter="social">
+
+        Social Accounts
+
+        </button>
+
+
+
+
+
+        <button
+        class="filter-btn"
+        data-filter="sms">
+
+        SMS Numbers
+
+        </button>
+
+
+
+    </section>
+
+
+
+
+
+
+
+    <section class="purchase-card">
+
+
+        <div id="purchaseList">
+
+
+            <p class="empty-state">
+                Loading purchases...
+            </p>
+
+
+        </div>
+
+
+
+    </section>
+
+
+
+
+
+</div>
+
+
+
+<script src="my-purchases.js"></script>
+
+
+</body>
+
+  </html>
