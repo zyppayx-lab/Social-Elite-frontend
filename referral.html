@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SocialElite - Referral Program</title>
+
+    <link rel="stylesheet" href="referral.css">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<div class="referral-container">
+
+    <!-- Header -->
+    <header class="referral-header">
+        <h1>Referral Program</h1>
+        <p>Invite users and earn rewards</p>
+    </header>
+
+
+    <!-- Referral Code -->
+    <section class="card referral-code-card">
+
+        <h2>Your Referral Code</h2>
+
+        <div class="code-box">
+            <span id="referralCode">
+                Loading...
+            </span>
+
+            <button id="copyCodeBtn">
+                Copy
+            </button>
+        </div>
+
+    </section>
+
+
+
+    <!-- Referral Link -->
+    <section class="card">
+
+        <h2>Your Referral Link</h2>
+
+        <div class="link-box">
+
+            <span id="referralLink">
+                Loading...
+            </span>
+
+            <button id="copyLinkBtn">
+                Copy
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Statistics -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <h3>Total Referrals</h3>
+
+            <p id="totalReferrals">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Completed Rewards</h3>
+
+            <p id="completedRewards">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Total Earned</h3>
+
+            <p id="totalEarned">
+                ₦0
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+
+    <!-- Earnings History -->
+
+    <section class="card">
+
+        <h2>Earnings History</h2>
+
+
+        <div id="earningsList">
+
+            <p class="empty-state">
+                Loading earnings...
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+
+    <!-- Referral History -->
+
+    <section class="card">
+
+        <h2>Referral History</h2>
+
+
+        <div id="referralList">
+
+            <p class="empty-state">
+                Loading referrals...
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+
+<script src="referral.js"></script>
+
+</body>
+          </html>
