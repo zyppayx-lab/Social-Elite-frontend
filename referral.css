@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+
+    background: #0b0f19;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+
+.referral-container {
+
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+
+}
+
+
+
+/* Header */
+
+.referral-header {
+
+    text-align: center;
+    margin-bottom: 25px;
+
+}
+
+
+.referral-header h1 {
+
+    font-size: 28px;
+    margin-bottom: 8px;
+
+}
+
+
+.referral-header p {
+
+    color: #9ca3af;
+    font-size: 15px;
+
+}
+
+
+
+/* Cards */
+
+.card {
+
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+}
+
+
+.card h2 {
+
+    font-size: 18px;
+    margin-bottom: 15px;
+
+}
+
+
+
+/* Code and link boxes */
+
+.code-box,
+.link-box {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    background: #0b1220;
+    border: 1px solid #263244;
+    padding: 12px;
+    border-radius: 10px;
+
+}
+
+
+
+#referralCode,
+#referralLink {
+
+    color: #60a5fa;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+
+
+
+button {
+
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+
+}
+
+
+button:hover {
+
+    opacity: 0.9;
+
+}
+
+
+
+/* Statistics */
+
+.stats-grid {
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+
+}
+
+
+
+.stat-card {
+
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 14px;
+    padding: 15px;
+    text-align: center;
+
+}
+
+
+
+.stat-card h3 {
+
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+
+}
+
+
+
+.stat-card p {
+
+    font-size: 20px;
+    font-weight: bold;
+    color: #60a5fa;
+
+}
+
+
+
+/* History Items */
+
+.history-item {
+
+    background: #0b1220;
+    border: 1px solid #263244;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+
+}
+
+
+
+.history-item h4 {
+
+    font-size: 15px;
+    margin-bottom: 8px;
+
+}
+
+
+
+.history-item p {
+
+    color: #9ca3af;
+    font-size: 13px;
+    margin-bottom: 5px;
+
+}
+
+
+
+.amount {
+
+    color: #22c55e;
+    font-weight: bold;
+
+}
+
+
+
+.status-complete {
+
+    color: #22c55e;
+
+}
+
+
+
+.status-pending {
+
+    color: #f59e0b;
+
+}
+
+
+
+.empty-state {
+
+    text-align: center;
+    color: #6b7280;
+    padding: 20px;
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:450px){
+
+    .stats-grid{
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .code-box,
+    .link-box{
+
+        flex-direction: column;
+        align-items: stretch;
+
+    }
+
+
+    button{
+
+        width:100%;
+
+    }
+
+}
