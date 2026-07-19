@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>SocialElite - Purchase Account</title>
+
+<link rel="stylesheet"
+href="purchase-account.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Product Section -->
+
+    <div id="productCard" class="card">
+
+        <h2>Purchase Account</h2>
+
+        <div id="loadingProduct">
+            Loading product...
+        </div>
+
+        <div id="productContent"
+        style="display:none;">
+
+            <h3 id="productName"></h3>
+
+            <p id="productDescription"></p>
+
+            <div class="info-row">
+                <span>Platform</span>
+                <strong id="productPlatform"></strong>
+            </div>
+
+            <div class="info-row">
+                <span>Country</span>
+                <strong id="productCountry"></strong>
+            </div>
+
+            <div class="info-row">
+                <span>Stock</span>
+                <strong id="productStock"></strong>
+            </div>
+
+            <div class="info-row">
+                <span>Price</span>
+                <strong id="productPrice"></strong>
+            </div>
+
+            <button
+            id="purchaseBtn"
+            class="purchase-btn">
+
+            Purchase Now
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <!-- Success -->
+
+    <div id="successCard"
+    class="card success-card"
+    style="display:none;">
+
+        <div class="success-header">
+
+            ✅ Purchase Successful
+
+        </div>
+
+        <p class="success-text">
+
+            Save these credentials immediately.
+
+        </p>
+
+
+
+
+
+        <div class="credential-card">
+
+            <label>Username</label>
+
+            <div class="credential-row">
+
+                <span id="usernameValue"></span>
+
+                <button
+                class="copy-btn"
+                data-copy="usernameValue">
+
+                Copy
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <div class="credential-card">
+
+            <label>Password</label>
+
+            <div class="credential-row">
+
+                <span
+                id="passwordValue"
+                class="secret">
+
+                ••••••••
+
+                </span>
+
+                <button
+                class="toggle-btn"
+                id="togglePassword">
+
+                👁
+
+                </button>
+
+                <button
+                class="copy-btn"
+                data-copy="passwordValue">
+
+                Copy
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <div class="credential-card">
+
+            <label>Recovery Email</label>
+
+            <div class="credential-row">
+
+                <span id="emailValue"></span>
+
+                <button
+                class="copy-btn"
+                data-copy="emailValue">
+
+                Copy
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+        <div class="credential-card">
+
+            <label>Recovery Password</label>
+
+            <div class="credential-row">
+
+                <span
+                id="recoveryPasswordValue"
+                class="secret">
+
+                ••••••••
+
+                </span>
+
+                <button
+                class="toggle-btn"
+                id="toggleRecoveryPassword">
+
+                👁
+
+                </button>
+
+                <button
+                class="copy-btn"
+                data-copy="recoveryPasswordValue">
+
+                Copy
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+        <div class="credential-card">
+
+            <label>Notes</label>
+
+            <div
+            id="notesValue"
+            class="notes-box">
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+        <div class="credential-card">
+
+            <label>Purchased At</label>
+
+            <div id="purchaseDate"></div>
+
+        </div>
+
+
+
+
+
+
+
+        <div class="warning-box">
+
+            <strong>Important</strong>
+
+            <p>
+
+            Save these credentials now.
+
+            Do not share them with anyone.
+
+            Change the password after
+            confirming you can log in.
+
+            </p>
+
+        </div>
+
+
+
+
+
+
+        <button
+        class="done-btn"
+        onclick="window.location.href='my-purchases.html'">
+
+        Done
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="purchase-account.js"></script>
+
+</body>
+
+                  </html>
