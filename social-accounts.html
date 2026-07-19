@@ -1,239 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SocialElite | Social Accounts</title>
+
+<title>SocialElite - Social Accounts</title>
 
 <link rel="stylesheet" href="social-accounts.css">
 
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 </head>
 
+
 <body>
 
-<div id="loadingOverlay" class="loading-overlay hidden">
-    <div class="loader"></div>
-    <p>Please wait...</p>
-</div>
 
-<header class="topbar">
+<div class="container">
 
-<div class="logo">
-<i class="fa-solid fa-shield-halved"></i>
-<span>SocialElite</span>
-</div>
 
-<button id="refreshBtn">
-<i class="fa-solid fa-rotate"></i>
-</button>
+<header class="page-header">
+
+<h1>Social Media Accounts</h1>
+
+<p>Buy premium social accounts instantly</p>
 
 </header>
 
-<section class="hero">
 
-<h1>Premium Social Media Accounts</h1>
 
-<p>
-Purchase verified high-quality social media accounts instantly.
-Credentials are revealed immediately after successful payment.
-</p>
 
-</section>
 
-<section class="filters">
+<section class="controls">
 
-<div class="search-box">
 
-<i class="fa-solid fa-magnifying-glass"></i>
-
-<input
-id="searchInput"
+<input 
 type="text"
-placeholder="Search account...">
+id="searchInput"
+placeholder="Search accounts...">
 
-</div>
+
+
+
+
+<select id="platformFilter">
+
+<option value="all">
+All Platforms
+</option>
+
+</select>
+
+
+
+
 
 <select id="countryFilter">
-    <option value="">All Countries</option>
+
+<option value="all">
+All Countries
+</option>
+
 </select>
-    
-</section>
 
-<section id="errorContainer" class="hidden">
 
-<div class="error-box">
-
-<i class="fa-solid fa-circle-exclamation"></i>
-
-<p id="errorMessage"></p>
-
-</div>
 
 </section>
 
-<section id="productsGrid" class="products-grid">
 
-<!-- JavaScript will render products here -->
+
+
+
+
+
+<section id="productList"
+class="product-grid">
+
+
+<div class="loading">
+
+Loading products...
+
+</div>
+
 
 </section>
 
-<section id="emptyState" class="empty-state hidden">
 
-<i class="fa-solid fa-box-open"></i>
 
-<h2>No Accounts Available</h2>
 
-<p>
-There are currently no social media accounts available.
-Please check back later.
-</p>
-
-</section>
-
-<div id="purchaseModal" class="modal hidden">
-
-<div class="modal-content">
-
-<h2>Confirm Purchase</h2>
-
-<div class="purchase-details">
-
-<p>
-
-<strong>Account:</strong>
-
-<span id="modalName"></span>
-
-</p>
-
-<p>
-
-<strong>Country:</strong>
-
-<span id="modalCountry"></span>
-
-</p>
-
-<p>
-
-<strong>Price:</strong>
-
-₦<span id="modalPrice"></span>
-
-</p>
 
 </div>
 
-<div class="modal-buttons">
 
-<button
-id="cancelPurchase"
-class="secondary-btn">
 
-Cancel
 
-</button>
-
-<button
-id="confirmPurchase"
-class="primary-btn">
-
-Purchase
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="successModal" class="modal hidden">
-
-<div class="modal-content success">
-
-<i class="fa-solid fa-circle-check success-icon"></i>
-
-<h2>Purchase Successful</h2>
-
-<p>
-Your account credentials are shown below.
-Store them safely.
-</p>
-
-<div class="credentials">
-
-<div class="credential-item">
-
-<label>Username</label>
-
-<input
-id="credentialUsername"
-readonly>
-
-</div>
-
-<div class="credential-item">
-
-<label>Password</label>
-
-<input
-id="credentialPassword"
-readonly>
-
-</div>
-
-<div class="credential-item">
-
-<label>Recovery Email</label>
-
-<input
-id="credentialRecoveryEmail"
-readonly>
-
-</div>
-
-<div class="credential-item">
-
-<label>Recovery Password</label>
-
-<input
-id="credentialRecoveryPassword"
-readonly>
-
-</div>
-
-<div class="credential-item">
-
-<label>Notes</label>
-
-<textarea
-id="credentialNotes"
-readonly></textarea>
-
-</div>
-
-</div>
-
-<button
-id="closeSuccess"
-class="primary-btn">
-
-Done
-
-</button>
-
-</div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="social-accounts.js"></script>
 
+
 </body>
-    </html>
+
+</html>
