@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SocialElite - Transaction History</title>
+
+    <link rel="stylesheet" href="history.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="history-container">
+
+
+    <header class="history-header">
+
+        <h1>Transaction History</h1>
+
+        <p>View your account activity</p>
+
+    </header>
+
+
+
+
+
+    <!-- Filters -->
+
+    <section class="filter-section">
+
+
+        <button 
+        class="filter-btn active"
+        data-filter="all">
+
+        All
+
+        </button>
+
+
+
+        <button 
+        class="filter-btn"
+        data-filter="deposit">
+
+        Deposit
+
+        </button>
+
+
+
+
+        <button 
+        class="filter-btn"
+        data-filter="purchase">
+
+        Purchase
+
+        </button>
+
+
+
+
+        <button 
+        class="filter-btn"
+        data-filter="reward">
+
+        Reward
+
+        </button>
+
+
+
+    </section>
+
+
+
+
+
+
+
+    <!-- History List -->
+
+    <section class="history-card">
+
+
+        <div id="historyList">
+
+
+            <p class="empty-state">
+                Loading transactions...
+            </p>
+
+
+        </div>
+
+
+    </section>
+
+
+
+
+
+</div>
+
+
+
+
+<script src="history.js"></script>
+
+
+</body>
+
+</html>
