@@ -1,0 +1,224 @@
+* {
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+
+
+body {
+
+    background: #0b0f19;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+
+.notification-container {
+
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+
+}
+
+
+
+/* Header */
+
+.notification-header {
+
+    text-align: center;
+    margin-bottom: 25px;
+
+}
+
+
+
+.notification-header h1 {
+
+    font-size: 28px;
+    margin-bottom: 8px;
+
+}
+
+
+
+.notification-header p {
+
+    color: #9ca3af;
+    font-size: 14px;
+
+}
+
+
+
+
+
+/* Card */
+
+.notification-card {
+
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 15px;
+
+}
+
+
+
+
+
+/* Notification item */
+
+.notification-item {
+
+    background: #0b1220;
+    border: 1px solid #263244;
+    border-radius: 12px;
+
+    padding: 15px;
+
+    margin-bottom: 12px;
+
+}
+
+
+
+
+
+.notification-item.unread {
+
+    border-left: 4px solid #2563eb;
+
+}
+
+
+
+
+.notification-item.read {
+
+    opacity: 0.7;
+
+}
+
+
+
+
+
+.notification-title {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 8px;
+
+}
+
+
+
+.notification-title h3 {
+
+    font-size: 16px;
+
+}
+
+
+
+
+
+.badge {
+
+    font-size: 11px;
+
+    padding: 5px 8px;
+
+    border-radius: 20px;
+
+    background: #2563eb;
+
+    color: white;
+
+}
+
+
+
+
+.notification-message {
+
+    color: #d1d5db;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin-bottom: 10px;
+
+}
+
+
+
+
+
+.notification-date {
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+}
+
+
+
+
+
+.mark-read-btn {
+
+    margin-top: 12px;
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #16a34a;
+
+    color: white;
+
+    cursor: pointer;
+
+}
+
+
+
+
+
+.mark-read-btn:hover {
+
+    opacity: 0.9;
+
+}
+
+
+
+
+
+.empty-state {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #6b7280;
+
+}
