@@ -214,7 +214,55 @@ async function loadServices(){
 
 
         allServices =
-        result.data || [];
+result.data || [];
+
+const priorityServices = [
+    "whatsapp",
+    "facebook",
+    "instagram",
+    "tiktok",
+    "telegram",
+    "google",
+    "gmail",
+    "chatgpt",
+    "twitter",
+    "x"
+];
+
+
+allServices.sort((a,b)=>{
+
+    const aIndex =
+    priorityServices.indexOf(
+        a.service_code.toLowerCase()
+    );
+
+    const bIndex =
+    priorityServices.indexOf(
+        b.service_code.toLowerCase()
+    );
+
+
+    if(aIndex !== -1 && bIndex !== -1){
+        return aIndex - bIndex;
+    }
+
+
+    if(aIndex !== -1){
+        return -1;
+    }
+
+
+    if(bIndex !== -1){
+        return 1;
+    }
+
+
+    return a.name.localeCompare(
+        b.name
+    );
+
+});
 
 
 
