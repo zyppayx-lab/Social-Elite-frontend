@@ -26,6 +26,8 @@ body {
 
 
 
+
+
 /* Header */
 
 .profile-header {
@@ -55,6 +57,8 @@ body {
 
 
 
+
+
 /* Cards */
 
 .profile-card {
@@ -79,6 +83,8 @@ body {
 
 
 
+
+
 /* Avatar */
 
 .avatar-section {
@@ -92,7 +98,9 @@ body {
 
     width: 120px;
     height: 120px;
+
     border-radius: 50%;
+
     object-fit: cover;
 
     border: 3px solid #2563eb;
@@ -100,6 +108,8 @@ body {
     margin-bottom: 15px;
 
 }
+
+
 
 
 
@@ -117,8 +127,11 @@ body {
 .info-group label {
 
     display: block;
+
     color: #9ca3af;
+
     font-size: 13px;
+
     margin-bottom: 7px;
 
 }
@@ -128,12 +141,15 @@ body {
 .info-group input {
 
     width: 100%;
+
     padding: 12px;
 
     background: #0b1220;
+
     color: white;
 
     border: 1px solid #263244;
+
     border-radius: 10px;
 
     outline: none;
@@ -147,6 +163,8 @@ body {
     opacity: 0.8;
 
 }
+
+
 
 
 
@@ -187,6 +205,8 @@ button:hover {
 
 
 
+
+
 #saveProfileBtn {
 
     background: #16a34a;
@@ -197,11 +217,16 @@ button:hover {
 
 
 
+
 .hidden {
 
     display: none;
 
 }
+
+
+
+
 
 
 
@@ -225,20 +250,124 @@ button:hover {
 
 
 
+
+
+/* ==============================
+ACCOUNT ACTIONS
+============================== */
+
+
+.account-actions {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+
+
+
+
+
+
+/* Delete Account Button */
+
+
+.delete-btn {
+
+    background: #dc2626;
+
+    color: white;
+
+    border: none;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+
+.delete-btn:hover {
+
+    background: #b91c1c;
+
+}
+
+
+
+
+
+
+
+
+/* Logout Button */
+
+
+.logout-btn {
+
+    background: #374151;
+
+    color: white;
+
+    border: none;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+
+.logout-btn:hover {
+
+    background: #1f2937;
+
+}
+
+
+
+
+
+
+
+
+
 @media(max-width:450px){
 
-    .profile-container{
+
+    .profile-container {
 
         padding:15px;
 
     }
 
 
-    #profileAvatar{
+
+    #profileAvatar {
 
         width:100px;
+
         height:100px;
 
     }
 
-  }
+
+        }
