@@ -203,18 +203,16 @@ async function loadServices(){
         allServices =
         result.data || [];
 
-        alert(
+alert(
     allServices
-    .map(service => service.name)
-    .filter(name =>
-        name.toLowerCase().includes("whatsapp") ||
-        name.toLowerCase().includes("facebook") ||
-        name.toLowerCase().includes("tiktok")
+    .filter(service =>
+        service.name.toLowerCase().includes("wa") ||
+        service.name.toLowerCase().includes("fb") ||
+        service.name.toLowerCase().includes("tik")
     )
+    .map(service => service.name)
     .join("\n")
 );
-
-
 
         // Popular services first
 
