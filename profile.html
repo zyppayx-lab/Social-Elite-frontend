@@ -4,13 +4,22 @@
 <head>
 
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
     <title>SocialElite - Profile</title>
 
+
     <link rel="stylesheet" href="profile.css">
 
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 </head>
 
@@ -18,23 +27,35 @@
 <body>
 
 
+
 <div class="profile-container">
+
+
+
 
 
     <!-- Profile Header -->
 
+
     <header class="profile-header">
+
 
         <h1>My Profile</h1>
 
+
         <p>Manage your account information</p>
+
 
     </header>
 
 
 
 
-    <!-- Avatar Section -->
+
+
+
+    <!-- Profile Avatar -->
+
 
     <section class="profile-card avatar-section">
 
@@ -46,6 +67,7 @@
         >
 
 
+
         <input 
         type="file"
         id="avatarInput"
@@ -54,9 +76,16 @@
         >
 
 
+
+
         <button id="changeAvatarBtn">
+
+            <i class="fa-solid fa-camera"></i>
+
             Change Avatar
+
         </button>
+
 
 
     </section>
@@ -65,20 +94,35 @@
 
 
 
+
+
     <!-- Profile Information -->
+
 
     <section class="profile-card">
 
 
-        <h2>Account Information</h2>
+
+        <h2>
+
+            Account Information
+
+        </h2>
+
+
 
 
 
         <div class="info-group">
 
+
             <label>
+
                 Full Name
+
             </label>
+
+
 
             <input 
             id="fullName"
@@ -87,7 +131,10 @@
             disabled
             >
 
+
         </div>
+
+
 
 
 
@@ -95,9 +142,14 @@
 
         <div class="info-group">
 
+
             <label>
+
                 Email
+
             </label>
+
+
 
             <input 
             id="email"
@@ -105,7 +157,10 @@
             disabled
             >
 
+
         </div>
+
+
 
 
 
@@ -113,31 +168,61 @@
 
         <div class="info-group">
 
+
             <label>
+
                 Joined
+
             </label>
+
+
 
             <input 
             id="createdAt"
             disabled
             >
 
+
         </div>
 
 
 
+
+
+
+
         <button id="editProfileBtn">
+
+            <i class="fa-solid fa-pen"></i>
+
             Edit Profile
+
         </button>
+
+
+
 
 
 
         <button id="saveProfileBtn" class="hidden">
+
+
+            <i class="fa-solid fa-check"></i>
+
             Save Changes
+
+
         </button>
 
 
+
+
+
     </section>
+
+
+
+
 
 
 
@@ -145,23 +230,105 @@
 
     <!-- Referral Information -->
 
+
     <section class="profile-card">
 
 
-        <h2>Referral</h2>
+
+        <h2>
+
+            Referral
+
+        </h2>
+
+
+
 
 
         <p>
+
             Referral Code:
+
         </p>
 
 
+
+
+
         <strong id="referralCode">
+
             Loading...
+
         </strong>
 
 
+
+
+
     </section>
+
+
+
+
+
+
+
+
+    <!-- Account Actions -->
+
+
+    <section class="profile-card account-actions">
+
+
+
+
+
+        <button 
+        id="deleteAccountBtn"
+        class="delete-btn">
+
+
+
+            <i class="fa-solid fa-trash"></i>
+
+
+            Delete Account
+
+
+
+        </button>
+
+
+
+
+
+
+
+
+        <button 
+        id="logoutBtn"
+        class="logout-btn">
+
+
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+
+            Logout
+
+
+
+        </button>
+
+
+
+
+
+    </section>
+
+
+
+
 
 
 
@@ -169,9 +336,14 @@
 
 
 
+
+
+
 <script src="profile.js"></script>
+
 
 
 </body>
 
-      </html>
+
+            </html>
