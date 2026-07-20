@@ -195,34 +195,22 @@ FEATURED SOCIAL ACCOUNTS
 
 async function loadFeaturedAccounts(){
 
-
 const {
-
 data,
-
 error
-
 } = await supabase
 
-.from("products")
-
+.from("available_products")
 .select("*")
-
 .eq("type","social")
-
 .limit(3);
 
 
 
 if(error){
 
-if(featuredAccounts){
-
 featuredAccounts.innerHTML =
-
 "<p>No social accounts available.</p>";
-
-}
 
 return;
 
@@ -230,10 +218,7 @@ return;
 
 
 
-if(!featuredAccounts) return;
-
-
-featuredAccounts.innerHTML="";
+featuredAccounts.innerHTML = "";
 
 
 
@@ -242,24 +227,28 @@ data.forEach(product=>{
 
 featuredAccounts.innerHTML += `
 
-
 <div class="product-card">
 
 
 <div class="product-platform">
 
-${product.name}
+${product.platform}
 
 </div>
-
 
 
 <div class="product-country">
 
-${product.description || "Premium Account"}
+${product.country}
 
 </div>
 
+
+<div class="product-name">
+
+${product.name}
+
+</div>
 
 
 <div class="product-price">
@@ -271,14 +260,13 @@ ${product.description || "Premium Account"}
 
 </div>
 
-
 `;
 
 
 });
 
 
-}
+  }
 
 
 
