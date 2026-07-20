@@ -28,8 +28,6 @@ let currentFilter = "all";
 
 
 
-
-
 async function getUser(){
 
 
@@ -56,14 +54,13 @@ async function getUser(){
 
 
 
-
-
 function formatMoney(amount){
 
     return "₦" + Number(amount || 0)
     .toLocaleString();
 
 }
+
 
 
 
@@ -82,100 +79,47 @@ function formatDate(date){
 
 
 
-
 async function loadPurchases(){
 
 
     try{
 
 
-        const request = Promise.all([
+        const {
+            data,
+            error
+        } = await supabaseClient
 
+        .from("orders")
 
-
-            // Social purchases
-
-            supabaseClient
-            .from("orders")
-            .select(`
-                id,
-                total_amount,
-                status,
-                created_at,
-                order_items(
-                    price,
-                    products(
-                        name,
-                        country
-                    )
+        .select(`
+            id,
+            total_amount,
+            status,
+            created_at,
+            order_items(
+                price,
+                products(
+                    name,
+                    country
                 )
-            `)
-            .eq(
-                "user_id",
-                currentUser.id
-            ),
-
-
-
-
-            // SMS purchases
-
-            supabaseClient
-            .from("sms_purchases")
-            .select(`
-                selling_price,
-                status,
-                service_code,
-                phone_number,
-                created_at
-            `)
-            .eq(
-                "user_id",
-                currentUser.id
             )
+        `)
 
-
-
-        ]);
-
-
-
-
-
-
-        const timeout =
-        new Promise((_,reject)=>{
-
-
-            setTimeout(()=>{
-
-
-                reject(
-                new Error(
-                "Purchase loading timeout"
-                )
-                );
-
-
-            },10000);
-
-
-
-        });
+        .eq(
+            "user_id",
+            currentUser.id
+        );
 
 
 
 
 
+        if(error){
 
-        const [
-            ordersResult,
-            smsResult
+            throw error;
 
-        ] = await Promise.race([
-            request,
-            timeout
-        ]);
+        }
 
 
 
@@ -189,14 +133,12 @@ async function loadPurchases(){
 
 
 
-        // Social accounts
+        // Social accounts only
 
-        if(ordersResult.data){
+        if(data){
 
 
-
-            ordersResult.data.forEach(order=>{
-
+            data.forEach(order=>{
 
 
                 order.order_items.forEach(item=>{
@@ -242,62 +184,6 @@ async function loadPurchases(){
 
             });
 
-
-        }
-
-
-
-
-
-
-
-
-        // SMS numbers
-
-        if(smsResult.data){
-
-
-
-            smsResult.data.forEach(item=>{
-
-
-
-                allPurchases.push({
-
-
-                    type:"sms",
-
-
-                    title:
-                    "SMS Number",
-
-
-                    price:
-                    item.selling_price,
-
-
-                    service:
-                    item.service_code,
-
-
-                    phone:
-                    item.phone_number,
-
-
-                    status:
-                    item.status,
-
-
-                    date:
-                    item.created_at
-
-
-
-                });
-
-
-
-            });
 
 
         }
@@ -453,17 +339,6 @@ function renderPurchases(){
             :
             ""
             }
-
-
-
-            ${
-            item.service
-            ?
-            `Service: ${item.service}<br>`
-            :
-            ""
-            }
-
 
 
 
