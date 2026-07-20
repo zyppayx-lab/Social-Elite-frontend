@@ -3,7 +3,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
 
 
 const DEFAULT_AVATAR = 
-"https://dohxtukzxopwkvxeppdl.supabase.co/storage/v1/object/public/avatars/default/Screenshot_20260719-123921.jpg";
+"https://dohxtukzxopwkvxeppdl.supabase.co/storage/v1/object/public/avatars/default/file_00000000030071f48c3dadbbb5162e4f.jpg";
 
 
 
