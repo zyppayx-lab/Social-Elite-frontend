@@ -5,80 +5,69 @@
 const SUPABASE_URL = "https://dohxtukzxopwkvxeppdl.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
 
-const supabase = window.supabase.createClient(
+
+const supabaseClient =
+window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
 );
 
 
+
 // ===============================
-// Edge Function URL
+// Edge Function
 // ===============================
 
 const SMS_SERVICES_URL =
 "https://dohxtukzxopwkvxeppdl.supabase.co/functions/v1/get-smsgig-services";
 
 
+
 // ===============================
-// DOM Elements
+// Elements
 // ===============================
 
 const searchInput =
 document.getElementById("searchInput");
 
+
 const servicesContainer =
 document.getElementById("servicesContainer");
+
 
 const loadingState =
 document.getElementById("loadingState");
 
+
 const emptyState =
 document.getElementById("emptyState");
 
+
 const statusContainer =
 document.getElementById("statusContainer");
+
 
 const refreshBtn =
 document.getElementById("refreshBtn");
 
 
+
 // ===============================
-// State
+// Data
 // ===============================
 
 let allServices = [];
 
+let displayedServices = [];
 
-// ===============================
-// Authentication
-// ===============================
+let currentPage = 1;
 
-async function requireAuth(){
-
-    const {
-        data:{
-            session
-        }
-    } = await supabase.auth.getSession();
-
-
-    if(!session){
-
-        window.location.href =
-        "login.html";
-
-        return null;
-    }
-
-
-    return session.access_token;
-
-}
+const itemsPerPage = 50;
 
 
 
 // ===============================
-// UI Helpers
+// Loading
 // ===============================
 
 function showLoading(show){
@@ -89,6 +78,7 @@ function showLoading(show){
 }
 
 
+
 function showEmpty(show){
 
     emptyState.style.display =
@@ -97,11 +87,12 @@ function showEmpty(show){
 }
 
 
-function showMessage(message,type="error"){
+
+function showMessage(message){
 
     statusContainer.innerHTML = `
 
-    <div class="status-message status-${type}">
+    <div class="status-message">
         ${message}
     </div>
 
@@ -110,39 +101,62 @@ function showMessage(message,type="error"){
 }
 
 
-function clearMessage(){
 
-    statusContainer.innerHTML = "";
+// ===============================
+// Authentication
+// ===============================
+
+async function getUserToken(){
+
+    const {
+        data
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(!data.session){
+
+        window.location.href =
+        "login.html";
+
+        return null;
+
+    }
+
+
+    return data.session.access_token;
 
 }
 
 
 
 // ===============================
-// Load SMS Services
+// Load Services
 // ===============================
 
 async function loadServices(){
 
-    showLoading(true);
 
-    clearMessage();
+    showLoading(true);
 
     servicesContainer.innerHTML = "";
 
+    statusContainer.innerHTML = "";
+
     showEmpty(false);
+
 
 
     try{
 
 
         const token =
-        await requireAuth();
+        await getUserToken();
+
 
 
         if(!token){
 
-            showLoading(false);
             return;
 
         }
@@ -179,7 +193,7 @@ async function loadServices(){
 
 
         console.log(
-            "SMS SERVICES RESPONSE:",
+            "SERVICE RESPONSE:",
             result
         );
 
@@ -192,7 +206,7 @@ async function loadServices(){
 
             throw new Error(
                 result.message ||
-                "Failed to load services."
+                "Unable to load services"
             );
 
         }
@@ -204,9 +218,14 @@ async function loadServices(){
 
 
 
-        renderServices(
-            allServices
+        console.log(
+            "TOTAL SERVICES:",
+            allServices.length
         );
+
+
+
+        renderServices(allServices);
 
 
 
@@ -214,7 +233,6 @@ async function loadServices(){
 
 
         console.error(
-            "LOAD ERROR:",
             error
         );
 
@@ -222,6 +240,7 @@ async function loadServices(){
         showMessage(
             error.message
         );
+
 
 
     }finally{
@@ -232,12 +251,14 @@ async function loadServices(){
 
     }
 
+
 }
 
 
 
+
 // ===============================
-// Render Services
+// Initial Render
 // ===============================
 
 function renderServices(services){
@@ -252,30 +273,55 @@ function renderServices(services){
     ){
 
         showEmpty(true);
+
         return;
 
     }
 
 
 
-    showEmpty(false);
+    displayedServices =
+    services;
+
+
+    currentPage = 1;
+
+
+    renderPage();
+
+
+}
 
 
 
-    services.forEach(service=>{
+
+// ===============================
+// Pagination Render
+// ===============================
+
+function renderPage(){
 
 
-        const stockClass =
-        service.stock > 20
-        ?
-        "badge-success"
-        :
-        service.stock > 0
-        ?
-        "badge-warning"
-        :
-        "badge-danger";
+    const start =
+    (currentPage - 1)
+    * itemsPerPage;
 
+
+
+    const end =
+    start + itemsPerPage;
+
+
+
+    const items =
+    displayedServices.slice(
+        start,
+        end
+    );
+
+
+
+    items.forEach(service=>{
 
 
         const card =
@@ -289,126 +335,77 @@ function renderServices(services){
 
         card.innerHTML = `
 
-        <div class="service-title">
+        <div class="service-header">
 
+            <h3>
             ${service.name}
+            </h3>
 
         </div>
 
 
-        <div class="info-row">
 
-            <span class="label">
-            Price
-            </span>
+        <div class="service-info">
 
-            <span class="value">
+            <p>
+            Price:
+            <strong>
             ₦${Number(
-                service.selling_price
+            service.selling_price
             ).toLocaleString()}
-            </span>
-
-        </div>
-
+            </strong>
+            </p>
 
 
-        <div class="info-row">
 
-            <span class="label">
-            Stock
-            </span>
+            <p>
+            Stock:
+            ${service.stock}
+            </p>
 
-            <span class="badge ${stockClass}">
+
+
+            <p>
+            Duration:
+            ${Math.floor(
+                service.ttl / 60
+            )}
+            minutes
+            </p>
+
+
+
+            <p>
+            Multiple SMS:
             ${
-                service.stock > 0
-                ?
-                service.stock+" Available"
-                :
-                "Out of Stock"
-            }
-            </span>
-
-        </div>
-
-
-
-        <div class="info-row">
-
-            <span class="label">
-            Valid Time
-            </span>
-
-            <span class="value">
-
-            ${
-                Math.floor(
-                    service.ttl / 60
-                )
-            }
-            mins
-
-            </span>
-
-        </div>
-
-
-
-        <div class="info-row">
-
-            <span class="label">
-            Multiple SMS
-            </span>
-
-
-            <span class="value">
-
-            ${
-                service.multiple_sms
-                ?
-                "Yes"
-                :
-                "No"
-            }
-
-            </span>
-
-        </div>
-
-
-
-        <button
-        class="buy-btn"
-        ${
-            service.stock <=0
+            service.multiple_sms
             ?
-            "disabled"
+            "Yes"
             :
-            ""
-        }
-        >
+            "No"
+            }
+            </p>
 
-        ${
-            service.stock >0
-            ?
-            "Buy Number"
-            :
-            "Out of Stock"
-        }
+
+        </div>
+
+
+
+        <button class="buy-btn">
+
+            Buy Number
 
         </button>
+
 
         `;
 
 
 
-        const button =
         card.querySelector(
             ".buy-btn"
-        );
-
-
-
-        button.onclick = ()=>{
+        )
+        .onclick = ()=>{
 
 
             window.location.href =
@@ -429,7 +426,51 @@ function renderServices(services){
     });
 
 
+
+    if(
+        end < displayedServices.length
+    ){
+
+
+        const loadMore =
+        document.createElement("button");
+
+
+        loadMore.className =
+        "load-more-btn";
+
+
+        loadMore.textContent =
+        "Load More";
+
+
+
+        loadMore.onclick = ()=>{
+
+
+            currentPage++;
+
+
+            loadMore.remove();
+
+
+            renderPage();
+
+
+        };
+
+
+
+        servicesContainer.appendChild(
+            loadMore
+        );
+
+    }
+
+
 }
+
+
 
 
 
@@ -451,10 +492,12 @@ searchInput.addEventListener(
 
     const filtered =
     allServices.filter(
-        service =>
+        service=>
+
         service.name
         .toLowerCase()
         .includes(keyword)
+
     );
 
 
@@ -468,26 +511,32 @@ searchInput.addEventListener(
 
 
 
+
 // ===============================
 // Refresh
 // ===============================
 
 refreshBtn.addEventListener(
 "click",
-loadServices
-);
+()=>{
+
+    loadServices();
+
+});
+
 
 
 
 // ===============================
-// Auth Listener
+// Auth Watch
 // ===============================
 
-supabase.auth.onAuthStateChange(
+supabaseClient.auth.onAuthStateChange(
 (event)=>{
 
+
     if(
-        event==="SIGNED_OUT"
+        event === "SIGNED_OUT"
     ){
 
         window.location.href =
@@ -495,7 +544,9 @@ supabase.auth.onAuthStateChange(
 
     }
 
+
 });
+
 
 
 
