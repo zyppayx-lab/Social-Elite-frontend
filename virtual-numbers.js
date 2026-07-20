@@ -2,8 +2,11 @@
 // Supabase Configuration
 // ===============================
 
-const SUPABASE_URL = "https://dohxtukzxopwkvxeppdl.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
+const SUPABASE_URL =
+"https://dohxtukzxopwkvxeppdl.supabase.co";
+
+const SUPABASE_ANON_KEY =
+"sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
 
 
 const supabaseClient =
@@ -30,22 +33,17 @@ const SMS_SERVICES_URL =
 const searchInput =
 document.getElementById("searchInput");
 
-
 const servicesContainer =
 document.getElementById("servicesContainer");
-
 
 const loadingState =
 document.getElementById("loadingState");
 
-
 const emptyState =
 document.getElementById("emptyState");
 
-
 const statusContainer =
 document.getElementById("statusContainer");
-
 
 const refreshBtn =
 document.getElementById("refreshBtn");
@@ -67,7 +65,7 @@ const itemsPerPage = 150;
 
 
 // ===============================
-// Loading
+// Helpers
 // ===============================
 
 function showLoading(show){
@@ -78,7 +76,6 @@ function showLoading(show){
 }
 
 
-
 function showEmpty(show){
 
     emptyState.style.display =
@@ -87,15 +84,12 @@ function showEmpty(show){
 }
 
 
-
 function showMessage(message){
 
     statusContainer.innerHTML = `
-
-    <div class="status-message">
-        ${message}
-    </div>
-
+        <div class="status-message">
+            ${message}
+        </div>
     `;
 
 }
@@ -120,7 +114,6 @@ async function getUserToken(){
         "login.html";
 
         return null;
-
     }
 
 
@@ -136,7 +129,6 @@ async function getUserToken(){
 
 async function loadServices(){
 
-
     showLoading(true);
 
     servicesContainer.innerHTML = "";
@@ -146,13 +138,11 @@ async function loadServices(){
     showEmpty(false);
 
 
-
     try{
 
 
         const token =
         await getUserToken();
-
 
 
         if(!token){
@@ -162,12 +152,10 @@ async function loadServices(){
         }
 
 
-
         const response =
         await fetch(
             SMS_SERVICES_URL,
             {
-
                 method:"POST",
 
                 headers:{
@@ -181,7 +169,6 @@ async function loadServices(){
                 },
 
                 body:JSON.stringify({})
-
             }
         );
 
@@ -214,63 +201,87 @@ async function loadServices(){
 
 
         allServices =
-result.data || [];
-
-        alert(JSON.stringify(
-allServices.filter(service =>
-    service.name.toLowerCase().includes("whatsapp") ||
-    service.name.toLowerCase().includes("facebook") ||
-    service.name.toLowerCase().includes("tiktok")
-)
-));
-
-const priorityServices = [
-    "whatsapp",
-    "facebook",
-    "instagram",
-    "tiktok",
-    "telegram",
-    "google",
-    "gmail",
-    "chatgpt",
-    "twitter",
-    "x"
-];
+        result.data || [];
 
 
-allServices.sort((a,b)=>{
 
-    const aIndex =
-    priorityServices.indexOf(
-        a.service_code.toLowerCase()
-    );
+        // Popular services first
 
-    const bIndex =
-    priorityServices.indexOf(
-        b.service_code.toLowerCase()
-    );
-
-
-    if(aIndex !== -1 && bIndex !== -1){
-        return aIndex - bIndex;
-    }
-
-
-    if(aIndex !== -1){
-        return -1;
-    }
+        const priorityServices = [
+            "whatsapp",
+            "facebook",
+            "instagram",
+            "tiktok",
+            "telegram",
+            "google",
+            "gmail",
+            "chatgpt",
+            "twitter",
+            "x"
+        ];
 
 
-    if(bIndex !== -1){
-        return 1;
-    }
+
+        allServices.sort((a,b)=>{
 
 
-    return a.name.localeCompare(
-        b.name
-    );
+            const aName =
+            a.name.toLowerCase();
 
-});
+
+            const bName =
+            b.name.toLowerCase();
+
+
+
+            const aIndex =
+            priorityServices.findIndex(
+                item =>
+                aName.includes(item)
+            );
+
+
+            const bIndex =
+            priorityServices.findIndex(
+                item =>
+                bName.includes(item)
+            );
+
+
+
+            if(
+                aIndex !== -1 &&
+                bIndex !== -1
+            ){
+
+                return aIndex - bIndex;
+
+            }
+
+
+
+            if(aIndex !== -1){
+
+                return -1;
+
+            }
+
+
+
+            if(bIndex !== -1){
+
+                return 1;
+
+            }
+
+
+
+            return aName.localeCompare(
+                bName
+            );
+
+
+        });
 
 
 
@@ -280,17 +291,16 @@ allServices.sort((a,b)=>{
         );
 
 
-
-        renderServices(allServices);
+        renderServices(
+            allServices
+        );
 
 
 
     }catch(error){
 
 
-        console.error(
-            error
-        );
+        console.error(error);
 
 
         showMessage(
@@ -298,27 +308,19 @@ allServices.sort((a,b)=>{
         );
 
 
-
     }finally{
 
 
         showLoading(false);
 
-
     }
 
-
 }
-
-
-
-
 // ===============================
 // Initial Render
 // ===============================
 
 function renderServices(services){
-
 
     servicesContainer.innerHTML = "";
 
@@ -335,19 +337,13 @@ function renderServices(services){
     }
 
 
-
-    displayedServices =
-    services;
-
+    displayedServices = services;
 
     currentPage = 1;
 
-
     renderPage();
 
-
 }
-
 
 
 
@@ -357,16 +353,12 @@ function renderServices(services){
 
 function renderPage(){
 
-
     const start =
-    (currentPage - 1)
-    * itemsPerPage;
-
+    (currentPage - 1) * itemsPerPage;
 
 
     const end =
     start + itemsPerPage;
-
 
 
     const items =
@@ -394,31 +386,29 @@ function renderPage(){
         <div class="service-header">
 
             <h3>
-            ${service.name}
+                ${service.name}
             </h3>
 
         </div>
 
 
-
         <div class="service-info">
+
 
             <p>
             Price:
             <strong>
             ₦${Number(
-            service.selling_price
+                service.selling_price
             ).toLocaleString()}
             </strong>
             </p>
-
 
 
             <p>
             Stock:
             ${service.stock}
             </p>
-
 
 
             <p>
@@ -428,7 +418,6 @@ function renderPage(){
             )}
             minutes
             </p>
-
 
 
             <p>
@@ -446,13 +435,9 @@ function renderPage(){
         </div>
 
 
-
         <button class="buy-btn">
-
             Buy Number
-
         </button>
-
 
         `;
 
@@ -487,7 +472,6 @@ function renderPage(){
         end < displayedServices.length
     ){
 
-
         const loadMore =
         document.createElement("button");
 
@@ -498,7 +482,6 @@ function renderPage(){
 
         loadMore.textContent =
         "Load More";
-
 
 
         loadMore.onclick = ()=>{
@@ -516,17 +499,13 @@ function renderPage(){
         };
 
 
-
         servicesContainer.appendChild(
             loadMore
         );
 
     }
 
-
 }
-
-
 
 
 
@@ -548,12 +527,17 @@ searchInput.addEventListener(
 
     const filtered =
     allServices.filter(
-        service=>
+        service=>{
 
-        service.name
-        .toLowerCase()
-        .includes(keyword)
 
+            const name =
+            service.name
+            .toLowerCase();
+
+
+            return name.includes(keyword);
+
+        }
     );
 
 
@@ -564,7 +548,6 @@ searchInput.addEventListener(
 
 
 });
-
 
 
 
@@ -579,7 +562,6 @@ refreshBtn.addEventListener(
     loadServices();
 
 });
-
 
 
 
@@ -602,7 +584,6 @@ supabaseClient.auth.onAuthStateChange(
 
 
 });
-
 
 
 
