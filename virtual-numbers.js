@@ -62,7 +62,7 @@ let displayedServices = [];
 
 let currentPage = 1;
 
-const itemsPerPage = 50;
+const itemsPerPage = 150;
 
 
 
@@ -215,6 +215,14 @@ async function loadServices(){
 
         allServices =
 result.data || [];
+
+        alert(JSON.stringify(
+allServices.filter(service =>
+    service.name.toLowerCase().includes("whatsapp") ||
+    service.name.toLowerCase().includes("facebook") ||
+    service.name.toLowerCase().includes("tiktok")
+)
+));
 
 const priorityServices = [
     "whatsapp",
