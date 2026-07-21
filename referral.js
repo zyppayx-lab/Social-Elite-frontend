@@ -6,18 +6,32 @@ const supabaseClient = supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-const referralCodeElement = document.getElementById("referralCode");
-const referralLinkElement = document.getElementById("referralLink");
+const referralCodeElement =
+document.getElementById("referralCode");
 
-const totalReferralsElement = document.getElementById("totalReferrals");
-const completedRewardsElement = document.getElementById("completedRewards");
-const totalEarnedElement = document.getElementById("totalEarned");
+const referralLinkElement =
+document.getElementById("referralLink");
 
-const earningsList = document.getElementById("earningsList");
-const referralList = document.getElementById("referralList");
+const totalReferralsElement =
+document.getElementById("totalReferrals");
+
+const completedRewardsElement =
+document.getElementById("completedRewards");
+
+const totalEarnedElement =
+document.getElementById("totalEarned");
+
+const earningsList =
+document.getElementById("earningsList");
+
+const referralList =
+document.getElementById("referralList");
 
 function formatMoney(amount){
-    return "₦" + Number(amount || 0).toLocaleString();
+
+    return "₦" +
+    Number(amount || 0).toLocaleString();
+
 }
 
 async function checkUser(){
@@ -47,12 +61,15 @@ async function loadProfile(userId){
         .eq("id",userId)
         .single();
 
-        if(error) throw error;
+        if(error){
+            throw error;
+        }
 
         const code =
         data.referral_code || "Unavailable";
 
-        referralCodeElement.textContent = code;
+        referralCodeElement.textContent =
+        code;
 
         referralLinkElement.textContent =
         `${window.location.origin}/signup.html?ref=${code}`;
@@ -77,14 +94,16 @@ async function loadReferrals(userId){
 
         const {data,error} =
         await supabaseClient
-        .from("profiles")
+        .from("referrals")
         .select(`
-            full_name,
-            email,
-            created_at
+            referred_id,
+            created_at,
+            rewarded
         `)
-        .eq("referred_by",userId)
-        .order("created_at",{ascending:false});
+        .eq("referrer_id",userId)
+        .order("created_at",{
+            ascending:false
+        });
 
         if(error){
             throw error;
@@ -93,39 +112,86 @@ async function loadReferrals(userId){
         totalReferralsElement.textContent =
         data.length;
 
-        if(data.length===0){
+        completedRewardsElement.textContent =
+        data.filter(item=>item.rewarded).length;
 
-            completedRewardsElement.textContent = "0";
+        if(data.length===0){
 
             referralList.innerHTML = `
             <p class="empty-state">
                 No referrals yet
-            </p>`;
+            </p>
+            `;
 
             return;
 
         }
 
+        const referredIds =
+        data.map(item=>item.referred_id);
+
+        const {
+            data:profiles,
+            error:profileError
+        } =
+        await supabaseClient
+        .from("profiles")
+        .select(`
+            id,
+            full_name,
+            email
+        `)
+        .in("id",referredIds);
+
+        if(profileError){
+            throw profileError;
+        }
+
+        const profileMap = {};
+
+        profiles.forEach(profile=>{
+
+            profileMap[profile.id] =
+            profile;
+
+        });
+
         referralList.innerHTML = "";
 
         data.forEach(item=>{
 
-            const name =
-            item.full_name ||
-            item.email ||
-            "Unknown User";
+            const profile =
+            profileMap[item.referred_id];
 
             referralList.innerHTML += `
 
             <div class="history-item">
 
-                <h4>${name}</h4>
-
-                <p>${item.email}</p>
+                <h4>
+                    ${profile?.full_name || "Unknown User"}
+                </h4>
 
                 <p>
-                Joined:
-                ${new Date(item.created_at).toLocaleDateString()}
+                    ${profile?.email || ""}
+                </p>
+
+                <p>
+                    Joined:
+                    ${new Date(item.created_at).toLocaleDateString()}
+                </p>
+
+                <p class="${
+                    item.rewarded
+                    ? "status-complete"
+                    : "status-pending"
+                }">
+
+                    ${
+                        item.rewarded
+                        ? "Reward Completed"
+                        : "Pending Reward"
+                    }
+
                 </p>
 
             </div>
@@ -140,8 +206,9 @@ async function loadReferrals(userId){
 
         referralList.innerHTML = `
         <p class="empty-state">
-        Failed to load referrals
-        </p>`;
+            Failed to load referrals
+        </p>
+        `;
 
     }
 
@@ -168,11 +235,10 @@ async function loadEarnings(userId){
         let total = 0;
 
         data.forEach(item=>{
-            total += Number(item.amount);
-        });
 
-        completedRewardsElement.textContent =
-        data.length;
+            total += Number(item.amount);
+
+        });
 
         totalEarnedElement.textContent =
         formatMoney(total);
@@ -255,7 +321,8 @@ async function initReferral(){
 
     try{
 
-        const user = await checkUser();
+        const user =
+        await checkUser();
 
         if(!user){
             return;
@@ -264,8 +331,10 @@ async function initReferral(){
         await loadProfile(user.id);
 
         await Promise.all([
+
             loadReferrals(user.id),
             loadEarnings(user.id)
+
         ]);
 
     }catch(error){
