@@ -56,33 +56,32 @@ async function loadProducts(){
     try{
 
         const request =
-        Promise.all([
+Promise.all([
 
-            supabaseClient
-            .from("available_products")
-            .select(`
-                id,
-                name,
-                description,
-                price,
-                country,
-                type,
-                platform,
-                category,
-                stock,
-                image_url,
-                image_url_2
-            `)
-            .eq(
-                "type",
-                "social"
-            ),
+    supabaseClient
+    .from("available_products")
+    .select(`
+        id,
+        name,
+        description,
+        price,
+        country,
+        type,
+        platform,
+        category,
+        stock,
+        image_url,
+        image_url_2,
+        status
+    `)
+    .eq("status", "active")
+    .gt("stock", 0),
 
-            supabaseClient
-            .from("available_countries")
-            .select("*")
+    supabaseClient
+    .from("available_countries")
+    .select("*")
 
-        ]);
+]);
 
         const timeout =
         new Promise((_,reject)=>{
