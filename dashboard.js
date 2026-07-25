@@ -202,7 +202,8 @@ error
 
 .from("available_products")
 .select("*")
-.eq("type","social")
+    .eq("status", "active")
+    .gt("stock", 0),
 .limit(3);
 
 
