@@ -5,6 +5,7 @@ dashboard.js
 
 "use strict";
 
+
 /* =====================================
 SUPABASE
 ===================================== */
@@ -13,17 +14,21 @@ import { createClient }
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
+
 const SUPABASE_URL =
 "https://dohxtukzxopwkvxeppdl.supabase.co";
 
+
 const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvaHh0dWt6eG9wd2t2eHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxOTA5NzksImV4cCI6MjA5ODc2Njk3OX0.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb2h4dHVrenhvcHdrdnhlcHBkbCIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzgzMTkwOTc5LCJleHAiOjIwOTg3NjY5Nzl9.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
+
 
 const supabase =
 createClient(
 SUPABASE_URL,
 SUPABASE_ANON_KEY
 );
+
 
 
 /* =====================================
@@ -33,11 +38,14 @@ ELEMENTS
 const walletBalance =
 document.getElementById("walletBalance");
 
+
 const featuredAccounts =
 document.getElementById("featuredAccounts");
 
+
 const loadingOverlay =
 document.getElementById("loadingOverlay");
+
 
 
 /* =====================================
@@ -66,6 +74,7 @@ loadingOverlay.classList.remove("active");
 }
 
 
+
 /* =====================================
 AUTH
 ===================================== */
@@ -85,6 +94,7 @@ data:{session}
 } = await supabase.auth.getSession();
 
 
+
 if(!session){
 
 window.location.replace("login.html");
@@ -99,7 +109,9 @@ currentUser = session.user;
 
 await loadWalletBalance();
 
+
 }
+
 
 
 /* =====================================
@@ -116,6 +128,7 @@ return;
 }
 
 
+
 const {
 
 data,
@@ -127,9 +140,9 @@ error
 
 .select("wallet_balance")
 
-.eq("id", currentUser.id)
+.eq("email", currentUser.email)
 
-.maybeSingle();
+.single();
 
 
 
@@ -147,9 +160,9 @@ walletBalance.textContent =
 
 "₦" +
 
-Number(
-data.wallet_balance || 0
-).toLocaleString("en-NG");
+Number(data.wallet_balance || 0)
+
+.toLocaleString("en-NG");
 
 
 }
@@ -174,9 +187,9 @@ error
 
 .select("*")
 
-.eq("status", "active")
+.eq("status","active")
 
-.gt("stock", 0)
+.gt("stock",0)
 
 .limit(3);
 
@@ -241,12 +254,12 @@ ${product.name}
 }
 
 
+
 /* =====================================
 START DASHBOARD
 ===================================== */
 
 async function initializeDashboard(){
-
 
 try{
 
@@ -257,15 +270,10 @@ await checkAuth();
 await loadFeaturedAccounts();
 
 
-
 }catch(error){
 
 
 console.error(error);
-
-
-window.location.replace("login.html");
-
 
 
 }finally{
@@ -275,7 +283,6 @@ hideLoading();
 
 
 }
-
 
 }
 
