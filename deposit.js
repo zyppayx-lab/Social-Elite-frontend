@@ -181,11 +181,11 @@ return false;
 
 }
 
-if(amount < 100){
+if(amount < 500){
 
 showToast(
 
-"Minimum deposit is ₦100.",
+"Minimum deposit is ₦500.",
 
 "error"
 
