@@ -203,7 +203,7 @@ error
 .from("available_products")
 .select("*")
     .eq("status", "active")
-    .gt("stock", 0),
+.gt("stock", 0)
 .limit(3);
 
 
