@@ -5,7 +5,6 @@ dashboard.js
 
 "use strict";
 
-
 /* =====================================
 SUPABASE
 ===================================== */
@@ -14,14 +13,11 @@ import { createClient }
 from
 "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-
 const SUPABASE_URL =
 "https://dohxtukzxopwkvxeppdl.supabase.co";
 
-
 const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvaHh0dWt6eG9wd2t2eGVwcGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxOTA5NzksImV4cCI6MjA5ODc2Njk3OX0.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
-
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvaHh0dWt6eG9wd2t2eHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxOTA5NzksImV4cCI6MjA5ODc2Njk3OX0.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
 
 const supabase =
 createClient(
@@ -30,29 +26,23 @@ SUPABASE_ANON_KEY
 );
 
 
-
 /* =====================================
 ELEMENTS
 ===================================== */
 
-
 const walletBalance =
 document.getElementById("walletBalance");
 
-
 const featuredAccounts =
 document.getElementById("featuredAccounts");
-
 
 const loadingOverlay =
 document.getElementById("loadingOverlay");
 
 
-
 /* =====================================
 LOADING
 ===================================== */
-
 
 function showLoading(){
 
@@ -76,11 +66,9 @@ loadingOverlay.classList.remove("active");
 }
 
 
-
 /* =====================================
 AUTH
 ===================================== */
-
 
 let currentUser = null;
 
@@ -92,15 +80,12 @@ showLoading();
 
 const {
 
-data:{session},
-
-error
+data:{session}
 
 } = await supabase.auth.getSession();
 
 
-
-if(error || !session){
+if(!session){
 
 window.location.replace("login.html");
 
@@ -117,20 +102,23 @@ await loadWalletBalance();
 }
 
 
-
-
 /* =====================================
 LOAD WALLET BALANCE
 ===================================== */
 
-
 async function loadWalletBalance(){
+
+
+if(!currentUser){
+
+return;
+
+}
 
 
 const {
 
 data,
-
 error
 
 } = await supabase
@@ -141,17 +129,13 @@ error
 
 .eq("id", currentUser.id)
 
-.single();
+.maybeSingle();
 
 
 
-if(error){
+if(error || !data){
 
-if(walletBalance){
-
-walletBalance.textContent="₦0.00";
-
-}
+walletBalance.textContent = "₦0.00";
 
 return;
 
@@ -159,29 +143,13 @@ return;
 
 
 
-if(walletBalance){
-
 walletBalance.textContent =
 
-new Intl.NumberFormat(
+"₦" +
 
-"en-NG",
-
-{
-
-style:"currency",
-
-currency:"NGN"
-
-}
-
-).format(
-
-Number(data.wallet_balance || 0)
-
-);
-
-}
+Number(
+data.wallet_balance || 0
+).toLocaleString("en-NG");
 
 
 }
@@ -192,18 +160,24 @@ Number(data.wallet_balance || 0)
 FEATURED SOCIAL ACCOUNTS
 ===================================== */
 
-
 async function loadFeaturedAccounts(){
 
+
 const {
+
 data,
 error
+
 } = await supabase
 
 .from("available_products")
+
 .select("*")
-    .eq("status", "active")
+
+.eq("status", "active")
+
 .gt("stock", 0)
+
 .limit(3);
 
 
@@ -222,14 +196,12 @@ return;
 featuredAccounts.innerHTML = "";
 
 
-
 data.forEach(product=>{
 
 
 featuredAccounts.innerHTML += `
 
 <div class="product-card">
-
 
 <div class="product-platform">
 
@@ -263,18 +235,15 @@ ${product.name}
 
 `;
 
-
 });
 
 
-  }
-
+}
 
 
 /* =====================================
 START DASHBOARD
 ===================================== */
-
 
 async function initializeDashboard(){
 
@@ -283,7 +252,6 @@ try{
 
 
 await checkAuth();
-
 
 
 await loadFeaturedAccounts();
@@ -296,8 +264,8 @@ await loadFeaturedAccounts();
 console.error(error);
 
 
-
 window.location.replace("login.html");
+
 
 
 }finally{
@@ -313,11 +281,9 @@ hideLoading();
 
 
 
-
 /* =====================================
 AUTH LISTENER
 ===================================== */
-
 
 supabase.auth.onAuthStateChange(
 
@@ -326,9 +292,7 @@ supabase.auth.onAuthStateChange(
 
 if(event === "SIGNED_OUT" || !session){
 
-
 window.location.replace("login.html");
-
 
 }
 
@@ -339,11 +303,9 @@ window.location.replace("login.html");
 
 
 
-
 /* =====================================
 START
 ===================================== */
-
 
 document.addEventListener(
 
