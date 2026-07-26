@@ -20,13 +20,13 @@ const SUPABASE_URL =
 
 
 const SUPABASE_ANON_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb2h4dHVrenhvcHdrdnhlcHBkbCIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzgzMTkwOTc5LCJleHAiOjIwOTg3NjY5Nzl9.EvzBxG--UmAIDL6dX-cU878tjRRHacazKv9mbEsGgWY";
+"sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
 
 
-const supabase =
+const supabaseClient =
 createClient(
-SUPABASE_URL,
-SUPABASE_ANON_KEY
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
 );
 
 
@@ -54,22 +54,22 @@ LOADING
 
 function showLoading(){
 
-if(loadingOverlay){
+    if(loadingOverlay){
 
-loadingOverlay.classList.add("active");
+        loadingOverlay.classList.add("active");
 
-}
+    }
 
 }
 
 
 function hideLoading(){
 
-if(loadingOverlay){
+    if(loadingOverlay){
 
-loadingOverlay.classList.remove("active");
+        loadingOverlay.classList.remove("active");
 
-}
+    }
 
 }
 
@@ -84,31 +84,31 @@ let currentUser = null;
 
 async function checkAuth(){
 
-showLoading();
+    showLoading();
 
 
-const {
-
-data:{session}
-
-} = await supabase.auth.getSession();
-
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.getUser();
 
 
-if(!session){
 
-window.location.replace("login.html");
+    if(error || !data.user){
 
-return;
+        window.location.href =
+        "login.html";
 
-}
+        return false;
+
+    }
 
 
-currentUser = session.user;
+
+    currentUser = data.user;
 
 
-await loadWalletBalance();
-
+    return true;
 
 }
 
@@ -121,48 +121,55 @@ LOAD WALLET BALANCE
 async function loadWalletBalance(){
 
 
-if(!currentUser){
+    if(!currentUser){
 
-return;
+        return;
 
-}
-
-
-
-const {
-
-data,
-error
-
-} = await supabase
-
-.from("profiles")
-
-.select("wallet_balance")
-
-.eq("email", currentUser.email)
-
-.single();
+    }
 
 
 
-if(error || !data){
+    const {
+        data,
+        error
+    } = await supabaseClient
 
-walletBalance.textContent = "₦0.00";
+    .from("profiles")
 
-return;
+    .select("wallet_balance")
 
-}
+    .eq("id", currentUser.id)
+
+    .single();
 
 
 
-walletBalance.textContent =
+    if(error){
 
-"₦" +
+        console.error(
+            "Wallet fetch error:",
+            error
+        );
 
-Number(data.wallet_balance || 0)
 
-.toLocaleString("en-NG");
+        walletBalance.textContent =
+        "₦0.00";
+
+        return;
+
+    }
+
+
+
+    walletBalance.textContent =
+
+    "₦" +
+
+    Number(
+        data.wallet_balance || 0
+    )
+
+    .toLocaleString("en-NG");
 
 
 }
@@ -176,79 +183,82 @@ FEATURED SOCIAL ACCOUNTS
 async function loadFeaturedAccounts(){
 
 
-const {
+    const {
+        data,
+        error
+    } = await supabaseClient
 
-data,
-error
+    .from("available_products")
 
-} = await supabase
+    .select("*")
 
-.from("available_products")
+    .eq("status","active")
 
-.select("*")
+    .gt("stock",0)
 
-.eq("status","active")
-
-.gt("stock",0)
-
-.limit(3);
+    .limit(3);
 
 
 
-if(error){
-
-featuredAccounts.innerHTML =
-"<p>No social accounts available.</p>";
-
-return;
-
-}
+    if(error){
 
 
-
-featuredAccounts.innerHTML = "";
-
-
-data.forEach(product=>{
+        featuredAccounts.innerHTML =
+        "<p>No social accounts available.</p>";
 
 
-featuredAccounts.innerHTML += `
+        return;
 
-<div class="product-card">
-
-<div class="product-platform">
-
-${product.platform}
-
-</div>
+    }
 
 
-<div class="product-country">
 
-${product.country}
-
-</div>
+    featuredAccounts.innerHTML = "";
 
 
-<div class="product-name">
 
-${product.name}
-
-</div>
+    data.forEach(product=>{
 
 
-<div class="product-price">
+        featuredAccounts.innerHTML += `
 
-₦${Number(product.price).toLocaleString()}
-
-</div>
+        <div class="product-card">
 
 
-</div>
+            <div class="product-platform">
 
-`;
+            ${product.platform}
 
-});
+            </div>
+
+
+            <div class="product-country">
+
+            ${product.country}
+
+            </div>
+
+
+            <div class="product-name">
+
+            ${product.name}
+
+            </div>
+
+
+            <div class="product-price">
+
+            ₦${Number(product.price).toLocaleString()}
+
+            </div>
+
+
+        </div>
+
+        `;
+
+
+    });
 
 
 }
@@ -256,33 +266,52 @@ ${product.name}
 
 
 /* =====================================
-START DASHBOARD
+INITIALIZE DASHBOARD
 ===================================== */
 
 async function initializeDashboard(){
 
-try{
+
+    try{
 
 
-await checkAuth();
+        const authenticated =
+        await checkAuth();
 
 
-await loadFeaturedAccounts();
+
+        if(!authenticated){
+
+            return;
+
+        }
 
 
-}catch(error){
+
+        await loadWalletBalance();
 
 
-console.error(error);
+        await loadFeaturedAccounts();
 
 
-}finally{
+
+    }catch(error){
 
 
-hideLoading();
+        console.error(
+            "Dashboard error:",
+            error
+        );
 
 
-}
+    }finally{
+
+
+        hideLoading();
+
+
+    }
+
 
 }
 
@@ -292,21 +321,23 @@ hideLoading();
 AUTH LISTENER
 ===================================== */
 
-supabase.auth.onAuthStateChange(
+supabaseClient.auth.onAuthStateChange(
 
 (event, session)=>{
 
 
-if(event === "SIGNED_OUT" || !session){
+    if(
+        event === "SIGNED_OUT" ||
+        !session
+    ){
 
-window.location.replace("login.html");
+        window.location.href =
+        "login.html";
 
-}
+    }
 
 
-}
-
-);
+});
 
 
 
