@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="Read the Terms of Service for SocialElite.">
+
+<title>Terms of Service | SocialElite</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#071220;
+color:#e5e7eb;
+line-height:1.8;
+}
+
+header{
+background:linear-gradient(135deg,#10294d,#0d1f36);
+padding:60px 20px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+width:70px;
+height:70px;
+margin:auto;
+margin-bottom:20px;
+border-radius:20px;
+background:#0b1628;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+font-weight:800;
+color:#4ea5ff;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+header h1{
+font-size:34px;
+margin-bottom:10px;
+}
+
+header p{
+color:#9ca3af;
+}
+
+.container{
+max-width:950px;
+margin:auto;
+padding:40px 20px;
+}
+
+.card{
+background:#0d1b2f;
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+padding:28px;
+margin-bottom:24px;
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+.card h2{
+color:#4ea5ff;
+margin-bottom:15px;
+font-size:24px;
+}
+
+.card p{
+margin-bottom:15px;
+color:#d1d5db;
+}
+
+.card ul{
+padding-left:20px;
+}
+
+.card li{
+margin-bottom:12px;
+}
+
+a{
+color:#4ea5ff;
+text-decoration:none;
+}
+
+a:hover{
+text-decoration:underline;
+}
+
+footer{
+padding:40px 20px;
+text-align:center;
+border-top:1px solid rgba(255,255,255,.08);
+color:#9ca3af;
+margin-top:40px;
+}
+
+@media(max-width:768px){
+
+header h1{
+font-size:28px;
+}
+
+.card{
+padding:22px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+SE
+</div>
+
+<h1>Terms of Service</h1>
+
+<p>Last Updated: July 30, 2026</p>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>1. Acceptance of Terms</h2>
+
+<p>
+
+Welcome to <strong>SocialElite</strong>. These Terms of Service govern your access to and use of our website, mobile application, and related services ("Platform").
+
+By accessing or using SocialElite, you agree to comply with these Terms. If you do not agree with these Terms, please discontinue using the Platform.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>2. Eligibility</h2>
+
+<ul>
+
+<li>You must be at least 18 years old or have permission from a parent or legal guardian.</li>
+
+<li>You agree to provide accurate and complete registration information.</li>
+
+<li>You are responsible for maintaining the confidentiality of your account credentials.</li>
+
+<li>You accept responsibility for all activities performed through your account.</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>3. Our Services</h2>
+
+<p>
+
+SocialElite is a digital marketplace that provides digital products and services made available through the Platform.
+
+</p>
+
+<p>
+
+Product availability, pricing, specifications and descriptions may change without prior notice.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>4. User Accounts</h2>
+
+<p>
+
+Users are responsible for maintaining the security of their accounts.
+
+</p>
+
+<ul>
+
+<li>Do not share your login credentials.</li>
+
+<li>Notify us immediately if you suspect unauthorized access.</li>
+
+<li>Keep your account information accurate and up to date.</li>
+
+<li>You are responsible for all activity under your account.</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>5. Orders & Payments</h2>
+
+<p>
+
+Orders are processed after successful payment confirmation.
+
+</p>
+
+<ul>
+
+<li>Prices may change without prior notice.</li>
+
+<li>We reserve the right to cancel fraudulent or suspicious transactions.</li>
+
+<li>Successful payment does not guarantee availability if a product becomes unavailable before fulfillment.</li>
+
+<li>Taxes and applicable fees may be included where required.</li>
+
+</ul>
+
+</div>
+<div class="card">
+
+<h2>6. Product Delivery</h2>
+
+<p>
+
+Eligible digital products will be delivered through the appropriate delivery method provided by the Platform after payment has been successfully verified.
+
+</p>
+
+<p>
+
+Customers should carefully review all product information before completing a purchase.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>7. Refund Policy</h2>
+
+<p>
+
+Refund requests are reviewed individually based on the circumstances of each transaction.
+
+</p>
+
+<ul>
+
+<li>Refunds may be approved if a purchased product cannot be delivered due to an error on our side.</li>
+
+<li>Duplicate payments confirmed by our records may qualify for a refund.</li>
+
+<li>Refunds are generally not available after successful delivery of a digital product unless required by applicable law.</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>8. Acceptable Use</h2>
+
+<p>
+
+When using SocialElite, you agree to use the Platform responsibly and lawfully.
+
+</p>
+
+<ul>
+
+<li>Do not attempt unauthorized access to any account or system.</li>
+
+<li>Do not interfere with the operation or security of the Platform.</li>
+
+<li>Do not upload malicious software or harmful code.</li>
+
+<li>Do not engage in fraudulent or deceptive activities.</li>
+
+<li>Comply with all applicable laws and regulations.</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>9. Intellectual Property</h2>
+
+<p>
+
+All content on SocialElite, including logos, graphics, software, text, branding, layouts and design elements, is owned by SocialElite or its licensors and is protected under applicable intellectual property laws.
+
+</p>
+
+<p>
+
+You may not copy, reproduce, distribute or modify any content from the Platform without prior written permission.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>10. Limitation of Liability</h2>
+
+<p>
+
+To the fullest extent permitted by law, SocialElite shall not be liable for indirect, incidental, consequential or special damages arising from the use of the Platform.
+
+</p>
+
+<p>
+
+The Platform is provided on an "as available" and "as is" basis without warranties of uninterrupted availability or error-free operation.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>11. Account Suspension</h2>
+
+<p>
+
+We reserve the right to suspend or permanently terminate accounts that violate these Terms, engage in fraudulent activity or threaten the security of the Platform.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>12. Privacy</h2>
+
+<p>
+
+Your use of SocialElite is also governed by our Privacy Policy, which explains how we collect, use, store and protect your information.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>13. Changes to These Terms</h2>
+
+<p>
+
+We may update these Terms at any time. Changes become effective immediately after publication on the Platform.
+
+</p>
+
+<p>
+
+Your continued use of SocialElite after such updates constitutes acceptance of the revised Terms.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>14. Governing Law</h2>
+
+<p>
+
+These Terms shall be governed and interpreted in accordance with the applicable laws of the jurisdiction in which SocialElite operates.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>15. Contact Us</h2>
+
+<p>
+
+If you have any questions regarding these Terms of Service, please contact us through our official support channels.
+
+</p>
+
+<p>
+
+<strong>Email:</strong> support@socialelite.com
+
+</p>
+
+<p>
+
+<strong>Website:</strong> https://socialelite.com
+
+</p>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>
+
+© 2026 SocialElite. All Rights Reserved.
+
+</p>
+
+</footer>
+
+</body>
+
+  </html>
