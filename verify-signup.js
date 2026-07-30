@@ -16,7 +16,7 @@ const VERIFY_SIGNUP_ENDPOINT =
 `${SUPABASE_URL}/functions/v1/verify-signup-otp`;
 
 const SEND_SIGNUP_OTP_ENDPOINT =
-`${SUPABASE_URL}/functions/v1/send-signup-otp`;
+`${API_BASE}/send-signup-otp-web`;
 
 /* =====================================
 ELEMENTS
