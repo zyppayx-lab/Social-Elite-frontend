@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<url>
+    <loc>https://socialelite.name.ng/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+</url>
+
+<url>
+    <loc>https://socialelite.name.ng/contact.html</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+</url>
+
+<url>
+    <loc>https://socialelite.name.ng/signup.html</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+</url>
+
+<url>
+    <loc>https://socialelite.name.ng/login.html</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+</url>
+
+<url>
+    <loc>https://socialelite.name.ng/how-it-works.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+</url>
+
+<url>
+    <loc>https://socialelite.name.ng/privacy-policy.html</loc>
+    <priority>0.4</priority>
+    <changefreq>yearly</changefreq>
+</url>
+
+<url>
+    <loc>https://socialelite.name.ng/terms-and-conditions.html</loc>
+    <priority>0.4</priority>
+    <changefreq>yearly</changefreq>
+</url>
+
+<url>
+    <loc>https://socialelite.name.ng/refund-policy.html</loc>
+    <priority>0.4</priority>
+    <changefreq>yearly</changefreq>
+</url>
+
+</urlset>
