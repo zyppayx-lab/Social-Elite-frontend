@@ -1,0 +1,11 @@
+User-agent: *
+
+Allow: /
+
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /checkout/
+Disallow: /wallet/
+
+Sitemap: https://socialelite.name.ng/sitemap.xml
