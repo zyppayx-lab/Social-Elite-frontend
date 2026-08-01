@@ -2,8 +2,8 @@ const SUPABASE_URL = "https://dohxtukzxopwkvxeppdl.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_KHU_8oYCtAgiBkWM_ShXmw_nO7FKnG7";
 
 const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
+SUPABASE_URL,
+SUPABASE_ANON_KEY
 );
 
 const productList =
@@ -27,368 +27,359 @@ let filteredProducts = [];
 
 async function checkAuth(){
 
-    const {data,error} =
-    await supabaseClient.auth.getUser();
+const {data,error} =  
+await supabaseClient.auth.getUser();  
 
-    if(error || !data.user){
+if(error || !data.user){  
 
-        window.location.href =
-        "login.html";
+    window.location.href =  
+    "login.html";  
 
-        return false;
+    return false;  
 
-    }
+}  
 
-    return true;
+return true;
 
 }
 
 function formatMoney(amount){
 
-    return "₦" +
-    Number(amount)
-    .toLocaleString();
+return "₦" +  
+Number(amount)  
+.toLocaleString();
 
 }
 
 async function loadProducts(){
 
-    try{
+try{  
 
-        const request =
+    const request =
+
 Promise.all([
 
-    supabaseClient
-    .from("available_products")
-    .select(`
-        id,
-        name,
-        description,
-        price,
-        country,
-        type,
-        platform,
-        category,
-        stock,
-        image_url,
-        image_url_2,
-        status
-    `)
-    .eq("status", "active")
-    .gt("stock", 0),
+supabaseClient  
+.from("available_products")  
+.select(`  
+    id,  
+    name,  
+    description,  
+    price,  
+    country,  
+    type,  
+    platform,  
+    category,  
+    stock,  
+    image_url,  
+    image_url_2,  
+    status  
+`)  
+.eq("status", "active")  
+.gt("stock", 0),  
 
-    supabaseClient
-    .from("available_countries")
-    .select("*")
+supabaseClient  
+.from("available_countries")  
+.select("*")
 
 ]);
 
-        const timeout =
-        new Promise((_,reject)=>{
+const timeout =  
+    new Promise((_,reject)=>{  
 
-            setTimeout(()=>{
+        setTimeout(()=>{  
 
-                reject(
-                new Error(
-                "Loading timeout"
-                )
-                );
+            reject(  
+            new Error(  
+            "Loading timeout"  
+            )  
+            );  
 
-            },10000);
+        },10000);  
 
-        });
+    });  
 
-        const [
-            productResult,
-            countryResult
+    const [  
+        productResult,  
+        countryResult  
 
-        ] = await Promise.race([
+    ] = await Promise.race([  
 
-            request,
-            timeout
+        request,  
+        timeout  
 
-        ]);
+    ]);  
 
-        if(productResult.error){
+    if(productResult.error){  
 
-            throw productResult.error;
+        throw productResult.error;  
 
-        }
+    }  
 
-        products =
-        productResult.data || [];
+    products =  
+    productResult.data || [];  
 
-        filteredProducts =
-        [...products];
+    filteredProducts =  
+    [...products];  
 
-        loadPlatforms();
+    loadPlatforms();  
 
-        loadCountries();
+    loadCountries();  
 
-        renderProducts();
+    renderProducts();  
 
-    }catch(error){
+}catch(error){  
 
-        console.error(error);
+    console.error(error);  
 
-        productList.innerHTML = `
+    productList.innerHTML = `  
 
-        <div class="empty">
+    <div class="empty">  
 
-        Failed to load products
+    Failed to load products  
 
-        </div>
+    </div>  
 
-        `;
-
-    }
+    `;  
 
 }
+
+}
+
 function loadPlatforms(){
 
-    platformFilter.innerHTML = `
-        <option value="all">
-        All Platforms
-        </option>
-    `;
+const platforms =  
+[  
+    ...new Set(  
+        products.map(  
+        item=>item.platform  
+        )  
+    )  
+];  
 
-    const platforms = [
-        ...new Set(
-            products
-            .map(item => item.platform)
-            .filter(Boolean)
-        )
-    ];
+platforms.forEach(platform=>{  
 
-    platforms.forEach(platform => {
+    platformFilter.innerHTML += `  
 
-        platformFilter.innerHTML += `
-            <option value="${platform}">
-                ${platform}
-            </option>
-        `;
+    <option value="${platform}">  
+    ${platform}  
+    </option>  
 
-    });
+    `;  
+
+});
 
 }
 
 function loadCountries(){
 
-    countryFilter.innerHTML = `
-        <option value="all">
-        All Countries
-        </option>
-    `;
+supabaseClient  
+.from("available_countries")  
+.select("*")  
+.then(({data})=>{  
 
-    supabaseClient
-    .from("available_countries")
-    .select("*")
-    .then(({data}) => {
+    if(!data)  
+    return;  
 
-        if(!data) return;
+    data.forEach(item=>{  
 
-        data.forEach(item => {
+        countryFilter.innerHTML += `  
 
-            countryFilter.innerHTML += `
-                <option value="${item.country}">
-                    ${item.country}
-                </option>
-            `;
+        <option value="${item.country}">  
+        ${item.country}  
+        </option>  
 
-        });
+        `;  
 
-    });
+    });  
+
+});
 
 }
 function renderProducts(){
 
-    if(filteredProducts.length===0){
+if(filteredProducts.length===0){  
 
-        productList.innerHTML = `
-        <div class="empty">
-            No accounts available
-        </div>
-        `;
+    productList.innerHTML = `  
 
-        return;
+    <div class="empty">  
 
-    }
+    No accounts available  
 
-    productList.innerHTML = "";
+    </div>  
 
-    filteredProducts.forEach((product,index)=>{
+    `;  
 
-        productList.innerHTML += `
+    return;  
 
-        <div class="product-card">
+}  
 
-            <div class="product-images">
+productList.innerHTML = "";  
 
-                <img
-                class="main-image"
-                src="${product.image_url || DEFAULT_IMAGE}"
-                alt="${product.name}">
+filteredProducts.forEach(product=>{  
 
-                ${
-                    product.image_url_2
-                    ?
-                    `
-                    <img
-                    class="second-image"
-                    src="${product.image_url_2}"
-                    alt="${product.name}">
-                    `
-                    :
-                    ""
-                }
+    productList.innerHTML += `  
 
-            </div>
+    <div class="product-card">  
 
-            <div class="product-title">
-                ${product.name}
-            </div>
+        <div class="product-images">  
 
-            <div class="product-description">
-                ${product.description || ""}
-            </div>
+            <img  
+            class="main-image"  
+            src="${  
+                product.image_url ||  
+                DEFAULT_IMAGE  
+            }"  
+            alt="${product.name}">  
 
-            <div class="product-info">
+            ${  
+                product.image_url_2  
+                ?  
+                `  
+                <img  
+                class="second-image"  
+                src="${product.image_url_2}"  
+                alt="${product.name}">  
+                `  
+                :  
+                ""  
+            }  
 
-                Platform: ${product.platform}
-                <br>
+        </div>  
 
-                Country: ${product.country}
-                <br>
+        <div class="product-title">  
 
-                Category: ${product.category}
-                <br>
+        ${product.name}  
 
-                <span class="stock">
-                    Stock: ${product.stock}
-                </span>
+        </div>  
 
-                <br>
+        <div class="product-description">  
 
-                <span class="price">
-                    ${formatMoney(product.price)}
-                </span>
+        ${product.description || ""}  
 
-            </div>
+        </div>  
 
-            <button
-            class="buy-btn"
-            onclick="buyProduct('${product.id}')">
+        <div class="product-info">  
 
-                Buy Now
+        Platform:  
+        ${product.platform}  
 
-            </button>
+        <br>  
 
-        </div>
+        Country:  
+        ${product.country}  
 
-        `;
+        <br>  
 
-        if ((index + 1) % 2 === 0) {
+        Category:  
+        ${product.category}  
 
-            const adId = `hilltop-ad-${index}`;
+        <br>  
 
-            productList.innerHTML += `
-                <div id="${adId}"
-                     class="ad-container"
-                     style="grid-column:1/-1;display:flex;justify-content:center;margin:24px 0;">
-                </div>
-            `;
+        <span class="stock">  
 
-            setTimeout(() => {
+        Stock:  
+        ${product.stock}  
 
-                const container = document.getElementById(adId);
+        </span>  
 
-                if (!container) return;
+        <br>  
 
-                const script = document.createElement("script");
-                script.src = "//shameful-farm.com/b.X/VOsNdgG/l/0nYwWNcA/leamT9qurZuUsl/kMPrTpcfyMNuz/cO5aOLDZU/toNLzvIm3jNQzhkg4/OtQr";
-                script.async = true;
-                script.referrerPolicy = "no-referrer-when-downgrade";
+        <span class="price">  
 
-                container.appendChild(script);
+        ${formatMoney(product.price)}  
 
-            }, 0);
+        </span>  
 
-        }
+        </div>  
 
-    });
+        <button  
+        class="buy-btn"  
+        onclick="buyProduct('${product.id}')">  
+
+        Buy Now  
+
+        </button>  
+
+    </div>  
+
+    `;  
+
+});
 
 }
+
 function applyFilters(){
 
-    const search =
-    searchInput.value
-    .toLowerCase();
+const search =  
+searchInput.value  
+.toLowerCase();  
 
-    const platform =
-    platformFilter.value;
+const platform =  
+platformFilter.value;  
 
-    const country =
-    countryFilter.value;
+const country =  
+countryFilter.value;  
 
-    filteredProducts =
-    products.filter(product=>{
+filteredProducts =  
+products.filter(product=>{  
 
-        const matchSearch =
-        product.name
-        .toLowerCase()
-        .includes(search);
+    const matchSearch =  
+    product.name  
+    .toLowerCase()  
+    .includes(search);  
 
-        const matchPlatform =
-        platform === "all" ||
-        product.platform === platform;
+    const matchPlatform =  
+    platform === "all" ||  
+    product.platform === platform;  
 
-        const matchCountry =
-        country === "all" ||
-        product.country === country;
+    const matchCountry =  
+    country === "all" ||  
+    product.country === country;  
 
-        return (
-            matchSearch &&
-            matchPlatform &&
-            matchCountry
-        );
+    return (  
+        matchSearch &&  
+        matchPlatform &&  
+        matchCountry  
+    );  
 
-    });
+});  
 
-    renderProducts();
+renderProducts();
 
 }
 
 function buyProduct(id){
 
-    window.location.href =
-    `purchase-account.html?id=${id}`;
+window.location.href =  
+`purchase-account.html?id=${id}`;
 
 }
 
 searchInput.addEventListener(
-    "input",
-    applyFilters
+"input",
+applyFilters
 );
 
 platformFilter.addEventListener(
-    "change",
-    applyFilters
+"change",
+applyFilters
 );
 
 countryFilter.addEventListener(
-    "change",
-    applyFilters
+"change",
+applyFilters
 );
 
 async function init(){
 
-    const authenticated =
-    await checkAuth();
+const authenticated =  
+await checkAuth();  
 
-    if(!authenticated)
-    return;
+if(!authenticated)  
+return;  
 
-    await loadProducts();
+await loadProducts();
 
 }
 
