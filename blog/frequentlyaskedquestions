@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+SocialElite Blog & Help Center - Guides, FAQs and Support
+</title>
+
+<meta name="description"
+content="Learn how SocialElite works, read buying guides, find answers to common questions, and get support for your digital account purchases.">
+
+<link rel="icon" type="image/x-icon" href="/assets/logo.png">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+<script>
+
+tailwind.config = {
+
+theme: {
+
+extend: {
+
+colors: {
+
+primary:"#6D5BFF",
+secondary:"#8A5CFF",
+dark:"#060A18",
+card:"#111827"
+
+}
+
+}
+
+}
+
+}
+
+</script>
+
+
+</head>
+
+
+
+<body class="bg-dark text-white overflow-x-hidden">
+
+
+<!-- Background -->
+
+<div class="fixed inset-0 -z-10 overflow-hidden">
+
+<div class="absolute w-[500px] h-[500px] bg-purple-600 opacity-20 blur-[150px] -top-32 -left-32 rounded-full"></div>
+
+<div class="absolute w-[500px] h-[500px] bg-blue-500 opacity-20 blur-[150px] bottom-0 right-0 rounded-full"></div>
+
+</div>
+
+
+
+
+<!-- NAVBAR -->
+
+<header class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-black/30 border-b border-white/10">
+
+
+<div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
+
+
+<a href="index.html" class="flex items-center gap-3">
+
+
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+
+<i class="fa-solid fa-shield-halved text-xl"></i>
+
+</div>
+
+
+<div>
+
+<h1 class="font-bold text-2xl">
+Social Elite
+</h1>
+
+<span class="text-gray-400 text-xs">
+Secure Digital Marketplace
+</span>
+
+</div>
+
+
+</a>
+
+
+
+<nav class="hidden lg:flex gap-8">
+
+
+<a href="index.html" class="hover:text-purple-400">
+Home
+</a>
+
+
+<a href="signup.html" class="hover:text-purple-400">
+Accounts
+</a>
+
+
+<a href="blog.html" class="text-purple-400">
+Blog
+</a>
+
+
+</nav>
+
+
+
+<div class="hidden lg:flex gap-4">
+
+<a href="login.html"
+class="px-6 py-3 rounded-full border border-white/20">
+
+Login
+
+</a>
+
+
+<a href="signup.html"
+class="px-7 py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-500">
+
+Create Account
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+
+<!-- HERO -->
+
+<section class="pt-44 pb-20">
+
+
+<div class="max-w-5xl mx-auto px-6 text-center">
+
+
+<span class="text-purple-400 uppercase tracking-[4px] text-sm font-semibold">
+
+SocialElite Resources
+
+</span>
+
+
+<h1 class="text-5xl md:text-6xl font-black mt-5">
+
+Blog & Help Center
+
+</h1>
+
+
+<p class="text-gray-400 text-lg mt-6">
+
+Learn how SocialElite works, discover buying tips,
+and find answers to frequently asked questions.
+
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<!-- AD PLACEHOLDER -->
+
+<div class="max-w-7xl mx-auto px-6 py-6 flex justify-center">
+
+<!-- HilltopAds Banner Code Here -->
+
+</div>
+
+
+
+
+
+
+<!-- ARTICLES -->
+
+
+<section class="pb-20">
+
+
+<div class="max-w-7xl mx-auto px-6">
+
+
+<h2 class="text-3xl font-bold mb-10">
+
+Latest Guides
+
+</h2>
+
+
+
+<div class="grid md:grid-cols-3 gap-8">
+
+
+
+<div class="bg-white/5 border border-white/10 rounded-3xl p-8">
+
+<i class="fa-solid fa-cart-shopping text-purple-400 text-3xl"></i>
+
+
+<h3 class="text-2xl font-bold mt-5">
+
+How To Buy Digital Accounts
+
+</h3>
+
+
+<p class="text-gray-400 mt-4">
+
+A simple guide explaining how to browse,
+purchase and receive your account securely.
+
+</p>
+
+</div>
+
+
+
+
+<div class="bg-white/5 border border-white/10 rounded-3xl p-8">
+
+
+<i class="fa-solid fa-lock text-blue-400 text-3xl"></i>
+
+
+<h3 class="text-2xl font-bold mt-5">
+
+Keeping Your Account Secure
+
+</h3>
+
+
+<p class="text-gray-400 mt-4">
+
+Learn important steps to protect your purchased
+digital account after delivery.
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="bg-white/5 border border-white/10 rounded-3xl p-8">
+
+
+<i class="fa-solid fa-circle-question text-green-400 text-3xl"></i>
+
+
+<h3 class="text-2xl font-bold mt-5">
+
+Frequently Asked Questions
+
+</h3>
+
+
+<p class="text-gray-400 mt-4">
+
+Find answers about payments, delivery,
+support and account issues.
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- FAQ -->
+
+<section class="pb-28">
+
+
+<div class="max-w-4xl mx-auto px-6">
+
+
+<h2 class="text-4xl font-black text-center mb-12">
+
+Frequently Asked Questions
+
+</h2>
+
+
+
+<div class="space-y-5">
+
+
+
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+
+<h3 class="font-bold text-xl">
+How do I buy an account?
+</h3>
+
+<p class="text-gray-400 mt-3">
+
+Create a SocialElite account, browse available products,
+fund your wallet, and complete checkout.
+
+</p>
+
+</div>
+
+
+
+
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+
+<h3 class="font-bold text-xl">
+
+When will I receive my account details?
+
+</h3>
+
+<p class="text-gray-400 mt-3">
+
+After successful payment confirmation,
+your purchased account details will be delivered
+according to the product delivery system.
+
+</p>
+
+</div>
+
+
+
+
+
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+
+
+<h3 class="font-bold text-xl">
+
+What if I have a problem with my order?
+
+</h3>
+
+
+<p class="text-gray-400 mt-3">
+
+Contact our support team with your order details
+and we will assist you.
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+
+
+<h3 class="font-bold text-xl">
+
+Are payments secure?
+
+</h3>
+
+
+<p class="text-gray-400 mt-3">
+
+SocialElite uses secure payment methods to help
+protect customer transactions.
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+
+
+<h3 class="font-bold text-xl">
+
+Can I request a refund?
+
+</h3>
+
+
+<p class="text-gray-400 mt-3">
+
+Refund requests are reviewed according to our refund
+policy and order situation.
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<!-- SUPPORT -->
+
+
+<section class="pb-28">
+
+
+<div class="max-w-4xl mx-auto px-6">
+
+
+<div class="rounded-3xl bg-gradient-to-r from-purple-600/20 to-blue-500/20 border border-white/10 p-10 text-center">
+
+
+<i class="fa-solid fa-headset text-4xl text-purple-400"></i>
+
+
+<h2 class="text-3xl font-bold mt-5">
+
+Need Help?
+
+</h2>
+
+
+<p class="text-gray-400 mt-4">
+
+If you have complaints, payment issues,
+or questions about your order, contact our support team.
+
+</p>
+
+
+<a href="mailto:support@socialelite.name.ng"
+class="inline-block mt-6 px-8 py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-500">
+
+support@socialelite.name.ng
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+<footer class="border-t border-white/10 py-10">
+
+
+<div class="max-w-7xl mx-auto px-6 text-center text-gray-500">
+
+
+© 2026 SocialElite. All Rights Reserved.
+
+
+</div>
+
+
+</footer>
+
+
+
+</body>
+
+</html>
